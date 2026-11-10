@@ -1,6 +1,7 @@
 # panAtlas
 
-panAtlas is a **reference atlas for multi-modal evaluation**, medicine first. It maps a domain as a
+panAtlas is a **reference atlas for multi-modal evaluation across every domain of knowledge**. Medicine is where
+its holdings run deepest today, but the atlas is not a medical atlas: each domain is mapped the same way, as a
 provenance-first knowledge graph that links concepts, datasets, models, their training curricula and the benchmarks
 that measure them. With that map, an evaluation can say **where** in the domain it was measured, **on what** and
 **for whom**, instead of reporting one context-blind number.

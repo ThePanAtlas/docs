@@ -12,7 +12,7 @@ first **mapping the domain** (`PLAN.md` §1).
 
 panAtlas is that map. It is a provenance-first knowledge graph that links the parts of an evaluation to each other:
 
-- **concepts** of a field, grounded in real vocabularies (MeSH first) and arranged as a curriculum, from foundations
+- **concepts** of every field, grounded in that field's own vocabularies (MeSH for medicine, Wikidata and others across fields) and arranged as a curriculum, from foundations
   up through specialties and subspecialties;
 - **datasets**, the corpora that models are trained on and the sets they are tested on, each registered once with a
   global identifier and an audit manifest;
@@ -21,10 +21,13 @@ panAtlas is that map. It is a provenance-first knowledge graph that links the pa
 - the **documents** behind all of it (about 93 million training, evaluation and reference documents on the
   2026-09-24 count), each placed by concept.
 
-Medicine comes first. The domain model is meant to carry other fields later on the same container; the plan is
-explicit that the core graph mechanics are domain-agnostic but the metadata layer (competency frameworks, the
-education ladder, stratification standards) is medicine-shaped and will need parallels for a second domain
-(`PLAN.md` §2, "Honesty lines").
+**panAtlas covers every domain, not one field.** Medicine holds the most data today: most of the registered
+datasets, the MeSH grounding and the specialty curriculum are medical, because that is where the work started. The
+graph, the identifiers, the dataset managers and the federation are domain-agnostic, and other domains are built the
+same way medicine was: ground the field's concepts in its own vocabularies, register its datasets, models and
+benchmarks, and attach them to the same graph. Parts of the metadata layer (competency frameworks, the education
+ladder, stratification standards) are medicine-shaped today, and each new domain gets its own parallels
+(`PLAN.md` §2).
 
 The atlas is meant to evaluate **humans and AI** against the same points: an expert taking a quiz on a concept and
 a model graded through a controlled interface. That assessment surface is designed and not deployed (see
