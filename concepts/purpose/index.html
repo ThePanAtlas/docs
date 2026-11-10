@@ -2029,7 +2029,7 @@ that evaluation has to be <strong>structured by domain and stratified by context
 first <strong>mapping the domain</strong> (<code>PLAN.md</code> §1).</p>
 <p>panAtlas is that map. It is a provenance-first knowledge graph that links the parts of an evaluation to each other:</p>
 <ul>
-<li><strong>concepts</strong> of a field, grounded in real vocabularies (MeSH first) and arranged as a curriculum, from foundations
+<li><strong>concepts</strong> of every field, grounded in that field's own vocabularies (MeSH for medicine, Wikidata and others across fields) and arranged as a curriculum, from foundations
   up through specialties and subspecialties;</li>
 <li><strong>datasets</strong>, the corpora that models are trained on and the sets they are tested on, each registered once with a
   global identifier and an audit manifest;</li>
@@ -2038,10 +2038,13 @@ first <strong>mapping the domain</strong> (<code>PLAN.md</code> §1).</p>
 <li>the <strong>documents</strong> behind all of it (about 93 million training, evaluation and reference documents on the
   2026-09-24 count), each placed by concept.</li>
 </ul>
-<p>Medicine comes first. The domain model is meant to carry other fields later on the same container; the plan is
-explicit that the core graph mechanics are domain-agnostic but the metadata layer (competency frameworks, the
-education ladder, stratification standards) is medicine-shaped and will need parallels for a second domain
-(<code>PLAN.md</code> §2, "Honesty lines").</p>
+<p><strong>panAtlas covers every domain, not one field.</strong> Medicine holds the most data today: most of the registered
+datasets, the MeSH grounding and the specialty curriculum are medical, because that is where the work started. The
+graph, the identifiers, the dataset managers and the federation are domain-agnostic, and other domains are built the
+same way medicine was: ground the field's concepts in its own vocabularies, register its datasets, models and
+benchmarks, and attach them to the same graph. Parts of the metadata layer (competency frameworks, the education
+ladder, stratification standards) are medicine-shaped today, and each new domain gets its own parallels
+(<code>PLAN.md</code> §2).</p>
 <p>The atlas is meant to evaluate <strong>humans and AI</strong> against the same points: an expert taking a quiz on a concept and
 a model graded through a controlled interface. That assessment surface is designed and not deployed (see
 <a href="#what-panatlas-is-not">What panAtlas is not</a>). What runs today is the evaluation of models.</p>
