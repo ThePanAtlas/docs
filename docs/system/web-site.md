@@ -83,7 +83,8 @@ Every call is written to the audit log. Without a configured key the route answe
 
 In the Models view, `POST /panatlas/v1/model-lens` with `{query}` (at most 500 characters) asks the same endpoint which
 benchmarks measure what the user cares about: an evaluation type, a medical topic, or a combination ("cardiology
-QA", "reading reports, not multiple-choice"). The catalog it chooses from is the union of benchmarks in the model
+QA", "reading reports, not multiple-choice"). The lens prompt is written for today's holdings, where medicine runs
+deepest. The catalog it chooses from is the union of benchmarks in the model
 batteries plus the imaging and multi-modal benchmarks. The reply is constrained to `{explanation, benchmarks[]}`;
 names not in the catalog are dropped, and an empty selection falls back to the medical knowledge core. The ranking
 then re-scores models over just that subset. The route releases the PHP session lock first, so a second lens call

@@ -17,3 +17,7 @@ Install the pre-push gate once: `git config core.hooksPath scripts/hooks`.
 Content rules (enforced by `scripts/public_filter.py`): no hostnames, addresses, accounts, absolute paths,
 ORCID iDs, credentials, or institution and facility names. Pages cite the private repositories by
 repo-relative path, never by link.
+
+## Licence
+
+The documentation text is licensed under [CC BY 4.0](LICENSE). The panAtlas software is not covered by this licence.
