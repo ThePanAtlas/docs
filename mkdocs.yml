@@ -1,0 +1,88 @@
+site_name: panAtlas
+site_description: How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.
+site_url: https://thepanatlas.github.io/docs/
+repo_url: https://github.com/ThePanAtlas/docs
+repo_name: ThePanAtlas/docs
+edit_uri: ""
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle: {icon: material/brightness-7, name: Switch to dark mode}
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle: {icon: material/brightness-4, name: Switch to light mode}
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc: {permalink: true}
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Home: index.md
+  - Concepts:
+      - Purpose and principles: concepts/purpose.md
+      - Architecture: concepts/architecture.md
+      - Knowledge layers: concepts/layers.md
+  - Distributed system:
+      - distributed/index.md
+      - Cresco for panAtlas: distributed/cresco.md
+      - Federation model: distributed/federation.md
+      - Dataset managers: distributed/dataset-managers.md
+      - Participating agents: distributed/agents.md
+      - Wire contract and schemas: distributed/contract.md
+      - Operations: distributed/operations.md
+      - Storage on GaiaKeep: distributed/storage.md
+  - Metadata:
+      - metadata/index.md
+      - Identifiers: metadata/identifiers.md
+      - Dataset registry: metadata/dataset-registry.md
+      - Manifests: metadata/manifests.md
+      - Acquisition and licence: metadata/acquisition-and-licence.md
+      - Document index: metadata/document-index.md
+      - Graph schema: metadata/graph-schema.md
+      - Benchmarks: metadata/benchmarks.md
+      - Evaluation records: metadata/evaluation-records.md
+      - Models and curriculum: metadata/models-and-curriculum.md
+      - RDF vocabulary: metadata/rdf-vocabulary.md
+      - Code systems: metadata/codesystems.md
+  - System:
+      - Build pipeline: system/build-pipeline.md
+      - Knowledge store (SPARQL): system/knowledge-store.md
+      - Data acquisition: system/acquisition.md
+      - The site: system/web-site.md
+      - Public API: system/public-api.md
+      - Astral: system/astral.md
+  - Reference:
+      - Repository map: reference/repository-map.md
+      - Glossary: reference/glossary.md
