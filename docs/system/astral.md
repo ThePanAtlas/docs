@@ -99,9 +99,9 @@ sequenceDiagram
   participant E as endpoint record
   participant Q as QLever server (Slurm job)
   M->>A: query_knowledge_graph {query, store, max_rows}
-  A->>C: ssh -i <restricted key> host <base64 JSON>
+  A->>C: ssh (restricted key), base64 JSON request
   C->>C: refuse SPARQL Update
-  C->>E: read stores/<store>.endpoint
+  C->>E: read stores/STORE.endpoint
   C->>Q: POST query (timeout 120 s)
   Q-->>C: results
   C-->>A: JSON {vars, rows, truncated, seconds}

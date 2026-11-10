@@ -9,16 +9,21 @@ reads it, and what values it holds at the repository commit each page names.
 
 ```mermaid
 flowchart LR
-  DOC["document<br/>doc_uid"] -- "MeSH labels,<br/>weighted edges" --> CON["concept<br/>mesh-&lt;DUI&gt;"]
-  DS["dataset<br/>panatlas:dataset:&lt;slug&gt;<br/>manifest_hash"] -- contains --> DOC
-  DS -- "grounds_to,<br/>has_modality" --> CON
-  MOD["model<br/>model@version"] -- has_training_stage --> ST["stage"]
+  DOC["document<br/>doc_uid"] -. "MeSH labels and weighted edges<br/>(document index, outside the graph)" .-> CON["concept / specialty<br/>canonical_id mesh:D…"]
+  DS["dataset<br/>panatlas:dataset:&lt;slug&gt;<br/>manifest_hash"] -. "ledger rows" .-> DOC
+  DS -- "classified_as, covers_topic" --> CON
+  DS -- test_set_of --> BEN["benchmark /<br/>llm-benchmark"]
+  BEN -- grounded_in --> CON
+  MOD["model"] -- has_training_stage --> ST["training-stage"]
   ST -- stage_trained_on --> DS
-  BEN["benchmark"] -- test_set_of / about --> CON
-  RES["evaluation record"] -- of --> MOD
-  RES -- on --> BEN
-  DS -. "reported by" .-> MGR["dataset manager<br/>(Cresco)"]
+  ST -- "executed_on, built_with" --> SYS["system, codebase"]
+  MOD -- "scored (value, metric)" --> BEN
+  MOD -- "measured_on (acc)" --> CON
+  DS -. "served by" .-> MGR["dataset manager<br/>(Cresco)"]
 ```
+
+Solid arrows are edge relations in the served graph ([Graph schema](graph-schema.md) lists all 36). Dotted arrows are
+links held outside the graph: in the document index, or on the mesh.
 
 | Family | Identity | Page |
 |---|---|---|

@@ -47,9 +47,17 @@ python3 build_dataset_reports.py --registry datasets.json --out <cluster project
         --host <cluster host>
 ```
 
-The first re-audits every dataset's manifest and writes the new `manifest_hash` into the registry. The second
-regenerates every cluster-hosted manager's payload. The manifest format and audit are in
-[Manifests](../metadata/manifests.md). A full re-walk of the very large CT corpus runs separately, weekly, as a Slurm
+The first **rebuilds** every dataset's manifest and writes the new `manifest_hash` into the registry. The second
+regenerates every cluster-hosted manager's payload.
+
+!!! warning "The hourly job rebuilds, it does not audit"
+    `build --update-registry` makes whatever is on disk the new baseline. Drift (a moved, grown or edited file)
+    changes `manifest_hash` silently instead of failing, and nothing on a schedule calls `dataset_manifest.py audit`
+    (exit 0 match, exit 3 drift). The design documents also say the hub checks a reported `manifest_hash` against the
+    registry and quarantines on mismatch; `merge_reports.py` does not. To detect drift, run `audit` before the
+    rebuild. See [Manifests](../metadata/manifests.md).
+
+A full re-walk of the very large CT corpus runs separately, weekly, as a Slurm
 job (`panatlas-ct-rewalk.timer`, Sundays 03:00), and its partitions are re-derived without another walk.
 
 ### 2. The payload triplet

@@ -304,7 +304,7 @@ Forms found in the registry at HEAD:
 | `verification.<release>.job` | `<n>` | `220431` |
 | free text in `computed`, `notes`, `input_convention` | `job <n>`, `SLURM job <n>` | `refreshed 2026-09-18, job 220280` |
 
-33 `job:<n>` tokens and about 50 free-text job references occur in the registry. The public API removes job
+33 `job:<n>` tokens occur in the registry, plus free-text references in the other forms above. The public API removes job
 numbers and cluster paths from every string it serves (`panatlas_pub_scrub` in
 `web/wp-plugin/panatlas-explorer/includes/public-api.php`), so job ids are visible in the repository and to
 authenticated tools but not in public responses.

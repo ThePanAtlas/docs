@@ -24,7 +24,7 @@ The cluster has no root access and cron there was unreliable, so supervision use
 |---|---|---|
 | `panatlas-agent.service` | always (`Restart=always`, `RestartSec=8`) | Runs the Cresco agent (`-Dis_agent=true -Dregionname=panatlas-global`). `ExecStartPre` deletes stale Derby `db.lck` and `dbex.lck` |
 | `panatlas-agent-watchdog.timer` → `.service` | every 5 min | `dgx-agent-watchdog.sh`: restart the agent if its log gained Derby/`DBEngine` errors in the last 15 min and it was not restarted in the last 30 |
-| `panatlas-refresh.timer` → `.service` | 15 min after boot, then hourly | Manifest re-audit (`dataset_manifest.py build --update-registry`) and report regeneration (`build_dataset_reports.py`) |
+| `panatlas-refresh.timer` → `.service` | 15 min after boot, then hourly | Manifest rebuild (`dataset_manifest.py build --update-registry`, which **overwrites** the registry baseline; it does not run `audit`) and report regeneration (`build_dataset_reports.py`) |
 | `panatlas-ct-rewalk.timer` → `.service` | Sundays 03:00 | Submits the CT corpus full re-walk as a Slurm job (`ct_native_manifest.sbatch`) |
 
 **JVM hardening** on the agent (also in `dgx-start.sh`, kept only as a manual-start reference):
