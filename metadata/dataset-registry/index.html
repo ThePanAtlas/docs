@@ -1,0 +1,4083 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+      
+      
+      
+        <link rel="canonical" href="https://thepanatlas.github.io/docs/metadata/dataset-registry/">
+      
+      
+        <link rel="prev" href="../identifiers/">
+      
+      
+        <link rel="next" href="../manifests/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Dataset registry - panAtlas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dataset-registry" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="panAtlas" class="md-header__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            panAtlas
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Dataset registry
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/purpose/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../distributed/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Distributed system
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Metadata
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../system/build-pipeline/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/repository-map/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="panAtlas" class="md-nav__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    panAtlas
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/purpose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Purpose and principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed system
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Distributed system
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/cresco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cresco for panAtlas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/dataset-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Participating agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wire contract and schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage on GaiaKeep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../identifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#files-and-how-they-merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files and how they merge
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Files and how they merge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fragments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fragments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-registrys-meta-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The registry's meta block
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#counts-at-head" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Counts at HEAD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#field-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Field reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Field reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identity-and-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identity and description
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#location-and-hosting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Location and hosting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#role-split-and-benchmark-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Role, split and benchmark flags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modality-embedding-and-grounding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modality, embedding and grounding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relationships-between-entries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationships between entries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provenance-and-contamination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provenance and contamination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#licence-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Licence fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#source-of-record-externally-maintained-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source of record (externally maintained datasets)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acquisition-and-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acquisition and manifest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-entry-blocks-arxiv-corpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single-entry blocks (arXiv corpus)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enumerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        access
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        role
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#split_role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        split_role
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        modality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linked_nodesvia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        linked_nodes[].via
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catalog-only-entries-and-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catalog-only entries and fields
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#who-writes-what-in-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who writes what, in order
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manifests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manifests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acquisition-and-licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../document-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluation-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models-and-curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models and curriculum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rdf-vocabulary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../codesystems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/build-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/knowledge-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge store (SPARQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/acquisition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/web-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/public-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/astral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/repository-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#files-and-how-they-merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files and how they merge
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Files and how they merge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fragments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fragments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-registrys-meta-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The registry's meta block
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#counts-at-head" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Counts at HEAD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#field-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Field reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Field reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identity-and-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identity and description
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#location-and-hosting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Location and hosting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#role-split-and-benchmark-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Role, split and benchmark flags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modality-embedding-and-grounding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modality, embedding and grounding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relationships-between-entries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationships between entries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provenance-and-contamination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provenance and contamination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#licence-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Licence fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#source-of-record-externally-maintained-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source of record (externally maintained datasets)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acquisition-and-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acquisition and manifest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-entry-blocks-arxiv-corpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single-entry blocks (arXiv corpus)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enumerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        access
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        role
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#split_role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        split_role
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        modality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linked_nodesvia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        linked_nodes[].via
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catalog-only-entries-and-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catalog-only entries and fields
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#who-writes-what-in-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who writes what, in order
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="dataset-registry">Dataset registry<a class="headerlink" href="#dataset-registry" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Status</p>
+<p><strong>Built and in use.</strong> The registry is <code>web/datasets.json</code> (schema <code>panatlas.datasets/1</code>). Every count on
+this page was computed with <code>python3</code> over the repository at HEAD <code>57505c6</code> (2026-10-31) by walking all
+<code>web/datasets*.json</code> files and enumerating every key path. Nothing here is projected. Field meanings come
+from the scripts that write and read each field; where no script defines a value set, the page says so.</p>
+</div>
+<p>The registry is the authoritative list of datasets in the panAtlas federation. One entry describes one
+dataset, identified by its URN (<a href="../identifiers/#dataset-urn">Identifiers</a>) and audited by its manifest
+(<a href="../manifests/">Manifests</a>). Each entry is also the configuration source for that dataset's manager plugin
+(<a href="../../distributed/dataset-managers/">Dataset managers</a>).</p>
+<h2 id="files-and-how-they-merge">Files and how they merge<a class="headerlink" href="#files-and-how-they-merge" title="Permanent link">&para;</a></h2>
+<p>There are three kinds of registry file. They share one entry schema.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Role</th>
+<th style="text-align: right;">Entries at HEAD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>web/datasets.json</code></td>
+<td><strong>The registry.</strong> Every registered dataset, each once. All tooling reads this file.</td>
+<td style="text-align: right;">200</td>
+</tr>
+<tr>
+<td><code>web/datasets_*.json</code></td>
+<td><strong>Fragments.</strong> A batch of entries produced by one acquisition or programme, kept beside the registry as the record of what that batch registered.</td>
+<td style="text-align: right;">65 (subset of the 200)</td>
+</tr>
+<tr>
+<td><code>web/wp-plugin/panatlas-explorer/data/datasets.json</code></td>
+<td><strong>The served catalog.</strong> The registry plus catalog-only entries and catalog-only fields, read by the site's Datasets view, the public API and the Astral assistant.</td>
+<td style="text-align: right;">622</td>
+</tr>
+</tbody>
+</table>
+<p>A cluster-side copy of the registry also exists in <code>&lt;cluster project storage&gt;/panatlas/datasets.json</code>. It holds
+only the entries hosted on the HPC cluster that have managers (22 at first registration, 66 on 2026-09-17 per
+the project record). The hourly manifest refresh rewrites that copy, not the repository file; see
+<a href="../manifests/#where-manifests-are-computed">Manifests</a>.</p>
+<h3 id="fragments">Fragments<a class="headerlink" href="#fragments" title="Permanent link">&para;</a></h3>
+<p>Every fragment URN is also in <code>web/datasets.json</code>; the union of all nine files is exactly the 200 registry
+URNs. Fragments are merged by upsert keyed on <code>urn</code>:</p>
+<ul>
+<li><code>web/register_fragment.py &lt;fragment.json&gt;</code> (general) and its predecessor <code>web/register_tcga.py</code>. New URNs are
+  appended. For existing URNs the fragment entry replaces the registry entry, except that <code>manifest</code> and
+  <code>linked_nodes</code> are kept from the registry when set, and, if the registry entry is already <code>active</code>, its
+  <code>status</code> stays <code>active</code> and its <code>acquisition.status</code>, <code>acquisition.finished</code> and <code>acquisition.summary</code> are kept.
+  The script then copies the fragment to <code>web/&lt;basename&gt;</code> (it never overwrites another fragment's copy) and
+  asserts no duplicate URN.</li>
+<li>The fold scripts (<code>web/fold_manifests.py</code>, <code>web/fold_tcga_manifests.py</code>, <code>web/fold_renal_manifests.py</code>) write
+  manifest and status updates into <code>web/datasets.json</code> and into fragments that carry the dataset.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Fragment</th>
+<th style="text-align: right;">Entries</th>
+<th>Status at HEAD</th>
+<th style="text-align: right;">With manifest</th>
+<th>Purpose (from the fragment's <code>meta</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>web/datasets_bench.json</code></td>
+<td style="text-align: right;">4</td>
+<td>4 active</td>
+<td style="text-align: right;">3</td>
+<td>benchmark datasets for the WSI embedding-stack study</td>
+</tr>
+<tr>
+<td><code>web/datasets_fm_suite.json</code></td>
+<td style="text-align: right;">6</td>
+<td>6 active</td>
+<td style="text-align: right;">0</td>
+<td>predictor (tabular / time-series) evaluation suite, registered 2026-10-28</td>
+</tr>
+<tr>
+<td><code>web/datasets_jkdecide.json</code></td>
+<td style="text-align: right;">13</td>
+<td>8 active, 5 building</td>
+<td style="text-align: right;">0</td>
+<td>JK-Decide decision-model programme</td>
+</tr>
+<tr>
+<td><code>web/datasets_kos_v6.json</code></td>
+<td style="text-align: right;">2</td>
+<td>2 active</td>
+<td style="text-align: right;">0</td>
+<td>V6 model lineage: training input and evaluated outputs</td>
+</tr>
+<tr>
+<td><code>web/datasets_renal.json</code></td>
+<td style="text-align: right;">10</td>
+<td>10 active</td>
+<td style="text-align: right;">10</td>
+<td>renal-biomarker acquisition, 2026-09-04</td>
+</tr>
+<tr>
+<td><code>web/datasets_stack_embeddings.json</code></td>
+<td style="text-align: right;">11</td>
+<td>11 active</td>
+<td style="text-align: right;">0</td>
+<td>tile embeddings derived for the WSI embedding-stack study</td>
+</tr>
+<tr>
+<td><code>web/datasets_tcga.json</code></td>
+<td style="text-align: right;">17</td>
+<td>17 active</td>
+<td style="text-align: right;">17</td>
+<td>TCGA slide-truth acquisition, 2026-09-17</td>
+</tr>
+<tr>
+<td><code>web/datasets_tcga_slides.json</code></td>
+<td style="text-align: right;">2</td>
+<td>2 active</td>
+<td style="text-align: right;">2</td>
+<td>TCGA diagnostic and tissue whole-slide images</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Fragments drift from the registry</p>
+<p>At HEAD, 48 of 65 fragment entries are identical to their registry entries. The other 17 differ only in
+fields filled after registration: all 17 lack the <code>acquisition</code> key that the registry carries as <code>{}</code>
+(6 predictor-suite, 5 JK-Decide and 6 embedding-stack entries), and the 6 embedding-stack entries also
+have no <code>manifest</code> while the registry has one. Fragments are a historical record of a batch. Read
+<code>web/datasets.json</code> for current state.</p>
+</div>
+<p>The fragment top-level block is <code>meta</code> with keys <code>schema</code>, <code>description</code>, <code>host_default</code>, <code>root_default</code>,
+<code>measured</code>, <code>manifest_tool</code>, <code>models_registry</code>, <code>benchmark_field</code>, <code>subset</code>, <code>program</code>, <code>fragment</code>, <code>created</code>,
+<code>updated</code>, <code>acquisition_driver</code>, <code>acquisition_log</code>, <code>vault</code> (each fragment carries a subset). One fragment,
+<code>web/datasets_kos_v6.json</code>, uses top-level <code>schema</code> and <code>note</code> instead of <code>meta</code>.</p>
+<h3 id="the-registrys-meta-block">The registry's <code>meta</code> block<a class="headerlink" href="#the-registrys-meta-block" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>schema</code></td>
+<td><code>panatlas.datasets/1</code></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>one entry per dataset = one manager plugin instance; the URN is the global handle; audit = recompute the manifest over <code>locations[]</code> and diff <code>manifest_hash</code></td>
+</tr>
+<tr>
+<td><code>host_default</code></td>
+<td>the HPC cluster host that holds most datasets</td>
+</tr>
+<tr>
+<td><code>root_default</code></td>
+<td>the estate root on that host; every relative <code>locations[]</code> path resolves against it (<code>web/dataset_manifest.py</code> uses it when <code>--root</code> is absent)</td>
+</tr>
+<tr>
+<td><code>measured</code></td>
+<td><code>2026-07-30</code>, the date of the first inventory</td>
+</tr>
+<tr>
+<td><code>manifest_tool</code></td>
+<td><code>web/dataset_manifest.py</code></td>
+</tr>
+<tr>
+<td><code>models_registry</code></td>
+<td><code>web/models.json</code></td>
+</tr>
+<tr>
+<td><code>benchmark_field</code></td>
+<td>the definition of the <code>benchmark</code> field (see below)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="counts-at-head">Counts at HEAD<a class="headerlink" href="#counts-at-head" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entries</td>
+<td>200</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>active 149 · acquiring 46 · building 5</td>
+</tr>
+<tr>
+<td>Entries with a manifest summary</td>
+<td>127 (61 have <code>manifest: null</code>, 12 have no <code>manifest</code> key)</td>
+</tr>
+<tr>
+<td>Active entries without a manifest</td>
+<td>22 (JK-Decide and JevBench 7, predictor suite 6, derived embedding sets 5, V6 lineage 2, DailyMed 1, CPTAC-LUAD 1)</td>
+</tr>
+<tr>
+<td>Files and bytes under the 127 manifests</td>
+<td>993,790 files · 123,417,710,829,304 B (123.4 TB)</td>
+</tr>
+<tr>
+<td>Manifests computed between</td>
+<td>2026-07-31 and 2026-10-15 (the repository holds snapshots; see <a href="../manifests/">Manifests</a>)</td>
+</tr>
+<tr>
+<td>Distinct top-level keys</td>
+<td>78</td>
+</tr>
+<tr>
+<td>Distinct key paths (all nesting levels, list elements counted separately)</td>
+<td>1,103</td>
+</tr>
+</tbody>
+</table>
+<p>The 46 <code>acquiring</code> entries are all OKN knowledge-graph mirrors; see
+<a href="../acquisition-and-licence/#the-status-lifecycle">Acquisition and licence</a>.</p>
+<h2 id="field-reference">Field reference<a class="headerlink" href="#field-reference" title="Permanent link">&para;</a></h2>
+<p><strong>How to read the tables.</strong> <em>Present</em> is the number of the 200 registry entries that carry the key (an entry
+whose value is <code>null</code> counts as present). <em>Required</em> means present in all 200; no JSON Schema enforces it, but
+every tool assumes it. <em>Writes</em> names repository scripts that set the field; "fragment" means the value
+arrives in a fragment produced outside this repository (on the cluster, or hand-written) and is merged by
+<code>register_fragment.py</code>. <em>Reads</em> names consumers. Every field is also copied into the served catalog by
+<code>web/sync_catalog.py</code> and into the RDF export where noted. <code>public-api.php</code> is
+<code>web/wp-plugin/panatlas-explorer/includes/public-api.php</code>; its <code>/datasets/{slug}</code> route serves only a fixed
+whitelist of fields (marked <strong>API</strong>).</p>
+<h3 id="identity-and-description">Identity and description<a class="headerlink" href="#identity-and-description" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Type</th>
+<th style="text-align: right;">Present</th>
+<th>Meaning</th>
+<th>Values / example</th>
+<th>Writes</th>
+<th>Reads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>urn</code></td>
+<td>string</td>
+<td style="text-align: right;">200 (required)</td>
+<td>global dataset handle</td>
+<td><code>panatlas:dataset:ct-rate</code></td>
+<td>every registering script</td>
+<td>every tool; upsert key; <strong>API</strong></td>
+</tr>
+<tr>
+<td><code>slug</code></td>
+<td>string</td>
+<td style="text-align: right;">200 (required)</td>
+<td>URN suffix; file and node stem</td>
+<td><code>ct-rate</code></td>
+<td>every registering script</td>
+<td>every tool; <strong>API</strong></td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td style="text-align: right;">200 (required)</td>
+<td>human title, often with scale in it</td>
+<td><code>KiTS23 kidney tumor segmentation challenge (CT + kidney/tumor/cyst masks)</code></td>
+<td>registering scripts</td>
+<td>reports (<code>label</code>), RDF <code>dct:title</code>, <strong>API</strong></td>
+</tr>
+<tr>
+<td><code>modality</code></td>
+<td>list of string</td>
+<td style="text-align: right;">200 (required)</td>
+<td>data types the dataset contains; 27 distinct values (table below)</td>
+<td><code>["imaging-ct", "text", "structured"]</code></td>
+<td>registering scripts</td>
+<td>reports (modality nodes), manager config <code>panatlas_modalities</code>, RDF, <strong>API</strong></td>
+</tr>
+<tr>
+<td><code>modality_detail</code></td>
+<td>string</td>
+<td style="text-align: right;">176</td>
+<td>free-text description of what the modality holds</td>
+<td><code>chest CT (3D volumes -&gt; per-slice RAD-DINO)</code></td>
+<td>registering scripts, <code>okn_agent.py</code> (first 600 characters of the upstream description)</td>
+<td>catalog <code>desc</code> default, <strong>API</strong></td>
+</tr>
+<tr>
+<td><code>modalities_detail</code></td>
+<td>object <code>{modality: string}</code></td>
+<td style="text-align: right;">1</td>
+<td>per-modality description (CT-RATE only)</td>
+<td>keys <code>imaging-ct</code>, <code>text</code>, <code>structured</code></td>
+<td>hand-written</td>
+<td><strong>API</strong></td>
+</tr>
+<tr>
+<td><code>kind</code></td>
+<td>string</td>
+<td style="text-align: right;">9</td>
+<td>what sort of record the entry is, where it is not plain data</td>
+<td><code>external-benchmark</code> 3 · <code>model-evaluation-output</code> 2 · <code>benchmark-task-suite</code> 2 · <code>collection</code> 1 · <code>model-training-input</code> 1</td>
+<td>fragments</td>
+<td><strong>API</strong></td>
+</tr>
+<tr>
+<td><code>owner</code></td>
+<td>string or null</td>
+<td style="text-align: right;">200 (19 null)</td>
+<td>who owns the data: an upstream organisation or the producing group</td>
+<td><code>NCI Genomic Data Commons (TCGA program; external, open access)</code></td>
+<td>registering scripts; OKN entries from the upstream contact label</td>
+<td><strong>API</strong>, Astral</td>
+</tr>
+<tr>
+<td><code>owner_contact</code></td>
+<td>string or null</td>
+<td style="text-align: right;">50 (19 null)</td>
+<td>contact for the owner (OKN entries copy the upstream contact)</td>
+<td>a URL or address</td>
+<td><code>okn_agent.py</code>, <code>register_openh.py</code>, <code>register_arxiv.py</code>, <code>register_neuropath.py</code></td>
+<td>none in code</td>
+</tr>
+<tr>
+<td><code>citation</code></td>
+<td>string</td>
+<td style="text-align: right;">77</td>
+<td>how to cite the dataset</td>
+<td><code>Heller et al., KiTS23 (kits-challenge.org/kits23)</code></td>
+<td>registering scripts</td>
+<td><strong>API</strong></td>
+</tr>
+<tr>
+<td><code>vault</code></td>
+<td>string</td>
+<td style="text-align: right;">104</td>
+<td>pointer to the project knowledge-vault pages for this dataset</td>
+<td><code>&lt;vault&gt;: &lt;page&gt;, &lt;page&gt;</code></td>
+<td>registering scripts</td>
+<td><code>sync_catalog.py</code> (<code>vault_page</code> default)</td>
+</tr>
+<tr>
+<td><code>notes</code></td>
+<td>string or list</td>
+<td style="text-align: right;">7</td>
+<td>free-text notes</td>
+<td></td>
+<td>fragments</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>why</code></td>
+<td>string</td>
+<td style="text-align: right;">1</td>
+<td>why the dataset was acquired</td>
+<td></td>
+<td>fragment</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>open_questions</code></td>
+<td>list of string</td>
+<td style="text-align: right;">1</td>
+<td>unresolved questions about the data</td>
+<td></td>
+<td>fragment</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>caveats</code></td>
+<td>list of string</td>
+<td style="text-align: right;">1</td>
+<td>known defects of the corpus (arXiv)</td>
+<td></td>
+<td><code>register_arxiv.py</code></td>
+<td><strong>API</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="location-and-hosting">Location and hosting<a class="headerlink" href="#location-and-hosting" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Type</th>
+<th style="text-align: right;">Present</th>
+<th>Meaning</th>
+<th>Values / example</th>
+<th>Writes</th>
+<th>Reads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>locations</code></td>
+<td>list of string</td>
+<td style="text-align: right;">200 (required; 5 empty)</td>
+<td>files or directories that make up the dataset, relative to the estate root (absolute paths are allowed: 8 paths in 2 entries)</td>
+<td><code>["data/sources_staging/kits23/raw/kits23"]</code></td>
+<td>registering scripts</td>
+<td><code>dataset_manifest.py</code> (the manifest walk), <code>link_renal.py</code></td>
+</tr>
+<tr>
+<td><code>host</code></td>
+<td>string or null</td>
+<td style="text-align: right;">200 (5 null)</td>
+<td>host that holds the data; <code>null</code> means the data does not exist yet</td>
+<td>the cluster host 194 · the web host 1 · <code>null</code> 5</td>
+<td>registering scripts</td>
+<td><code>build_dataset_reports.py --host</code> filter, RDF, manager deployment</td>
+</tr>
+<tr>
+<td><code>host_note</code></td>
+<td>string</td>
+<td style="text-align: right;">6</td>
+<td>why the host is what it is (or null)</td>
+<td><code>rows not produced yet; …</code></td>
+<td>fragments</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>disk_owner</code></td>
+<td>string</td>
+<td style="text-align: right;">2</td>
+<td>storage project that owns the files, when outside the estate root</td>
+<td></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>id_namespace</code></td>
+<td>string</td>
+<td style="text-align: right;">194</td>
+<td>prefix that scopes item ids of this dataset</td>
+<td><code>ctrate:</code></td>
+<td>registering scripts</td>
+<td><code>build_layered.py</code>; see <a href="../identifiers/#item-namespaces-and-item-ids">Identifiers</a></td>
+</tr>
+<tr>
+<td><code>source_of_truth</code></td>
+<td>string</td>
+<td style="text-align: right;">134</td>
+<td>the file or upstream record that is authoritative for this dataset's contents and counts</td>
+<td><code>data/sources_staging/kits23/raw/kits23 (raw pull; counts from the source API on 2026-09-04 …)</code></td>
+<td>registering scripts</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>plan_docs</code></td>
+<td>list of string</td>
+<td style="text-align: right;">1</td>
+<td>planning documents for the dataset</td>
+<td></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>An empty <code>locations</code> list together with <code>host: null</code> is deliberate. The five <code>building</code> JK-Decide entries use
+it to stay out of manifests, manager reports and manager deployment until their rows exist; their
+<code>audit_scope</code> notes that an empty <code>locations</code> list on the cluster copy alone would let <code>fold_manifests.py</code>
+flip the entry to <code>active</code>.</p>
+<h3 id="role-split-and-benchmark-flags">Role, split and benchmark flags<a class="headerlink" href="#role-split-and-benchmark-flags" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Type</th>
+<th style="text-align: right;">Present</th>
+<th>Meaning</th>
+<th>Values / example</th>
+<th>Writes</th>
+<th>Reads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>role</code></td>
+<td>string</td>
+<td style="text-align: right;">179</td>
+<td>how panAtlas uses the dataset (13 values, table below)</td>
+<td><code>reference</code></td>
+<td>registering scripts</td>
+<td>RDF, <code>mesh_daemon.py</code></td>
+</tr>
+<tr>
+<td><code>split_role</code></td>
+<td>string</td>
+<td style="text-align: right;">195</td>
+<td>what this entry is relative to a train/eval split</td>
+<td><code>canonical</code></td>
+<td>registering scripts</td>
+<td><strong>API</strong></td>
+</tr>
+<tr>
+<td><code>benchmark</code></td>
+<td>boolean or object</td>
+<td style="text-align: right;">177</td>
+<td><code>true</code>: a pure-evaluation dataset with no training portion. Absent: not a benchmark. Object: a verified benchmark record (below)</td>
+<td><code>false</code> 149 · <code>true</code> 17 · object 11</td>
+<td>registering scripts</td>
+<td><code>sync_catalog.py</code> (<code>dtype</code>), <strong>API</strong></td>
+</tr>
+<tr>
+<td><code>benchmark.basis</code></td>
+<td>string</td>
+<td style="text-align: right;">11</td>
+<td>why the dataset is flagged a benchmark</td>
+<td><code>flagged benchmark because 100% of its cases are held out …</code></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>benchmark.node</code></td>
+<td>string</td>
+<td style="text-align: right;">11</td>
+<td>the graph node of the benchmark</td>
+<td><code>bench-&lt;slug&gt;</code></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>benchmark.suite</code></td>
+<td>string</td>
+<td style="text-align: right;">11</td>
+<td>the published suite it belongs to</td>
+<td></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>benchmark.task</code></td>
+<td>string</td>
+<td style="text-align: right;">11</td>
+<td>the evaluated task</td>
+<td></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>benchmark.tests</code></td>
+<td>list of string</td>
+<td style="text-align: right;">11</td>
+<td>what the benchmark tests (concept or specialty names)</td>
+<td></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>benchmark.evaluates</code></td>
+<td>list of string</td>
+<td style="text-align: right;">11</td>
+<td>specialties evaluated</td>
+<td><code>["Radiology", "Cardiology"]</code></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>benchmark.held_out</code></td>
+<td>string</td>
+<td style="text-align: right;">11</td>
+<td>the held-out fraction and how it was established</td>
+<td><code>954/954 cases held out …</code></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>benchmark.split_col</code></td>
+<td>string or null</td>
+<td style="text-align: right;">11 (10 null)</td>
+<td>column in the source manifest that carries the split</td>
+<td><code>spie_split</code></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>benchmark.status</code></td>
+<td>string</td>
+<td style="text-align: right;">11</td>
+<td>verification state of the benchmark claim</td>
+<td><code>verified</code> 9 · <code>needs-verification</code> 2</td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>used_in_training</code></td>
+<td>boolean</td>
+<td style="text-align: right;">59</td>
+<td>whether panAtlas models trained on this dataset</td>
+<td><code>false</code> 58 · <code>true</code> 1</td>
+<td><code>okn_agent.py</code>, <code>register_arxiv.py</code>, fragments</td>
+<td>RDF, <strong>API</strong> (the catalog's own value wins; see below)</td>
+</tr>
+<tr>
+<td><code>audit_scope</code></td>
+<td>string</td>
+<td style="text-align: right;">46</td>
+<td>what the hourly manifest covers when it is not the whole dataset, and why</td>
+<td><code>hourly manifest over the partition inventory file; …</code></td>
+<td><code>register_neuropath.py</code>, <code>register_arxiv.py</code>, hand-written</td>
+<td>none (documentation for auditors)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title"><code>benchmark</code> is documented as a boolean</p>
+<p><code>meta.benchmark_field</code> describes <code>benchmark</code> as an optional boolean. Eleven entries carry an object
+instead. Code that tests <code>if d.get("benchmark")</code> (for example <code>sync_catalog.py</code>) treats the object as
+true, which is the intended reading.</p>
+</div>
+<h3 id="modality-embedding-and-grounding">Modality, embedding and grounding<a class="headerlink" href="#modality-embedding-and-grounding" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Type</th>
+<th style="text-align: right;">Present</th>
+<th>Meaning</th>
+<th>Values / example</th>
+<th>Writes</th>
+<th>Reads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>embedding_models</code></td>
+<td>object</td>
+<td style="text-align: right;">166 (12 are <code>{}</code>)</td>
+<td>the embedding space used for each data stream</td>
+<td><code>{"imaging-ct": "imaging-rad-dino-ct@raddino", "text": "text-bioclinical-modernbert-large@v3w"}</code></td>
+<td>registering scripts</td>
+<td><code>build_dataset_reports.py</code> (model nodes, <code>panatlas_model.&lt;modality&gt;</code>)</td>
+</tr>
+<tr>
+<td><code>embedding_models.&lt;modality&gt;</code></td>
+<td>string <code>model@version</code> or null</td>
+<td style="text-align: right;">148 entries</td>
+<td>one space per modality; <code>null</code> = no encoder registered yet</td>
+<td>keys: <code>knowledge-graph</code> 46 · <code>imaging-ultrasound-rf</code> 34 · <code>imaging-ct</code> 33 · <code>text</code> 31 · <code>structured</code> 5 · <code>imaging-wsi</code> 2 · <code>imaging-cxr</code> 1 · <code>imaging-mr</code> 1. Values: <code>null</code> 101 · <code>imaging-rad-dino-ct@raddino</code> 33 · <code>text-bioclinical-modernbert-large@v3w</code> 18 · <code>text-bioclinical-modernbert-large</code> 1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>embedding_models.&lt;encoder&gt;</code></td>
+<td>object</td>
+<td style="text-align: right;">6 entries</td>
+<td>per-encoder record for pathology tile embeddings, keyed by encoder name (an entry may list several encoders)</td>
+<td>keys <code>prov-gigapath</code> 5 · <code>phikon-v2</code> 4 · <code>virchow2</code> 4 · <code>uni2-h</code> 3 · <code>h-optimus-0</code> 3 · <code>gigapath</code>, <code>phikon_v2</code>, <code>uni_v2</code>, <code>hoptimus0</code> 1 each</td>
+<td><code>datasets_stack_embeddings.json</code> and <code>datasets_tcga.json</code> fragments</td>
+<td><code>build_dataset_reports.py</code> serialises it as compact JSON</td>
+</tr>
+<tr>
+<td><code>embedding_models.&lt;encoder&gt;.tile_dim</code></td>
+<td>integer</td>
+<td style="text-align: right;"></td>
+<td>output dimension</td>
+<td><code>1024</code>, <code>1536</code>, <code>2560</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>embedding_models.&lt;encoder&gt;.levels</code></td>
+<td>list</td>
+<td style="text-align: right;"></td>
+<td><code>tile</code> and/or <code>slide</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>embedding_models.&lt;encoder&gt;.source</code></td>
+<td>string</td>
+<td style="text-align: right;"></td>
+<td>upstream model repository</td>
+<td><code>owkin/phikon-v2</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>embedding_models.&lt;encoder&gt;.token</code></td>
+<td>string</td>
+<td style="text-align: right;"></td>
+<td>which output token was kept</td>
+<td><code>CLS</code>, <code>pooled</code>, <code>CLS\|\|mean-patch-tokens</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>embedding_models.&lt;encoder&gt;.norm</code></td>
+<td>string</td>
+<td style="text-align: right;"></td>
+<td>input normalisation</td>
+<td><code>imagenet</code>, <code>h-optimus</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>embedding_models.&lt;encoder&gt;.precision</code></td>
+<td>string</td>
+<td style="text-align: right;"></td>
+<td>inference precision</td>
+<td><code>fp32</code>, <code>fp16</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>embedding_models.&lt;encoder&gt;.eval_transform</code></td>
+<td>string</td>
+<td style="text-align: right;"></td>
+<td>image transform at inference</td>
+<td><code>Resize(224)/CenterCrop(224)</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>embedding_models.&lt;encoder&gt;.input_convention</code></td>
+<td>string</td>
+<td style="text-align: right;"></td>
+<td>tiling pipeline the features were computed under</td>
+<td><code>trident (refreshed 2026-09-18, job 220280)</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>embeddings</code></td>
+<td>object</td>
+<td style="text-align: right;">1</td>
+<td>a materialised embedding store that is a retrieval asset, not a grounding path</td>
+<td>keys <code>model</code>, <code>cache</code>, <code>count</code>, <code>materialized</code>, <code>shape</code>, <code>id_scheme</code>, <code>role</code>, <code>catalog</code></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>grounding</code></td>
+<td>string</td>
+<td style="text-align: right;">160</td>
+<td>how the dataset links to the concept substrate, in prose</td>
+<td><code>mesh+umls (radiology report side); RAD-DINO CT space (volume side); …</code></td>
+<td>registering scripts</td>
+<td><code>build_dataset_reports.py</code> (vocabulary nodes: it searches the text for <code>mesh</code>, <code>umls</code>, <code>foodatlas</code>, <code>fdc</code>, <code>nacc</code>, <code>v628</code>; none found = <code>ungrounded</code>), <strong>API</strong></td>
+</tr>
+<tr>
+<td><code>node_linkage</code></td>
+<td>string</td>
+<td style="text-align: right;">1</td>
+<td>how items link to graph nodes</td>
+<td></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>linked_nodes</code></td>
+<td>list</td>
+<td style="text-align: right;">130</td>
+<td>graph nodes this dataset is linked to, as summarised for the catalog card</td>
+<td><code>[{"id": "concept-radiology", "label": "Radiology", "via": "modality"}]</code></td>
+<td><code>link_datasets_to_nodes.py</code>, <code>link_renal.py</code>, <code>link_neuropath.py</code>, <code>link_openh.py</code>, <code>build_artifact_types.py</code></td>
+<td>catalog card, Astral, <strong>API</strong></td>
+</tr>
+<tr>
+<td><code>linked_nodes[].id</code></td>
+<td>string</td>
+<td style="text-align: right;">339 items</td>
+<td>graph node id</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>linked_nodes[].label</code></td>
+<td>string</td>
+<td style="text-align: right;">339 items</td>
+<td>node label at link time</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>linked_nodes[].via</code></td>
+<td>string</td>
+<td style="text-align: right;">339 items</td>
+<td>why the link exists (table below)</td>
+<td><code>metadata</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>artifact_type_ids</code></td>
+<td>list of string</td>
+<td style="text-align: right;">11</td>
+<td>artifact types (<code>atype-*</code> nodes) the dataset contains</td>
+<td><code>["atype-typed-decision"]</code></td>
+<td><code>build_artifact_types.py</code>, fragments</td>
+<td>catalog</td>
+</tr>
+<tr>
+<td><code>ontology_alignment</code></td>
+<td>object</td>
+<td style="text-align: right;">1</td>
+<td>field-by-field alignment of a native corpus manifest to FHIR resources and terminologies</td>
+<td>keys <code>_intent</code>, <code>patient</code>, <code>imaging_study</code>, <code>acquisition_params</code>, <code>findings</code>, <code>report_text</code>, <code>anatomy</code>, <code>scores</code>, <code>provenance_only</code></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>structure</code></td>
+<td>object</td>
+<td style="text-align: right;">1</td>
+<td>column groups of a 66-column case manifest</td>
+<td>keys <code>record</code>, <code>identity[]</code>, <code>acquisition[]</code>, <code>demographics[]</code>, <code>clinical[]</code>, <code>derived_qc_masks[]</code>, <code>governance_splits[]</code></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p><code>linked_nodes</code> contains one bare string (<code>dataset-dailymed</code>) instead of an object. Of the 339 object items,
+277 name a node that exists in the served graph at HEAD; 62 do not. The linkers only add a link when the target
+exists, so the 62 were valid when written and their targets have since been removed or renamed.</p>
+<p><strong>Strata axes.</strong> The registry has no top-level strata field. The one place stratification keys appear is
+<code>structure.governance_splits</code> on the CT native corpus entry: <code>role</code>, <code>split</code>, <code>held_out_eval</code>,
+<code>pretrain_eligible</code>, <code>ctrate_split</code>, <code>rex_split</code>, <code>nlst_split</code>, <code>native_split</code>, <code>native_split_provenance</code>,
+<code>split_status</code>, <code>spie_split</code>, <code>strata_key</code>. These name columns of that corpus's case manifest, not registry fields.</p>
+<h3 id="scale">Scale<a class="headerlink" href="#scale" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Type</th>
+<th style="text-align: right;">Present</th>
+<th>Meaning</th>
+<th>Writes</th>
+<th>Reads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scale</code></td>
+<td>object</td>
+<td style="text-align: right;">199</td>
+<td>measured or declared counts, one key per measure</td>
+<td>registering scripts, fragments</td>
+<td><code>build_dataset_reports.py</code> (<code>item_count</code>: the first of <code>volumes</code>, <code>studies</code>, <code>entities</code>, <code>foods</code>, <code>worklist_cases</code>, <code>axial_cases</code>, <code>papers</code>), Astral, <strong>API</strong></td>
+</tr>
+</tbody>
+</table>
+<p><code>scale</code> has no fixed schema: 149 distinct keys occur. The most common are <code>files</code> (60), <code>bytes</code> (58),
+<code>distinct_subjects</code>, <code>properties</code>, <code>triples_held</code>, <code>triples_upstream</code> (46 each, the OKN mirrors), <code>patients</code>
+(40), <code>hdf5_files</code> (34), <code>cases</code> (32), <code>embeddings_present</code>, <code>eval</code>, <code>held_out_eval</code>, <code>train_ssl</code> (31 each, the
+CT partitions), <code>bytes_human</code> (16), <code>records_basis</code> (14), <code>encoders</code> (10).</p>
+<details class="note">
+<summary>All 149 <code>scale</code> keys with entry counts</summary>
+<p><code>files</code> (60), <code>bytes</code> (58), <code>distinct_subjects</code> (46), <code>properties</code> (46), <code>triples_held</code> (46),
+<code>triples_upstream</code> (46), <code>patients</code> (40), <code>hdf5_files</code> (34), <code>cases</code> (32), <code>embeddings_present</code> (31), <code>eval</code>
+(31), <code>held_out_eval</code> (31), <code>train_ssl</code> (31), <code>bytes_human</code> (16), <code>records_basis</code> (14), <code>encoders</code> (10),
+<code>records</code> (7), <code>records_planned</code> (6), <code>series</code> (6), <code>tasks</code> (6), <code>images</code> (5), <code>slides</code> (5), <code>wsis</code> (5),
+<code>bytes_expected</code> (4), <code>kinds</code> (4), <code>domains</code> (3), <code>nuclei</code> (3), <code>projects</code> (3), <code>studies</code> (3), <code>rois</code> (2),
+<code>specs_default</code> (2), <code>splits</code> (2), <code>svs_files</code> (2), <code>templates</code> (2), <code>tiles</code> (2), and one entry each:
+<code>abnormality_findings</code>, <code>anchor_pool_measured</code>, <code>anchored_documents_planned</code>, <code>by_task</code>,
+<code>bytes_total_excl_pdf</code>, <code>bytes_total_with_pdf_card</code>, <code>bytes_v11</code>, <code>bytes_v12</code>, <code>card_quantification</code>,
+<code>cases_manifest</code>, <code>cases_test_manifest</code>, <code>cases_test_withheld</code>, <code>cases_train</code>, <code>cases_train_manifest</code>,
+<code>catalog_files</code>, <code>classes</code>, <code>classes_flat</code>, <code>cohorts</code>, <code>combined_dia_cases</code>, <code>configs</code>,
+<code>count_reconciliation</code>, <code>datasets</code>, <code>date_range</code>, <code>decontam</code>, <code>discovery_phospho_bytes</code>,
+<code>discovery_proteome_bytes</code>, <code>discovery_proteome_files</code>, <code>docs</code>, <code>documents_planned</code>, <code>entities</code>,
+<code>estate_tasks</code>, <code>files_atec23</code>, <code>files_panda</code>, <code>files_tcga_wm</code>, <code>foods</code>, <code>groups</code>, <code>host_measured</code>,
+<code>hovernet_files</code>, <code>in_ct_corpus</code>, <code>jevbench_items_per_run</code>, <code>jevbench_per_item_runs</code>, <code>lfs_files</code>,
+<code>lifecycles</code>, <code>magnifications</code>, <code>manifest_files_v12</code>, <code>manual_patches</code>, <code>medical_share_non_probe_pool</code>,
+<code>methylation</code>, <code>mix_v1_rows</code>, <code>mix_v1_rows_planned</code>, <code>mutation_maf</code>, <code>native</code>, <code>openml_tasks</code>,
+<code>page_images</code>, <code>page_subjects_radiology</code>, <code>papers</code>, <code>parquet_shards</code>, <code>pathology_reports</code>, <code>patients_note</code>,
+<code>patients_v11</code>, <code>patients_v12</code>, <code>phases</code>, <code>pool_files_expected</code>, <code>pool_rows</code>, <code>probe_rows</code>,
+<code>problems_basis</code>, <code>problems_by_dataset</code>, <code>problems_measured</code>, <code>provgigapath_files</code>, <code>qc_cases</code>,
+<code>records_expected_pool</code>, <code>records_expected_probe</code>, <code>records_planned_outside_pool_runner</code>, <code>regions</code>,
+<code>regions_malignant</code>, <code>regions_nonmalignant</code>, <code>reports</code>, <code>requests_per_spec</code>, <code>rnaseq_gene_quant</code>, <code>roles</code>,
+<code>rows_total_excl_pdf</code>, <code>rppa</code>, <code>samples</code>, <code>samples_gse53757</code>, <code>schema_version</code>, <code>series_cdc_ilinet</code>,
+<code>series_cdc_nhsn_resp</code>, <code>series_mimic_ed_vitals</code>, <code>site_institutions</code>, <code>site_measurements</code>, <code>slices</code>,
+<code>slices_train</code>, <code>smoke_rows_measured</code>, <code>source_lines</code>, <code>sources</code>, <code>subsets</code>, <code>test_by_class</code>, <code>test_cores</code>,
+<code>test_tiles</code>, <code>tiers</code>, <code>tile_rows_flat_test</code>, <code>tile_rows_flat_train</code>, <code>tiles_per_slide_cap</code>, <code>tokens</code>,
+<code>train_by_class</code>, <code>train_tiles</code>, <code>uuid_named_slides_v12</code>, <code>volumes</code>, <code>wsis_test_tiled</code>, <code>wsis_tiled</code>,
+<code>wsis_total</code>, <code>wsis_train_tiled</code>, <code>wsis_v11</code>, <code>wsis_v12</code>.</p>
+</details>
+<p>Treat <code>scale</code> as a measured-facts bag. By key, 117 keys hold integers, 12 hold strings (for example
+<code>bytes_human</code>, <code>records_basis</code>, <code>patients_note</code>, <code>date_range</code>), 19 hold nested objects (for example <code>by_task</code>,
+<code>phases</code>, <code>train_by_class</code>), one holds a list (<code>magnifications</code>) and one a float. The four OKN keys
+(<code>triples_held</code>, <code>triples_upstream</code>, <code>distinct_subjects</code>, <code>properties</code>) are strings or <code>null</code> when upstream
+publishes no count, so do not sum them without a type check.</p>
+<h3 id="relationships-between-entries">Relationships between entries<a class="headerlink" href="#relationships-between-entries" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Type</th>
+<th style="text-align: right;">Present</th>
+<th>Meaning</th>
+<th>Values / example</th>
+<th>Writes</th>
+<th>Reads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>part_of</code></td>
+<td>string (URN)</td>
+<td style="text-align: right;">44</td>
+<td>the parent collection this entry is a component of</td>
+<td>OpenH-RF subsets → <code>panatlas:dataset:openh-rf</code> (33); JK-Decide components → <code>panatlas:dataset:jk-decide</code> (10); 1 other</td>
+<td><code>register_openh.py</code>, <code>register_neuropath.py</code>, fragments</td>
+<td><code>sync_catalog.py</code> (<code>part_of_corpus</code>)</td>
+</tr>
+<tr>
+<td><code>corpus</code></td>
+<td>string</td>
+<td style="text-align: right;">64</td>
+<td>the corpus this entry belongs to, with a description</td>
+<td>starts with <code>panatlas:dataset:openh-rf</code> (33) or <code>panatlas:dataset:heartlens-ct3d-native (CT foundation corpus; …)</code> (31)</td>
+<td><code>register_openh.py</code>, hand-written</td>
+<td>Astral</td>
+</tr>
+<tr>
+<td><code>members</code></td>
+<td>list of URN</td>
+<td style="text-align: right;">2</td>
+<td>the components of a collection entry</td>
+<td>the CT native corpus and OpenH-RF corpus entries</td>
+<td>hand-written, <code>register_openh.py</code></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>partition_of</code></td>
+<td>string (URN)</td>
+<td style="text-align: right;">31</td>
+<td>the corpus this entry is an exact on-disk partition of</td>
+<td><code>panatlas:dataset:heartlens-ct3d-native</code></td>
+<td>hand-written (no repository script)</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>partition_path</code></td>
+<td>string</td>
+<td style="text-align: right;">31</td>
+<td>the partition's directory (for one entry, directory + an embedding directory)</td>
+<td><code>vision_encoder/data/heartlens_ct3d_native/cases/nlst</code></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>partitions</code></td>
+<td>object</td>
+<td style="text-align: right;">1</td>
+<td>on the parent: <code>note</code>, <code>sources</code> (32)</td>
+<td></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>derived_from</code></td>
+<td>list of URN</td>
+<td style="text-align: right;">17</td>
+<td>datasets this entry was computed from</td>
+<td><code>["panatlas:dataset:hest-bench"]</code></td>
+<td>fragments</td>
+<td>none in code (see the dangling-URN warning in <a href="../identifiers/#dataset-urn">Identifiers</a>)</td>
+</tr>
+<tr>
+<td><code>corpus_membership</code></td>
+<td>string or list</td>
+<td style="text-align: right;">2</td>
+<td>training corpora this dataset entered</td>
+<td><code>["KOS-V5"]</code></td>
+<td>hand-written</td>
+<td>Astral, <strong>API</strong></td>
+</tr>
+<tr>
+<td><code>models_trained</code></td>
+<td>list of string</td>
+<td style="text-align: right;">2</td>
+<td>models trained on this dataset</td>
+<td></td>
+<td>hand-written</td>
+<td><strong>API</strong></td>
+</tr>
+<tr>
+<td><code>models</code></td>
+<td>list of string</td>
+<td style="text-align: right;">1</td>
+<td>model nodes whose outputs this entry holds</td>
+<td><code>["model-kos-v6", …]</code></td>
+<td>fragment</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>models_registry</code></td>
+<td>string</td>
+<td style="text-align: right;">1</td>
+<td>pointer into <code>web/models.json</code></td>
+<td><code>web/models.json predictors</code></td>
+<td>fragment</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>benchmarks</code></td>
+<td>list of string</td>
+<td style="text-align: right;">2</td>
+<td>benchmark node ids evaluated on or produced from this dataset</td>
+<td></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>harness</code></td>
+<td>string</td>
+<td style="text-align: right;">2</td>
+<td>evaluation harness used</td>
+<td></td>
+<td>hand-written</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>external_sources</code></td>
+<td>string</td>
+<td style="text-align: right;">2</td>
+<td>upstream identifiers of externally sourced tasks (OpenML ids)</td>
+<td></td>
+<td>fragment</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<h3 id="provenance-and-contamination">Provenance and contamination<a class="headerlink" href="#provenance-and-contamination" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Type</th>
+<th style="text-align: right;">Present</th>
+<th>Meaning</th>
+<th>Writes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>provenance</code></td>
+<td>object (24) or list (1)</td>
+<td style="text-align: right;">25</td>
+<td>how a derived dataset was produced</td>
+<td>fragments, <code>register_openh.py</code></td>
+</tr>
+<tr>
+<td><code>provenance.producer</code></td>
+<td>string</td>
+<td style="text-align: right;">23</td>
+<td>producing script(s)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>provenance.computed</code></td>
+<td>string</td>
+<td style="text-align: right;">23</td>
+<td>date computed</td>
+<td></td>
+</tr>
+<tr>
+<td><code>provenance.program</code></td>
+<td>string</td>
+<td style="text-align: right;">17</td>
+<td>programme that commissioned it</td>
+<td></td>
+</tr>
+<tr>
+<td><code>provenance.inputs</code></td>
+<td>string or list</td>
+<td style="text-align: right;">10</td>
+<td>inputs read</td>
+<td></td>
+</tr>
+<tr>
+<td><code>provenance.dry_run_outputs[]</code></td>
+<td>list of objects</td>
+<td style="text-align: right;">10</td>
+<td>trial outputs with <code>path</code>, <code>rows</code>, <code>files</code>, <code>bytes</code>, <code>sha256</code>, <code>note</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>provenance.builder</code></td>
+<td>string</td>
+<td style="text-align: right;">8</td>
+<td>builder id with commit, e.g. <code>jkdecide.pool_runner@1+&lt;sha&gt;</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>provenance.jobs[]</code> / <code>provenance.job</code></td>
+<td>list / string</td>
+<td style="text-align: right;">6 / 2</td>
+<td>Slurm jobs that produced it</td>
+<td></td>
+</tr>
+<tr>
+<td><code>provenance.input_convention</code></td>
+<td>string</td>
+<td style="text-align: right;">5</td>
+<td>input preprocessing convention</td>
+<td></td>
+</tr>
+<tr>
+<td><code>provenance.harness</code></td>
+<td>string</td>
+<td style="text-align: right;">2</td>
+<td>evaluation harness with commit</td>
+<td></td>
+</tr>
+<tr>
+<td><code>provenance.excluded_inputs</code></td>
+<td>list</td>
+<td style="text-align: right;">1</td>
+<td>inputs deliberately left out</td>
+<td></td>
+</tr>
+<tr>
+<td><code>provenance.card</code>, <code>.site</code>, <code>.code</code>, <code>.revision</code>, <code>.revision_last_modified</code>, <code>.listed</code></td>
+<td>object / string</td>
+<td style="text-align: right;">1 each</td>
+<td>upstream dataset card fields, project site facts, code repository, pinned revision and the date the file tree was listed (OpenH-RF)</td>
+<td><code>register_openh.py</code></td>
+</tr>
+<tr>
+<td><code>provenance[]</code> (list form)</td>
+<td>list of <code>job:&lt;n&gt;</code></td>
+<td style="text-align: right;">1</td>
+<td>jobs only</td>
+<td>fragment</td>
+</tr>
+<tr>
+<td><code>contamination</code></td>
+<td>object (12) or string (2)</td>
+<td style="text-align: right;">14</td>
+<td>contamination status of this dataset against evaluation sets, or of encoders trained on it</td>
+<td><code>link_renal.py</code>, <code>hygiene_enrich.py</code>, fragments</td>
+</tr>
+<tr>
+<td><code>contamination.screened_against[]</code></td>
+<td>list</td>
+<td style="text-align: right;">11</td>
+<td>what the dataset was screened against</td>
+<td></td>
+</tr>
+<tr>
+<td><code>contamination.result</code></td>
+<td>string</td>
+<td style="text-align: right;">10</td>
+<td>outcome of the screen</td>
+<td></td>
+</tr>
+<tr>
+<td><code>contamination.note</code> / <code>.notes</code> / <code>.caveat</code> / <code>.caveats</code> / <code>.known</code></td>
+<td>string</td>
+<td style="text-align: right;">4 / 1 / 2 / 1 / 1</td>
+<td>qualifications</td>
+<td></td>
+</tr>
+<tr>
+<td><code>contamination.method</code>, <code>.measured</code>, <code>.not_checkable</code>, <code>.corpus_level</code>, <code>.rule</code>, <code>.validity_note</code></td>
+<td>string</td>
+<td style="text-align: right;">1 each</td>
+<td>method, what was measured, what cannot be checked</td>
+<td></td>
+</tr>
+<tr>
+<td><code>contamination.per_encoder.&lt;encoder&gt;</code></td>
+<td>string</td>
+<td style="text-align: right;">1 entry</td>
+<td>per-encoder verdict (<code>CLEAN -- …</code>, <code>CONTAMINATED -- …</code>)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>verification</code></td>
+<td>object</td>
+<td style="text-align: right;">1</td>
+<td>checksum verification of a delivered package: <code>method</code>, <code>at</code>, and per release <code>{ok, failed, job}</code></td>
+<td>fragment</td>
+</tr>
+</tbody>
+</table>
+<h3 id="licence-fields">Licence fields<a class="headerlink" href="#licence-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Type</th>
+<th style="text-align: right;">Present</th>
+<th>Meaning</th>
+<th>Values</th>
+<th>Writes</th>
+<th>Reads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>license</code></td>
+<td>string</td>
+<td style="text-align: right;">157</td>
+<td>the licence as the source states it, or a note</td>
+<td>free text</td>
+<td>registering scripts, <code>licence/apply_registry_licences.py</code></td>
+<td>RDF (<code>dct:license</code> if it is a URL, else <code>licenseStatement</code>), <code>estate_doc_index.py</code>, <strong>API</strong></td>
+</tr>
+<tr>
+<td><code>license_id</code></td>
+<td>string</td>
+<td style="text-align: right;">48</td>
+<td>normalised licence id</td>
+<td><code>CC-BY-4.0</code> 35 · <code>PhysioNet-CHDL-1.5.0</code> 3 · <code>CC-BY-NC-SA-4.0</code> 2 · <code>PMC-OA-groups</code>, <code>custom-NLM-PubMed-terms</code>, <code>Apache-2.0</code>, <code>ODC-By-1.0</code>, <code>custom-ClinicalTrials.gov-terms</code>, <code>custom-common-crawl</code>, <code>CC-BY-SA-4.0</code>, <code>MIT (repo only)</code> 1 each</td>
+<td><code>apply_registry_licences.py</code>, <code>register_openh.py</code></td>
+<td><strong>API</strong></td>
+</tr>
+<tr>
+<td><code>license_status</code></td>
+<td>string</td>
+<td style="text-align: right;">98</td>
+<td>evidence state of the licence</td>
+<td><code>verified</code> 46 · <code>not-found</code> 25 · <code>declared-by-publisher</code> 22 · <code>conflicting</code> 2 · 3 free-text values</td>
+<td><code>apply_registry_licences.py</code>, <code>okn_agent.py</code>, <code>register_openh.py</code></td>
+<td>RDF, <strong>API</strong></td>
+</tr>
+<tr>
+<td><code>license_scope</code></td>
+<td>string</td>
+<td style="text-align: right;">107</td>
+<td>whether the licence applies to the dataset or per document</td>
+<td><code>dataset</code> 98 · <code>document</code> 9</td>
+<td>same</td>
+<td>RDF</td>
+</tr>
+<tr>
+<td><code>license_basis</code></td>
+<td>string</td>
+<td style="text-align: right;">49</td>
+<td>where the licence was read: <code>web:&lt;url&gt;</code> (44) or <code>file:&lt;path&gt;</code> (5)</td>
+<td></td>
+<td>same</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>license_checked</code></td>
+<td>date</td>
+<td style="text-align: right;">49</td>
+<td>when the licence was read</td>
+<td><code>2026-10-11</code> 34 · <code>2026-09-23</code> 14 · <code>2026-10-03</code> 1</td>
+<td>same</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>license_note</code></td>
+<td>string</td>
+<td style="text-align: right;">47</td>
+<td>qualification</td>
+<td></td>
+<td>same</td>
+<td><strong>API</strong></td>
+</tr>
+<tr>
+<td><code>upstream_licence_flag</code></td>
+<td>string or null</td>
+<td style="text-align: right;">46 (43 null)</td>
+<td>a licence risk in an upstream graph (OKN only)</td>
+<td>3 entries flagged</td>
+<td><code>okn_agent.py</code></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>license_distribution</code></td>
+<td>object</td>
+<td style="text-align: right;">1</td>
+<td>licence → document count (arXiv)</td>
+<td></td>
+<td><code>register_arxiv.py</code></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>license_permissive_docs</code></td>
+<td>integer</td>
+<td style="text-align: right;">1</td>
+<td>documents under permissive licences (arXiv)</td>
+<td></td>
+<td><code>register_arxiv.py</code></td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>Licence semantics, the status vocabulary and the per-document rule are on
+<a href="../acquisition-and-licence/">Acquisition and licence</a>.</p>
+<h3 id="source-of-record-externally-maintained-datasets">Source of record (externally maintained datasets)<a class="headerlink" href="#source-of-record-externally-maintained-datasets" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Type</th>
+<th style="text-align: right;">Present</th>
+<th>Meaning</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>maintained_externally</code></td>
+<td>boolean</td>
+<td style="text-align: right;">46</td>
+<td>the upstream, not panAtlas, maintains the content; panAtlas holds a read-only mirror</td>
+<td>always <code>true</code></td>
+</tr>
+<tr>
+<td><code>source_of_record</code></td>
+<td>object (46) or string (1)</td>
+<td style="text-align: right;">47</td>
+<td>who is authoritative for the content</td>
+<td>46 OKN objects; 1 string naming a pinned Hugging Face revision</td>
+</tr>
+<tr>
+<td><code>source_of_record.system</code></td>
+<td>string</td>
+<td style="text-align: right;">46</td>
+<td>authority system</td>
+<td><code>okn</code></td>
+</tr>
+<tr>
+<td><code>source_of_record.graph</code></td>
+<td>string</td>
+<td style="text-align: right;">46</td>
+<td>upstream graph short name</td>
+<td><code>babel</code></td>
+</tr>
+<tr>
+<td><code>source_of_record.agent</code></td>
+<td>string</td>
+<td style="text-align: right;">46</td>
+<td>the panAtlas agent that mirrors it</td>
+<td><code>okn-agent:&lt;graph&gt;</code></td>
+</tr>
+<tr>
+<td><code>source_of_record.upstream_version</code></td>
+<td>string or null</td>
+<td style="text-align: right;">46 (3 null)</td>
+<td>upstream version</td>
+<td><code>v0.0.1</code></td>
+</tr>
+<tr>
+<td><code>source_of_record.upstream_last_updated_on</code></td>
+<td>string or null</td>
+<td style="text-align: right;">46 (4 null)</td>
+<td>upstream timestamp</td>
+<td>ISO 8601</td>
+</tr>
+<tr>
+<td><code>source_of_record.held_version</code></td>
+<td>string or null</td>
+<td style="text-align: right;">46 (46 null)</td>
+<td>version of the verified copy panAtlas holds</td>
+<td><code>null</code> = none held</td>
+</tr>
+<tr>
+<td><code>source_of_record.endpoint</code></td>
+<td>string or null</td>
+<td style="text-align: right;">46 (4 null)</td>
+<td>upstream SPARQL endpoint</td>
+<td>URL</td>
+</tr>
+<tr>
+<td><code>source_of_record.registry_file</code>, <code>.registry_commit</code></td>
+<td>string</td>
+<td style="text-align: right;">46</td>
+<td>upstream registry record and its commit + timestamp</td>
+<td></td>
+</tr>
+<tr>
+<td><code>source_of_record.funding</code>, <code>.homepage</code></td>
+<td>string or null</td>
+<td style="text-align: right;">46</td>
+<td>upstream metadata</td>
+<td></td>
+</tr>
+<tr>
+<td><code>source_of_record.authoritative_namespaces[]</code></td>
+<td>list of <code>{prefix, iri}</code></td>
+<td style="text-align: right;">46 (82 items)</td>
+<td>IRI namespaces whose nodes this graph maintains</td>
+<td></td>
+</tr>
+<tr>
+<td><code>source_of_record.authoritative_declared</code></td>
+<td>boolean</td>
+<td style="text-align: right;">46</td>
+<td><code>true</code> (27) if upstream declared the namespaces, <code>false</code> (19) if panAtlas defaulted to <code>&lt;base&gt;&lt;graph&gt;/</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>source_of_record.external_authority</code></td>
+<td>object</td>
+<td style="text-align: right;">1</td>
+<td>the real authority when OKN hosts someone else's dump: <code>authority</code>, <code>acquire</code>, <code>note</code></td>
+<td>Wikidata</td>
+</tr>
+</tbody>
+</table>
+<p>All OKN fields are generated by <code>okn_agent.py describe</code> from the upstream registry and merged by
+<code>register_okn.py</code>; <code>build_rdf.py</code> maps <code>source_of_record</code> onto <code>pa:sourceOfRecord</code> and the version fields (see
+<a href="../rdf-vocabulary/">RDF vocabulary</a>).</p>
+<h3 id="acquisition-and-manifest">Acquisition and manifest<a class="headerlink" href="#acquisition-and-manifest" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Type</th>
+<th style="text-align: right;">Present</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status</code></td>
+<td>string</td>
+<td style="text-align: right;">200 (required)</td>
+<td>lifecycle state: <code>active</code> 149 · <code>acquiring</code> 46 · <code>building</code> 5</td>
+</tr>
+<tr>
+<td><code>acquisition</code></td>
+<td>object</td>
+<td style="text-align: right;">95 (21 are <code>{}</code>)</td>
+<td>how the data was fetched and when it finished</td>
+</tr>
+<tr>
+<td><code>manifest</code></td>
+<td>object or null</td>
+<td style="text-align: right;">188 (127 objects, 61 null)</td>
+<td>the audit manifest summary</td>
+</tr>
+<tr>
+<td><code>manifest_full_walk</code></td>
+<td>object</td>
+<td style="text-align: right;">33</td>
+<td>a full-walk manifest kept when the hourly manifest covers an inventory file instead</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>acquisition.*</code> subfields and the status lifecycle are documented on
+<a href="../acquisition-and-licence/#acquisition-records">Acquisition and licence</a>; <code>manifest.*</code> and
+<code>manifest_full_walk.*</code> on <a href="../manifests/#manifest-summary-fields">Manifests</a>.</p>
+<h3 id="single-entry-blocks-arxiv-corpus">Single-entry blocks (arXiv corpus)<a class="headerlink" href="#single-entry-blocks-arxiv-corpus" title="Permanent link">&para;</a></h3>
+<p>The arXiv corpus entry carries document-index fields no other entry has: <code>documents</code> (3,148,796),
+<code>documents_with_text</code> (2,856,227), <code>doc_index</code> (<code>panatlas/arxiv_doc_index.parquet</code>), <code>doc_index_builder</code>
+(<code>acquisition/arxiv/arxiv_doc_index.py</code>), <code>estate_tier</code> (<code>reference</code>), and <code>alignment</code>, the summary of its
+Wikipedia and MeSH alignment: <code>method</code>, <code>built</code>, <code>papers</code>, <code>wiki_linked</code>, <code>wiki_linked_fraction</code>,
+<code>wiki_distinct_primary_pages</code>, <code>wiki_by_basis</code>, <code>mesh_appropriate</code>, <code>mesh_appropriate_by_basis</code>,
+<code>mesh_descriptors_seen</code>, <code>wiki_top_primary</code>, <code>mesh_top_primary</code>, <code>by_archive</code>, <code>not_applied</code>, and
+<code>embedding</code> (<code>method</code>, <code>papers</code>, <code>band_counts</code>, <code>distinct_primary_pages</code>, <code>distinct_primary_pages_nonweak</code>,
+<code>top_primary_nonweak</code>, <code>top_cell_concepts</code>, <code>by_archive</code>, <code>known_limitation</code>). Written by
+<code>web/register_arxiv.py</code> and <code>web/fold_arxiv_alignment.py</code>. See <a href="../document-index/">Document index</a>.</p>
+<h2 id="enumerations">Enumerations<a class="headerlink" href="#enumerations" title="Permanent link">&para;</a></h2>
+<h3 id="access"><code>access</code><a class="headerlink" href="#access" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th style="text-align: right;">Entries</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>open</code></td>
+<td style="text-align: right;">148</td>
+</tr>
+<tr>
+<td><code>internal</code></td>
+<td style="text-align: right;">23</td>
+</tr>
+<tr>
+<td><code>restricted</code></td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr>
+<td><code>credentialed-phi</code></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td><code>public</code></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td><code>credentialed</code></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td><code>institutional</code></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td><code>mixed (per member)</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>registered (Kaggle account, competition rules accepted)</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>restricted (in-house training data)</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<p><code>access</code> is free text with a conventional vocabulary. Exact-match filters (the public API's <code>access=</code> filter)
+will miss the three parenthesised variants. <code>open</code> and <code>public</code> are both used for openly available data.</p>
+<div class="admonition warning">
+<p class="admonition-title">Astral treats only <code>public</code> as unrestricted</p>
+<p><code>web/astral/tools.py</code> attaches its "metadata only" note to every record whose <code>access</code> is anything other
+than <code>public</code>, including the 148 <code>open</code> entries. The registry convention is <code>open</code>; the code expects
+<code>public</code>.</p>
+</div>
+<h3 id="role"><code>role</code><a class="headerlink" href="#role" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th style="text-align: right;">Entries</th>
+<th></th>
+<th>Value</th>
+<th style="text-align: right;">Entries</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>reference</code></td>
+<td style="text-align: right;">71</td>
+<td></td>
+<td><code>evaluation-outputs</code></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td><code>reference+train_ssl</code></td>
+<td style="text-align: right;">34</td>
+<td></td>
+<td><code>reference+train_ssl(wsi)</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>train_ssl</code></td>
+<td style="text-align: right;">23</td>
+<td></td>
+<td><code>train_ssl+segmentation_eval</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>derived</code></td>
+<td style="text-align: right;">21</td>
+<td></td>
+<td><code>training</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>eval</code></td>
+<td style="text-align: right;">16</td>
+<td></td>
+<td><code>evaluation</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>benchmark</code></td>
+<td style="text-align: right;">5</td>
+<td></td>
+<td><code>training-corpus</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>train_ssl+eval</code></td>
+<td style="text-align: right;">2</td>
+<td></td>
+<td>absent</td>
+<td style="text-align: right;">21</td>
+</tr>
+</tbody>
+</table>
+<p>No script defines <code>role</code>. By usage: <code>reference</code> is held for linking and lookup, <code>train_ssl</code> is used for
+self-supervised pretraining, <code>eval</code>/<code>evaluation</code>/<code>benchmark</code> are evaluation-only, <code>derived</code> is computed from
+other entries, and <code>+</code> joins two uses.</p>
+<h3 id="split_role"><code>split_role</code><a class="headerlink" href="#split_role" title="Permanent link">&para;</a></h3>
+<p><code>canonical</code> 167 · <code>derived</code> 17 · <code>evaluation</code> 5 · <code>held-out</code> 2 · <code>evaluation-output</code> 2 · <code>train</code> 1 ·
+<code>external-test</code> 1 · absent 5. <code>canonical</code> means the entry is the dataset as published, not a split of it.</p>
+<h3 id="modality"><code>modality</code><a class="headerlink" href="#modality" title="Permanent link">&para;</a></h3>
+<p>27 distinct values over 220 list items: <code>knowledge-graph</code> 46 · <code>imaging-ct</code> 39 · <code>text</code> 34 ·
+<code>imaging-ultrasound-rf</code> 34 · <code>imaging-pathology-annotation</code> 11 · <code>structured</code> 8 · <code>embedding-pathology-tile</code> 6 ·
+<code>imaging-mr</code> 5 · <code>imaging-pathology-wsi</code> 5 · <code>imaging-pathology-embedding</code> 5 · <code>imaging-pathology-tile</code> 4 ·
+<code>metadata-evaluation</code> 4 · <code>imaging-wsi</code> 3 · <code>time-series</code> 3 · and one each of <code>imaging-cxr</code>,
+<code>omics-transcriptome</code>, <code>omics-genomic</code>, <code>omics-proteome</code>, <code>omics-proteome-ms</code>, <code>imaging-pathology-mask</code>,
+<code>text-clinical-report</code>, <code>embedding-pathology-slide</code>, <code>metadata-clinical</code>, <code>imaging-pathology-roi</code>,
+<code>imaging-pathology-patch</code>, <code>spatial-transcriptomics</code>, <code>clinical-outcome</code>. 17 entries list more than one
+modality; the most common combination is <code>imaging-ct</code> + <code>imaging-mr</code> (4).</p>
+<p>The modality granularity rule (<code>PLAN-dataset-plugins.md</code> §11) is fine-grained by encoder type. Two
+near-synonyms coexist: <code>imaging-wsi</code> and <code>imaging-pathology-wsi</code>.</p>
+<h3 id="linked_nodesvia"><code>linked_nodes[].via</code><a class="headerlink" href="#linked_nodesvia" title="Permanent link">&para;</a></h3>
+<p><code>metadata</code> 110 · <code>modality</code> 81 · <code>derived_from</code> 52 · <code>finding-label</code> 22 · <code>label</code> 21 · <code>training-source</code> 19 ·
+<code>part_of</code> 10 · <code>decontaminated_against</code> 10 · <code>evaluated</code> 2 · <code>target_of</code> 1 · <code>trained</code> 1 · and ten one-off
+values beginning <code>site scope</code> (5) or <code>README title:</code> (5) from the OpenH-RF linker.</p>
+<h2 id="catalog-only-entries-and-fields">Catalog-only entries and fields<a class="headerlink" href="#catalog-only-entries-and-fields" title="Permanent link">&para;</a></h2>
+<p><code>web/sync_catalog.py</code> upserts every registry entry into the served catalog by URN. For URNs already in the
+catalog it replaces the entry with the registry entry but preserves the catalog-only fields listed below. For
+new URNs it appends the entry with those fields defaulted (<code>desc</code> from <code>modality_detail</code>, <code>stage: dataset</code>,
+<code>used_in_training: false</code>, <code>dtype: benchmark</code> if <code>benchmark</code> is truthy else <code>source</code>, <code>part_of_corpus</code> from
+<code>part_of</code>, <code>vault_page</code> from <code>vault</code>). At HEAD the 200 registry entries are identical in the catalog apart
+from these fields.</p>
+<table>
+<thead>
+<tr>
+<th>Catalog field</th>
+<th style="text-align: right;">Present (of 622)</th>
+<th>Meaning</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>desc</code></td>
+<td style="text-align: right;">616</td>
+<td>short description</td>
+<td>free text</td>
+</tr>
+<tr>
+<td><code>stage</code></td>
+<td style="text-align: right;">622</td>
+<td>lifecycle in the training programme</td>
+<td><code>dataset</code> 394 · <code>sft</code> 107 · <code>corpus-available</code> 64 · <code>pretrain</code> 57</td>
+</tr>
+<tr>
+<td><code>dtype</code></td>
+<td style="text-align: right;">622</td>
+<td>catalog type</td>
+<td><code>source</code> 496 · <code>external</code> 73 · <code>benchmark</code> 49 · <code>model-corpus</code> 4</td>
+</tr>
+<tr>
+<td><code>corpus_status</code></td>
+<td style="text-align: right;">622</td>
+<td>where the source sits in the corpus pipeline</td>
+<td>items: <code>staging</code> 79 · <code>v5-pretrain</code> 51 · <code>sources</code> 17 · <code>v4-pretrain</code> 14 · <code>incoming</code> 10</td>
+</tr>
+<tr>
+<td><code>tier</code></td>
+<td style="text-align: right;">620</td>
+<td>authority tier from the training manifests</td>
+<td><code>1</code> 21 · <code>2</code> 32 · <code>3</code> 3 · null or absent 566</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td style="text-align: right;">622</td>
+<td>the in-house model that trained on it</td>
+<td>null 513 · two model names (109)</td>
+</tr>
+<tr>
+<td><code>part_of_corpus</code></td>
+<td style="text-align: right;">622</td>
+<td>parent corpus node</td>
+<td></td>
+</tr>
+<tr>
+<td><code>vault_page</code>, <code>vault_status</code></td>
+<td style="text-align: right;">620</td>
+<td>knowledge-vault page and its status</td>
+<td><code>stable</code> 172 · <code>superseded</code> 110 · <code>draft</code> 11 · null or absent 329</td>
+</tr>
+<tr>
+<td><code>used_in_training</code></td>
+<td style="text-align: right;">622</td>
+<td>preserved from the catalog even when the registry carries the field</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td><code>artifact_types</code>, <code>artifact_type_ids</code></td>
+<td style="text-align: right;">143</td>
+<td>artifact types (names and <code>atype-*</code> ids)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>topic_concepts</code></td>
+<td style="text-align: right;">38</td>
+<td>concept nodes for the source's topics</td>
+<td></td>
+</tr>
+<tr>
+<td><code>domain_mix</code></td>
+<td style="text-align: right;">8</td>
+<td><code>[domain, percent]</code> pairs</td>
+<td></td>
+</tr>
+<tr>
+<td><code>_corpus_synced</code>, <code>_train_synced</code></td>
+<td style="text-align: right;">61 / 35</td>
+<td>provenance flags set by <code>build_all_datasets.py</code> and <code>build_train_sources.py</code></td>
+<td><code>true</code></td>
+</tr>
+</tbody>
+</table>
+<p>The 422 catalog-only entries are corpus sources and SFT mixes discovered by disk inventory and training
+manifests (<code>web/build_all_datasets.py</code>, <code>web/build_train_sources.py</code>). Their <code>status</code> values are outside the
+registry vocabulary: <code>listed</code> 228, <code>measured</code> 133, <code>on-disk</code> 61. <code>measured</code> and <code>on-disk</code> are written by
+<code>build_all_datasets.py</code> (a measured document count exists, or not); no repository script writes <code>listed</code>. The
+public stats route counts datasets by <code>status</code> over the catalog, so its totals mix both vocabularies.</p>
+<div class="admonition warning">
+<p class="admonition-title"><code>used_in_training</code> in two places</p>
+<p><code>used_in_training</code> is a registry field (59 entries) and also in <code>sync_catalog.py</code>'s list of catalog-only
+fields, so the catalog's existing value wins over a later registry change. At HEAD the two agree on all
+59 entries.</p>
+</div>
+<h2 id="who-writes-what-in-order">Who writes what, in order<a class="headerlink" href="#who-writes-what-in-order" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart LR
+  F[fragment on the cluster or hand-written] --&gt;|register_fragment.py| R[web/datasets.json]
+  O[okn_agent.py describe] --&gt;|register_okn.py| R
+  S[register_openh / register_arxiv / register_neuropath / renal_sbir_registry] --&gt; R
+  L[licence/apply_registry_licences.py] --&gt; R
+  K[link_*.py, link_datasets_to_nodes.py] --&gt;|linked_nodes| R
+  M[cluster manifests] --&gt;|fold_manifests.py| R
+  R --&gt;|sync_catalog.py| C[served catalog]
+  R --&gt;|build_rdf.py| Q[RDF export]
+  R --&gt;|copied to the cluster| D[cluster registry copy]
+  D --&gt;|hourly dataset_manifest.py build| D
+  D --&gt;|build_dataset_reports.py| P[manager payloads]</code></pre>
+<p><code>register_fragment.py</code>, <code>register_tcga.py</code>, <code>register_okn.py</code>, <code>register_openh.py</code>, <code>register_arxiv.py</code>,
+<code>register_neuropath.py</code> and <code>sync_catalog.py</code> assert URN uniqueness before writing; the fold scripts, the
+linkers, <code>apply_registry_licences.py</code> and <code>dataset_manifest.py</code> do not (they never add entries). Writers use
+different JSON indentation (<code>indent=1</code> or <code>indent=2</code>), so a diff of <code>web/datasets.json</code> after a run often
+shows whitespace changes on every line; compare parsed JSON, not text.</p>
+<p>Related pages: <a href="../identifiers/">Identifiers</a>, <a href="../manifests/">Manifests</a>,
+<a href="../acquisition-and-licence/">Acquisition and licence</a>, <a href="../document-index/">Document index</a>,
+<a href="../graph-schema/">Graph schema</a>, <a href="../benchmarks/">Benchmarks</a>,
+<a href="../models-and-curriculum/">Models and curriculum</a>, <a href="../../distributed/dataset-managers/">Dataset managers</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

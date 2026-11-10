@@ -1,0 +1,2538 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+      
+      
+      
+        <link rel="canonical" href="https://thepanatlas.github.io/docs/concepts/layers/">
+      
+      
+        <link rel="prev" href="../architecture/">
+      
+      
+        <link rel="next" href="../../distributed/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Knowledge layers - panAtlas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#knowledge-layers" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="panAtlas" class="md-header__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            panAtlas
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Knowledge layers
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../purpose/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../distributed/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Distributed system
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../metadata/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Metadata
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../system/build-pipeline/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/repository-map/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="panAtlas" class="md-nav__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    panAtlas
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../purpose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Purpose and principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#four-uses-of-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Four uses of "layer"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-three-graph-layers-of-graph_standardsmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The three graph layers of GRAPH_STANDARDS.md
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The three graph layers of GRAPH_STANDARDS.md">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#source-of-record" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source of record
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#substrate-connectivity-and-embeddings-layersmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Substrate, connectivity and embeddings (LAYERS.md)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Substrate, connectivity and embeddings (LAYERS.md)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#substrate-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Substrate: identity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connectivity-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connectivity: claims
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#embeddings-and-the-attach-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embeddings and the attach process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verified-seeded-and-derived-facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verified, seeded and derived facts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verified, seeded and derived facts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#seeded-evidence-waiting-for-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seeded: evidence waiting for verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#derived-computed-from-other-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Derived: computed from other data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verified-checked-with-the-check-recorded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verified: checked, with the check recorded
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-markdown-atlas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The markdown atlas
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed system
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Distributed system
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/cresco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cresco for panAtlas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/dataset-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Participating agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wire contract and schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage on GaiaKeep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../metadata/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/identifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/dataset-registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/manifests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manifests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/acquisition-and-licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/document-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/graph-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/evaluation-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/models-and-curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models and curriculum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/rdf-vocabulary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/codesystems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/build-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/knowledge-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge store (SPARQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/acquisition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/web-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/public-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/astral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/repository-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#four-uses-of-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Four uses of "layer"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-three-graph-layers-of-graph_standardsmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The three graph layers of GRAPH_STANDARDS.md
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The three graph layers of GRAPH_STANDARDS.md">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#source-of-record" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source of record
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#substrate-connectivity-and-embeddings-layersmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Substrate, connectivity and embeddings (LAYERS.md)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Substrate, connectivity and embeddings (LAYERS.md)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#substrate-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Substrate: identity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connectivity-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connectivity: claims
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#embeddings-and-the-attach-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embeddings and the attach process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verified-seeded-and-derived-facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verified, seeded and derived facts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verified, seeded and derived facts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#seeded-evidence-waiting-for-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seeded: evidence waiting for verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#derived-computed-from-other-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Derived: computed from other data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verified-checked-with-the-check-recorded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verified: checked, with the check recorded
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-markdown-atlas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The markdown atlas
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="knowledge-layers">Knowledge layers<a class="headerlink" href="#knowledge-layers" title="Permanent link">&para;</a></h1>
+<p>panAtlas separates what a thing <strong>is</strong> from what is <strong>claimed</strong> about it, and claims that panAtlas
+has <strong>verified</strong> from claims that were <strong>seeded</strong> from a source or <strong>derived</strong> by computation. The
+word "layer" is used for several of these separations in the repository. This page reconciles them
+with the code and states what lives in each layer today.</p>
+<p>Sources: <code>GRAPH_STANDARDS.md</code> (decision record, adopted 2026-07-26, extended 2026-09-26),
+<code>LAYERS.md</code>, <code>atlas/CLAUDE.md</code>, and the build scripts and data at repo HEAD <code>57505c6</code>. Counts were
+computed on 2026-11-10.</p>
+<h2 id="four-uses-of-layer">Four uses of "layer"<a class="headerlink" href="#four-uses-of-layer" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Where</th>
+<th>Layers</th>
+<th>What it separates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GRAPH_STANDARDS.md</code></td>
+<td>(1) terminology backbone, (2) clinical instance layer, (3) working property graph</td>
+<td>Kinds of content in the one RDF graph</td>
+</tr>
+<tr>
+<td><code>LAYERS.md</code></td>
+<td>substrate, connectivity, embeddings</td>
+<td>Identity, claims, and the models that produce claims</td>
+</tr>
+<tr>
+<td>The markdown atlas (<code>atlas/CLAUDE.md</code>)</td>
+<td>human-readable, machine-readable, evaluation, registry, governance pages</td>
+<td>Page types of the git-backed fact graph</td>
+</tr>
+<tr>
+<td>The <code>layer</code> attribute in <code>graph.json</code></td>
+<td><code>foodatlas</code>, <code>concept</code>, <code>dataset</code>, <code>fndds</code>, <code>ontology</code>, <code>process</code>, <code>domain</code></td>
+<td>A display partition for the explorer (<a href="../../metadata/graph-schema/">Graph schema</a>)</td>
+</tr>
+</tbody>
+</table>
+<p>These are not competing models. The first two describe the same graph from two angles (content
+type, and identity versus claim). The atlas is where curated, verifiable facts are written. The
+<code>layer</code> attribute is a user-interface grouping and carries no meaning beyond that.</p>
+<pre class="mermaid"><code>flowchart TB
+    subgraph SUB["Substrate (identity): canonical_id"]
+      T["Layer 1: terminology backbone&lt;br/&gt;MeSH · SNOMED CT · LOINC · RxNorm · ICD · Wikipedia"]
+      I["Layer 2: clinical instance layer&lt;br/&gt;FHIR R4 (designed)"]
+    end
+    subgraph CON["Connectivity (claims): edges with provenance"]
+      OT["ontology-tree&lt;br/&gt;part_of src: mesh_tree"]
+      CU["curated"]
+      ED["embedding-derived&lt;br/&gt;classified_as, related, covers_topic"]
+      AG["agent-contributed&lt;br/&gt;federation reports"]
+    end
+    EMB["Embeddings: per-modality model registry&lt;br/&gt;web/models.json"]
+    W["Layer 3: working property graph&lt;br/&gt;graph.json (served), RDF export"]
+    EMB --&gt; ED
+    EMB --&gt; AG
+    SUB --&gt; W
+    CON --&gt; W</code></pre>
+<h2 id="the-three-graph-layers-of-graph_standardsmd">The three graph layers of <code>GRAPH_STANDARDS.md</code><a class="headerlink" href="#the-three-graph-layers-of-graph_standardsmd" title="Permanent link">&para;</a></h2>
+<p>The decision: one RDF graph, three layers, joined by concept IRIs.</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it is</th>
+<th>What lives in it today</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Terminology / ontology backbone</td>
+<td>Medical concepts and entities with stable identifiers from real vocabularies, SKOS-shaped. MeSH is canonical; hierarchy from MeSH tree numbers</td>
+<td>3,390 nodes with a <code>mesh:</code> canonical id (among them 51 curated concepts, 142 MeSH tree expansions and 3,160 FoodAtlas diseases); 3,360 <code>part_of</code> edges from tree numbers; cross-codes; 15 code-system <code>authority</code> nodes; Wikipedia-grounded general concepts. See <a href="../../metadata/codesystems/">Controlled vocabularies</a></td>
+<td><strong>Built</strong></td>
+</tr>
+<tr>
+<td>2. Clinical / multi-modal instance layer</td>
+<td>Actual records as FHIR RDF R4 (<code>ImagingStudy</code>, <code>Observation</code>, <code>Condition</code>, …) whose codings carry concept IRIs that join layer 1</td>
+<td>The 13 FHIR resource types and 5 NACC record types as nodes; 36 <code>instantiates</code> edges saying which datasets would hold which resource. No instance records</td>
+<td><strong>Designed</strong></td>
+</tr>
+<tr>
+<td>3. Working / evidence property graph</td>
+<td>What the explorer renders: datasets, measured metadata, modality, embeddings, evaluation items and results. A projection of layers 1 and 2, not a separate source of truth</td>
+<td>The served <code>graph.json</code> (6,187 nodes, 17,119 edges) and its RDF export in the named graph <code>https://panatlas.net/graph/panatlas</code></td>
+<td><strong>Built</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The join is the reason this is one graph: a FHIR coding <code>a sct:…</code> or <code>a loinc:…</code> lands on the same
+concept IRI as the backbone and as the mirrored external graphs. The concept IRIs in use are the
+<code>rdf_iri_stem</code> values of <code>web/codesystems.json</code> (<a href="../../metadata/rdf-vocabulary/">RDF vocabulary</a>).</p>
+<h3 id="source-of-record">Source of record<a class="headerlink" href="#source-of-record" title="Permanent link">&para;</a></h3>
+<p>Since 2026-09-26 every triple lives in exactly one named graph, and that graph is its source of
+record. panAtlas curates, verifies and exports only <code>https://panatlas.net/graph/panatlas</code>. External
+graphs (the NSF OKN graphs, Wikidata) are mirrored read-only under their publisher's graph IRI and
+replaced wholesale when their agent syncs a new upstream version. panAtlas never edits an externally
+maintained node or edge; it only links to it (<code>skos:exactMatch</code>, dataset and document annotations)
+from its own graph. A dataset maintained elsewhere carries <code>maintained_externally: true</code> and a
+<code>source_of_record</code> block (<a href="../../metadata/dataset-registry/">Dataset registry</a>).</p>
+<h2 id="substrate-connectivity-and-embeddings-layersmd">Substrate, connectivity and embeddings (<code>LAYERS.md</code>)<a class="headerlink" href="#substrate-connectivity-and-embeddings-layersmd" title="Permanent link">&para;</a></h2>
+<h3 id="substrate-identity">Substrate: identity<a class="headerlink" href="#substrate-identity" title="Permanent link">&para;</a></h3>
+<p>The substrate is the set of canonical grounded entities: what a thing <em>is</em>. A node's identity is its
+<code>canonical_id</code> (<code>mesh:D051436</code>, <code>fhir:Condition</code>, <code>chebi:15377</code>, <code>foodon:…</code>). Two systems that emit
+the same <code>canonical_id</code> are talking about the same entity, with no reconciliation. Ungrounded items
+stay in a private namespace and do not enter the shared substrate until they are grounded. The
+substrate answers only "does this entity exist, and what is it?"</p>
+<p>In the served graph 5,013 of 6,187 nodes carry a <code>canonical_id</code>; the prefixes in use are <code>mesh</code>
+(3,390), <code>foodon</code> (1,558), <code>wikipedia</code> (24), <code>fdc</code> (24) and <code>panatlas</code> (17, internal artifact-type
+vocabulary). The other 1,174 nodes (datasets, benchmarks, models and other non-concept kinds, plus
+118 concepts and 10 diseases) have none; see <a href="../../metadata/graph-schema/">Graph schema</a>.</p>
+<h3 id="connectivity-claims">Connectivity: claims<a class="headerlink" href="#connectivity-claims" title="Permanent link">&para;</a></h3>
+<p>Edges are attributed claims about how the substrate relates, not identity. Many overlapping
+connectivity graphs can sit over one substrate, and a connectivity layer can be swapped or re-derived
+without touching the substrate. <code>LAYERS.md</code> names four origins:</p>
+<table>
+<thead>
+<tr>
+<th>Origin</th>
+<th>Examples in the served graph</th>
+<th>Marker on the edge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ontology-tree</td>
+<td><code>part_of</code> from MeSH tree numbers (3,360); FHIR <code>binds</code> (15)</td>
+<td><code>src: mesh_tree</code></td>
+</tr>
+<tr>
+<td>curated</td>
+<td><code>part_of</code> from curated pages (1,845); <code>prereq</code> (6)</td>
+<td><code>src: curated</code></td>
+</tr>
+<tr>
+<td>embedding-derived</td>
+<td><code>classified_as</code> from the corpus classification (1,749 with <code>n_docs</code>); <code>related</code> (31 with <code>sim</code>); benchmark <code>covers_topic</code> from the judge-gated item mapping (300 with <code>n</code>); <code>covers_topic</code> from arXiv lexical alignment (203)</td>
+<td><code>n_docs</code>, <code>sim</code>, <code>n</code>, <code>basis</code></td>
+</tr>
+<tr>
+<td>agent-contributed</td>
+<td>Edges reported over the federation by site agents</td>
+<td><code>claims</code> (in agent reports)</td>
+</tr>
+</tbody>
+</table>
+<p>Every edge is meant to carry an <code>origin</code> and <code>evidence</code> (for example <code>{model, version, cosine}</code>), so
+that connectivity merges as claims and conflicts surface instead of being overwritten.</p>
+<div class="admonition warning">
+<p class="admonition-title">The served graph does not carry <code>origin</code> and <code>evidence</code></p>
+<p>No edge in <code>graph.json</code> has an <code>origin</code> or <code>evidence</code> attribute. Provenance is partial and uses
+other names (<code>src</code> on 5,715 edges, <code>via</code> on 437, <code>basis</code> on 216); 10,863 edges carry none of the
+three. The attach process (below) implements the contract as one nested attribute,
+<code>claims: {origin, model, version, cosine, canonical_id}</code>, on the edges it reports.</p>
+</div>
+<h3 id="embeddings-and-the-attach-process">Embeddings and the attach process<a class="headerlink" href="#embeddings-and-the-attach-process" title="Permanent link">&para;</a></h3>
+<p>Embeddings are how new items find their place in the connectivity graph. Two rules:</p>
+<ol>
+<li>Each modality registers its own models in <code>web/models.json</code>.</li>
+<li>An embedding is comparable only within one <code>(modality, model, version)</code> space. Cross-modality
+   relation goes through the substrate (shared <code>canonical_id</code>), never through embedding arithmetic.</li>
+</ol>
+<p>A registered model carries its space definition: dimension, pooling, concept anchors (one vector per
+grounded concept, aligned by slug and <code>canonical_id</code>), the optional centroid taxonomy, and the
+unknown cutoff. At HEAD only the text model is active (BioClinical-ModernBERT-large, version
+<code>v3w-2026.07</code>, 1024-d); the imaging entry (RAD-DINO) holds embeddings but no anchors, and genomics
+and structured data have no registered embedder (<a href="../../metadata/models-and-curriculum/">Models and curriculum</a>).</p>
+<p>The attach process (<code>web/embed_attach.py</code>) runs per agent, locally, in one model's space:</p>
+<div class="highlight"><pre><span></span><code>new item + embedding e (in model M's space)
+        |  L2-normalise (and whiten with the anchors' mu/sd when present); cosine to M's anchors
+        v
+   top-k concepts by cosine
+        |  &gt;= M's cutoff (the whitened cutoff when whitened)?
+        |-- yes -&gt; classified_as edges, claims {origin: embedding, model, version, cosine, canonical_id}
+        '-- no  -&gt; UNKNOWN: no edge; the item stays in the agent's private namespace
+</code></pre></div>
+<p>Its output is connectivity, never substrate. A site's local agent (<code>web/pa_local_agent.py</code>) holds the
+graph index and embedding cache, runs attach on local embeddings, and emits a structure-only report:
+grounded nodes (<code>canonical_id</code>, <code>kind</code>, <code>label</code>), edges, and a sha256 content hash, with no
+documents. The report travels the federation, where entities merge by <code>canonical_id</code> and connectivity
+accumulates as attributed claims. See <a href="../../distributed/">Distributed panAtlas</a> and
+<a href="../../distributed/contract/">The agent contract</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Imaging model named in <code>LAYERS.md</code></p>
+<p><code>LAYERS.md</code> says imaging is embedded by the LeJEPA-3D CT encoder. The registry's imaging entry is
+stock RAD-DINO, with anchors held. <code>LAYERS.md</code> also says the local agent's report is served by a
+separate plugin; the plugin is outside this repository and was not checked here.</p>
+</div>
+<h2 id="verified-seeded-and-derived-facts">Verified, seeded and derived facts<a class="headerlink" href="#verified-seeded-and-derived-facts" title="Permanent link">&para;</a></h2>
+<p>panAtlas's first principle (<code>atlas/CLAUDE.md</code>): <strong>sources are evidence, not authority.</strong> Citing a
+source records where a claim was seen; it never makes the claim true. Only panAtlas verification, a
+human <code>verified_by</code> sign-off, makes a page <code>verified</code>. FHIR records and vocabulary assertions enter
+the same way, as evidence with provenance, and become panAtlas facts only after curator sign-off.</p>
+<p>Three kinds of content therefore sit side by side, and the data marks which is which.</p>
+<h3 id="seeded-evidence-waiting-for-verification">Seeded: evidence waiting for verification<a class="headerlink" href="#seeded-evidence-waiting-for-verification" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Content</th>
+<th>Marker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Concept pages seeded from Wikipedia</td>
+<td><code>status: draft</code>, <code>confidence: estimated</code>, a pinned <code>wikipedia: {title, oldid, retrieved}</code>, and a <code>needs-verification</code> callout: "Wikipedia saying it does not make it true"</td>
+</tr>
+<tr>
+<td>Fact pages drafted by an agent</td>
+<td><code>status: draft</code>, and the claim tagged "UNVERIFIED (agent-drafted from model knowledge; NOT yet checked against a source)"</td>
+</tr>
+<tr>
+<td>Datasets taken from the inventory</td>
+<td><code>built_by</code> "from the dataset inventory; not yet measured …" (88 nodes); <code>measured: false</code> (116)</td>
+</tr>
+<tr>
+<td>Contamination labels that were guesses</td>
+<td>Downgraded to <code>UNCHECKED</code> by <code>hygiene_enrich.py</code> (122 dataset nodes), with the guess kept as <code>contamination_prior</code></td>
+</tr>
+<tr>
+<td>Benchmark decontamination not yet run</td>
+<td><code>decontam.holdout_status: unchecked</code> (85 of 106 language benchmarks)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="derived-computed-from-other-data">Derived: computed from other data<a class="headerlink" href="#derived-computed-from-other-data" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Content</th>
+<th>How it is derived</th>
+<th>Marker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Concept hierarchy</td>
+<td>MeSH tree-number prefixes</td>
+<td><code>part_of</code> with <code>src: mesh_tree</code></td>
+</tr>
+<tr>
+<td>Disease specialty</td>
+<td>MeSH tree number of the disease</td>
+<td><code>built_by: "…specialty by tree number"</code></td>
+</tr>
+<tr>
+<td>Corpus → concept</td>
+<td>Corpus document classification (embedding cells + LLM-judged cell labels)</td>
+<td><code>classified_as</code> with <code>n_docs</code></td>
+</tr>
+<tr>
+<td>Concept relatedness</td>
+<td>Cosine between concept anchors, kept at 0.72 or above</td>
+<td><code>related</code> with <code>sim</code></td>
+</tr>
+<tr>
+<td>Benchmark topics</td>
+<td>Item → concept mapping (judge-gated)</td>
+<td><code>covers_topic</code> with <code>n</code>; node <code>topics_status</code></td>
+</tr>
+<tr>
+<td>Benchmark grounding</td>
+<td>Rule: a benchmark reaches a MeSH-grounded concept through <code>covers_topic</code>, <code>tests</code> or <code>covers</code></td>
+<td><code>grounded_in</code> with <code>via: mesh:&lt;UI&gt;</code></td>
+</tr>
+<tr>
+<td>Per-concept accuracy</td>
+<td>Per-item correctness joined to the item mapping</td>
+<td><code>measured_on</code> with <code>acc</code>, <code>n</code>; <code>eval_accuracy</code> with <code>ckpt</code></td>
+</tr>
+<tr>
+<td>Artifact type of a benchmark</td>
+<td>Rule from the <code>task_format</code> facet unless overridden</td>
+<td><code>artifact_type_via</code></td>
+</tr>
+<tr>
+<td>Composite model score</td>
+<td>Mean over the fixed 21-benchmark battery</td>
+<td><code>overall</code>, <code>battery_n</code></td>
+</tr>
+</tbody>
+</table>
+<p>A derived value is only as good as its inputs, and the inputs are named on the edge or node so the
+value can be recomputed.</p>
+<h3 id="verified-checked-with-the-check-recorded">Verified: checked, with the check recorded<a class="headerlink" href="#verified-checked-with-the-check-recorded" title="Permanent link">&para;</a></h3>
+<p>There are two senses of "verified" in the data, and they must not be confused.</p>
+<p><strong>Curator verification</strong> is the <code>verified_by</code> sign-off that makes an atlas page <code>status: verified</code>.
+At HEAD it has not happened for any page: of the 75 typed pages in the repository's markdown atlas,
+74 have <code>status: draft</code> and 1 (a fact) has <code>status: in_review</code>; none is <code>verified</code>. 53 carry
+<code>confidence: estimated</code> and 1 <code>confidence: measured</code>. No node or edge in the served graph has <code>verified_by</code>.</p>
+<p><strong>Machine verification</strong> is a recorded, repeatable check of a specific fact against its source.
+This is what the served graph's verified content rests on:</p>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Check</th>
+<th>Where recorded</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MeSH groundings of curated concepts</td>
+<td>UTS resolver, then one adversarial agent per concept confirming the descriptor with a live UTS call</td>
+<td><code>built_by</code> on 51 concept nodes</td>
+</tr>
+<tr>
+<td>Artifact-type groundings</td>
+<td>Live NLM MeSH lookup (<code>match=exact</code>) and Wikipedia REST, 2026-08-08; concept-identity judge, 2026-08-09</td>
+<td><code>pipeline/groundings_verified.json</code>; <code>grounding_match</code>, <code>grounding_judge</code></td>
+</tr>
+<tr>
+<td>Curriculum facts</td>
+<td>Every job id, config path and repository must exist in the vault (<code>check_curriculum_vault.py</code>, 61/61 on 2026-10-14)</td>
+<td>Curriculum <code>verified</code> (date and method)</td>
+</tr>
+<tr>
+<td>Dataset counts</td>
+<td>Measured on the cluster, not estimated</td>
+<td><code>measured: true</code> (249 dataset nodes)</td>
+</tr>
+<tr>
+<td>Imaging and pathology results</td>
+<td>Training and evaluation verified before listing</td>
+<td><code>verified</code> on result records; <code>withheld</code> otherwise</td>
+</tr>
+<tr>
+<td>Mirrored external graphs</td>
+<td>Fingerprint, upstream slices, independent re-extraction, store round trip</td>
+<td><code>PROOF.json</code>; see <a href="../../metadata/rdf-vocabulary/">RDF vocabulary</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-markdown-atlas">The markdown atlas<a class="headerlink" href="#the-markdown-atlas" title="Permanent link">&para;</a></h2>
+<p>The atlas in <code>atlas/</code> is the git-backed fact graph where verifiable facts are written as typed
+markdown pages. Page types (<code>atlas/CLAUDE.md</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Page types</th>
+<th style="text-align: right;">Pages at HEAD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Human-readable</td>
+<td><code>concept-</code>, <code>document-</code></td>
+<td style="text-align: right;">51 concepts, 1 document</td>
+</tr>
+<tr>
+<td>Machine-readable</td>
+<td><code>fact-</code>, <code>entity-</code></td>
+<td style="text-align: right;">3 facts, 4 entities</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td><code>dataset-</code>, <code>item-</code>, <code>model-</code>, <code>result-</code></td>
+<td style="text-align: right;">1 dataset, 2 items, 0 models, 0 results</td>
+</tr>
+<tr>
+<td>Registry</td>
+<td><code>source-</code></td>
+<td style="text-align: right;">7 sources</td>
+</tr>
+<tr>
+<td>Governance</td>
+<td><code>dispute-</code>, <code>curator-</code>, <code>domain-</code>, <code>jurisdiction-</code>, <code>strata-</code></td>
+<td style="text-align: right;">2 domains, 1 jurisdiction, 2 strata</td>
+</tr>
+<tr>
+<td>Navigation</td>
+<td><code>map-</code> (maps of content)</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<p>Rules the linter enforces (<code>atlas/tools/lint_panatlas.py</code>; CI blocks on error):</p>
+<ol>
+<li>Every page has frontmatter with <code>type</code>, <code>slug</code> (equal to the file name), <code>status</code>
+   (<code>draft</code>, <code>in_review</code>, <code>verified</code>, <code>deprecated</code>) and <code>oneliner</code>.</li>
+<li>Every wikilink in a frontmatter edge field resolves to an existing page.</li>
+<li><code>prerequisites</code> between concepts stay acyclic.</li>
+<li>Every <strong>verified</strong> fact cites at least one registered <code>source-</code> page (the publish gate).</li>
+<li>Every factual bullet carries a provenance tag: <code>src:&lt;slug&gt;@&lt;ver&gt;</code>, <code>conv:YYYY-MM-DD</code>, <code>web:&lt;url&gt;</code>,
+   <code>wikidata:Q&lt;id&gt;</code> or <code>[[document-…]]</code>, optionally followed by <code>(confidence: …)</code>.</li>
+<li>Held-out item answers never live in the public file.</li>
+</ol>
+<p>A fact page is a typed triple: <code>fact_type</code>, <code>subject</code>, <code>predicate</code>, <code>object</code>, <code>polarity</code>,
+<code>confidence</code>, with <code>about</code>, <code>elaborates</code>, <code>stated_in</code> and <code>cites_source</code> edges. The predicate must
+be legal for the fact type, from <code>atlas/predicates.yaml</code>:</p>
+<table>
+<thead>
+<tr>
+<th><code>fact_type</code></th>
+<th>Predicates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mechanism</code></td>
+<td><code>inhibits</code>, <code>activates</code>, <code>agonist_of</code>, <code>antagonist_of</code>, <code>causes</code>, <code>mediated_by</code></td>
+</tr>
+<tr>
+<td><code>association</code></td>
+<td><code>associated_with</code>, <code>risk_factor_for</code>, <code>marker_of</code></td>
+</tr>
+<tr>
+<td><code>dosage</code></td>
+<td><code>dose_is</code>, <code>route_is</code>, <code>max_dose_is</code></td>
+</tr>
+<tr>
+<td><code>contraindication</code></td>
+<td><code>contraindicated_with</code>, <code>avoid_in</code></td>
+</tr>
+<tr>
+<td><code>indication</code></td>
+<td><code>first_line_for</code>, <code>second_line_for</code>, <code>indicated_for</code></td>
+</tr>
+<tr>
+<td><code>diagnostic</code></td>
+<td><code>localizes_to</code>, <code>confirmed_by</code>, <code>elevated_in</code>, <code>seen_on</code></td>
+</tr>
+<tr>
+<td><code>temporal</code></td>
+<td><code>precedes</code>, <code>rises_after</code>, <code>peaks_at</code></td>
+</tr>
+<tr>
+<td><code>epidemiologic</code></td>
+<td><code>prevalence_in</code>, <code>incidence_in</code></td>
+</tr>
+<tr>
+<td><code>definitional</code></td>
+<td><code>is_a</code>, <code>part_of</code>, <code>subtype_of</code></td>
+</tr>
+</tbody>
+</table>
+<p>Edges live on the owning end only: a fact owns its <code>elaborates</code>, <code>about</code> and <code>stated_in</code> edges, and
+concept, entity and document pages receive them through generated reverse-index blocks that are
+never hand-edited.</p>
+<p><code>build_layered.py</code> reads the atlas concept pages (<code>atlas/20-concepts/*.md</code>) to build the concept
+layer of the served graph: the page's <code>concept_kind</code> sets the node kind (<code>map</code> becomes <code>specialty</code>,
+the Medicine page becomes <code>root</code>, a <code>gate</code> page becomes <code>gate</code>), and its <code>prerequisites</code> become
+<code>prereq</code> edges. The verified MeSH mapping then supplies the canonical identity and the hierarchy.</p>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; draft: seeded from a source or drafted
+    draft --&gt; in_review: grounded against a registered source
+    in_review --&gt; verified: curator sign-off (verified_by)
+    verified --&gt; deprecated: superseded
+    draft --&gt; deprecated</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

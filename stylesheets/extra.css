@@ -1,0 +1,42 @@
+/* panAtlas palette, taken from the panatlas.net explorer (assets/style.css):
+   accent #4c9ffe, MeSH gold #f2b544, concept green #5ad19a, panel navy #111722. */
+:root,
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #1f5fbf;
+  --md-primary-fg-color--light: #4c9ffe;
+  --md-primary-fg-color--dark: #174a96;
+  --md-accent-fg-color: #c98a12;
+  --md-typeset-a-color: #1f5fbf;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #111722;
+  --md-primary-fg-color--light: #222b3a;
+  --md-primary-fg-color--dark: #0a0d13;
+  --md-accent-fg-color: #f2b544;
+  --md-typeset-a-color: #4c9ffe;
+  --md-default-bg-color: #0f141d;
+}
+
+/* Status chips used in tables: <span class="pa-built">built</span> etc. */
+.md-typeset .pa-built,
+.md-typeset .pa-designed,
+.md-typeset .pa-measured {
+  display: inline-block;
+  padding: 0 0.45em;
+  border-radius: 0.6em;
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.md-typeset .pa-built    { background: rgba(90, 209, 154, 0.18); color: #1d7a52; }
+.md-typeset .pa-measured { background: rgba(76, 159, 254, 0.18); color: #1f5fbf; }
+.md-typeset .pa-designed { background: rgba(242, 181, 68, 0.22); color: #8a5a00; }
+[data-md-color-scheme="slate"] .md-typeset .pa-built    { color: #5ad19a; }
+[data-md-color-scheme="slate"] .md-typeset .pa-measured { color: #7db8ff; }
+[data-md-color-scheme="slate"] .md-typeset .pa-designed { color: #f2b544; }
+
+/* Wide reference tables scroll instead of squeezing. */
+.md-typeset table:not([class]) { font-size: 0.72rem; }
+.md-typeset__table { overflow-x: auto; }

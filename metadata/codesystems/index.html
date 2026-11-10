@@ -1,0 +1,2862 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+      
+      
+      
+        <link rel="canonical" href="https://thepanatlas.github.io/docs/metadata/codesystems/">
+      
+      
+        <link rel="prev" href="../rdf-vocabulary/">
+      
+      
+        <link rel="next" href="../../system/build-pipeline/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Code systems - panAtlas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#controlled-vocabularies" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="panAtlas" class="md-header__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            panAtlas
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Code systems
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/purpose/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../distributed/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Distributed system
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Metadata
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../system/build-pipeline/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/repository-map/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="panAtlas" class="md-nav__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    panAtlas
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/purpose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Purpose and principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed system
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Distributed system
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/cresco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cresco for panAtlas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/dataset-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Participating agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wire contract and schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage on GaiaKeep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../identifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manifests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manifests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acquisition-and-licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../document-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluation-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models-and-curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models and curriculum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rdf-vocabulary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#roles-of-the-vocabularies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles of the vocabularies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webcodesystemsjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        web/codesystems.json
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="web/codesystems.json">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authority-nodes-in-the-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authority nodes in the graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mesh-grounding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MeSH grounding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MeSH grounding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields-on-a-grounded-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fields on a grounded node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#node-identifiers-by-origin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Node identifiers by origin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grounding-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grounding files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hierarchy-from-tree-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hierarchy from tree numbers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-a-mesh-grounding-is-verified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How a MeSH grounding is verified
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wikipedia-and-wikidata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wikipedia and Wikidata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fhir-and-nacc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FHIR and NACC
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domains-webdomainsjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domains: web/domains.json
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#food-and-nutrition-vocabularies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Food and nutrition vocabularies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internal-vocabularies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal vocabularies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Internal vocabularies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#corpus-cells-to-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Corpus cells to concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#umls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UMLS
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/build-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/knowledge-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge store (SPARQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/acquisition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/web-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/public-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/astral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/repository-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#roles-of-the-vocabularies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles of the vocabularies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webcodesystemsjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        web/codesystems.json
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="web/codesystems.json">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authority-nodes-in-the-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authority nodes in the graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mesh-grounding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MeSH grounding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MeSH grounding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields-on-a-grounded-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fields on a grounded node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#node-identifiers-by-origin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Node identifiers by origin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grounding-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grounding files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hierarchy-from-tree-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hierarchy from tree numbers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-a-mesh-grounding-is-verified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How a MeSH grounding is verified
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wikipedia-and-wikidata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wikipedia and Wikidata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fhir-and-nacc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FHIR and NACC
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domains-webdomainsjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domains: web/domains.json
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#food-and-nutrition-vocabularies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Food and nutrition vocabularies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internal-vocabularies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal vocabularies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Internal vocabularies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#corpus-cells-to-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Corpus cells to concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#umls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UMLS
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="controlled-vocabularies">Controlled vocabularies<a class="headerlink" href="#controlled-vocabularies" title="Permanent link">&para;</a></h1>
+<p>panAtlas grounds its nodes in external vocabularies and in a small number of internal ones. This
+page documents each vocabulary, the fields that carry it on graph nodes, the files that define it,
+and how a grounding is verified. Counts were computed with <code>python3</code> from the files at repo HEAD
+<code>57505c6</code> on 2026-11-10. How grounded identity becomes RDF is on
+<a href="../rdf-vocabulary/">RDF vocabulary</a>; identifier syntax is on <a href="../identifiers/">Identifiers</a>.</p>
+<h2 id="roles-of-the-vocabularies">Roles of the vocabularies<a class="headerlink" href="#roles-of-the-vocabularies" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Vocabulary</th>
+<th>Role in panAtlas</th>
+<th>Canonical?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MeSH (NLM)</td>
+<td>Identity and hierarchy of medical concepts; the deduplication key</td>
+<td>Yes, for medical concepts</td>
+</tr>
+<tr>
+<td>Wikipedia</td>
+<td>Identity of general, non-medical concepts; readable overlay on MeSH concepts</td>
+<td>Yes, for general concepts only</td>
+</tr>
+<tr>
+<td>Wikidata</td>
+<td>Machine-readable identity behind Wikipedia concepts</td>
+<td>Registered; not yet carried on nodes</td>
+</tr>
+<tr>
+<td>SNOMED CT, LOINC, RxNorm, ICD-10-CM, ICD-11</td>
+<td>Cross-codes on MeSH concepts; terminology bindings of FHIR resources</td>
+<td>No</td>
+</tr>
+<tr>
+<td>UMLS Metathesaurus</td>
+<td>Licensed crosswalk used to obtain cross-codes; internal and entitlement-gated</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Gene Ontology</td>
+<td>Anchors the genomics modality</td>
+<td>No</td>
+</tr>
+<tr>
+<td>HL7 FHIR R4</td>
+<td>Data model of the clinical instance layer</td>
+<td>Yes, for instance records</td>
+</tr>
+<tr>
+<td>NACC Neuropathology Metadata</td>
+<td>Data model of neuropathology records</td>
+<td>Yes, for that domain</td>
+</tr>
+<tr>
+<td>FoodOn, ChEBI, FoodData Central, FNDDS</td>
+<td>Food and chemical entities</td>
+<td>Yes, for food nodes</td>
+</tr>
+<tr>
+<td>Internal vocabularies</td>
+<td>Artifact types, registers, testing types, capabilities, domains</td>
+<td>Internal (<code>panatlas:</code> prefix where a canonical id is given)</td>
+</tr>
+</tbody>
+</table>
+<p><code>GRAPH_STANDARDS.md</code> names MeSH, SNOMED CT, LOINC, RxNorm, UMLS and ICD as the terminology backbone,
+with MeSH canonical. <code>web/domains.json</code> lists the full <code>ontology_backbone</code>: <code>onto-mesh</code>,
+<code>onto-fhir</code>, <code>onto-snomed</code>, <code>onto-loinc</code>, <code>onto-rxnorm</code>, <code>onto-icd11</code>, <code>onto-icd10cm</code>, <code>onto-umls</code>,
+<code>onto-go</code>, <code>onto-foodon</code>, <code>onto-chebi</code>, <code>onto-fdc</code>, <code>onto-wikidata</code>, <code>onto-nacc</code>, <code>onto-wikipedia</code>.</p>
+<h2 id="webcodesystemsjson"><code>web/codesystems.json</code><a class="headerlink" href="#webcodesystemsjson" title="Permanent link">&para;</a></h2>
+<p>The registry of terminology code systems. Its <code>_note</code>: <code>fhir_system</code> is the URI a FHIR
+<code>CodeableConcept.coding.system</code> uses; <code>rdf_iri_stem</code> concatenated with a code gives the concept's RDF
+IRI (per the FHIR RDF specification and HL7 THO). These replaced earlier "decorative" authority
+nodes with sourced identifiers.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>onto-&lt;system&gt;</code>; also the graph node id of the system</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td>Name</td>
+</tr>
+<tr>
+<td><code>authority</code></td>
+<td>Publisher</td>
+</tr>
+<tr>
+<td><code>fhir_system</code></td>
+<td>FHIR coding system URI, or null</td>
+</tr>
+<tr>
+<td><code>rdf_iri_stem</code></td>
+<td>IRI stem for codes, or null when none is registered</td>
+</tr>
+<tr>
+<td><code>rdf_iri_basis</code></td>
+<td>Why that stem (dated inventory), where it was contested</td>
+</tr>
+<tr>
+<td><code>code_example</code></td>
+<td>An example code</td>
+</tr>
+<tr>
+<td><code>canonical</code></td>
+<td>Whether the system is a canonical identity source</td>
+</tr>
+<tr>
+<td><code>anchor</code></td>
+<td>The concept node the system anchors, or null</td>
+</tr>
+<tr>
+<td><code>note</code></td>
+<td>Role statement</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><code>id</code></th>
+<th>Authority</th>
+<th><code>fhir_system</code></th>
+<th><code>rdf_iri_stem</code></th>
+<th>Canonical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>onto-mesh</code></td>
+<td>US National Library of Medicine</td>
+<td><code>https://www.nlm.nih.gov/mesh</code></td>
+<td><code>http://id.nlm.nih.gov/mesh/</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>onto-snomed</code></td>
+<td>SNOMED International / NLM (US Edition)</td>
+<td><code>http://snomed.info/sct</code></td>
+<td><code>http://snomed.info/id/</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>onto-loinc</code></td>
+<td>Regenstrief Institute</td>
+<td><code>http://loinc.org</code></td>
+<td><code>http://loinc.org/rdf/</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>onto-rxnorm</code></td>
+<td>US National Library of Medicine</td>
+<td><code>http://www.nlm.nih.gov/research/umls/rxnorm</code></td>
+<td><code>http://purl.bioontology.org/ontology/RXNORM/</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>onto-umls</code></td>
+<td>US National Library of Medicine</td>
+<td><code>http://www.nlm.nih.gov/research/umls</code></td>
+<td>an identifier-only prefix expansion (see below)</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>onto-icd10cm</code></td>
+<td>US CDC / NCHS</td>
+<td><code>http://hl7.org/fhir/sid/icd-10-cm</code></td>
+<td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>onto-icd11</code></td>
+<td>World Health Organization</td>
+<td><code>http://id.who.int/icd/release/11/mms</code></td>
+<td><code>http://id.who.int/icd/entity/</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>onto-go</code></td>
+<td>Gene Ontology Consortium</td>
+<td><code>http://purl.obolibrary.org/obo/go.owl</code></td>
+<td><code>http://purl.obolibrary.org/obo/GO_</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>onto-wikipedia</code></td>
+<td>Wikimedia</td>
+<td>none</td>
+<td><code>https://en.wikipedia.org/wiki/</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>onto-wikidata</code></td>
+<td>Wikimedia</td>
+<td>none</td>
+<td><code>http://www.wikidata.org/entity/</code></td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>The MeSH stem is <code>http</code> because NLM mints <code>http</code> IRIs and <code>https</code> only redirects; the OKN graphs that
+hold MeSH also use <code>http</code> (inventory 2026-09-26). The UMLS stem is the Biolink prefix expansion used
+by the OKN identifier-mapping graph; <code>codesystems.json</code> records that it is an identifier only and no
+longer resolves, and that NLM publishes no UMLS RDF.</p>
+<h3 id="authority-nodes-in-the-graph">Authority nodes in the graph<a class="headerlink" href="#authority-nodes-in-the-graph" title="Permanent link">&para;</a></h3>
+<p><code>build_layered.py</code> turns the registered systems into 15 <code>authority</code> nodes (<code>layer: ontology</code>): the ten
+above plus <code>onto-fhir</code> (from <code>fhir.json</code>), <code>onto-nacc</code> (from <code>web/nacc/</code>), and <code>onto-foodon</code>,
+<code>onto-chebi</code>, <code>onto-fdc</code> (from <code>nutrition.json</code>). Fields: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>modality</code>,
+<code>canonical</code>, <code>authority_org</code>, <code>source</code>, <code>built_by</code>, <code>note</code>; most also carry <code>fhir_system</code> (14),
+<code>iri_stem</code> (13) and <code>code_example</code> (10); <code>onto-nacc</code> adds <code>version</code>, <code>n_variables</code>, <code>n_codelists</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Edge</th>
+<th style="text-align: right;">Count</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>authority</code> <code>grounds</code> → concept (<code>specialty</code>, <code>root</code>, <code>concept</code>)</td>
+<td style="text-align: right;">13</td>
+<td>The system anchors that concept</td>
+</tr>
+<tr>
+<td><code>authority</code> <code>defines</code> → <code>root</code></td>
+<td style="text-align: right;">1</td>
+<td>MeSH defines Medicine</td>
+</tr>
+<tr>
+<td><code>authority</code> <code>has_resource</code> → <code>fhir</code></td>
+<td style="text-align: right;">18</td>
+<td>FHIR and NACC own their resource and record types</td>
+</tr>
+<tr>
+<td><code>fhir</code> <code>binds</code> → <code>authority</code></td>
+<td style="text-align: right;">15</td>
+<td>A FHIR resource's coded elements bind that code system</td>
+</tr>
+<tr>
+<td><code>dataset</code>/<code>kg</code>/<code>food</code> <code>structured_as</code> → <code>authority</code></td>
+<td style="text-align: right;">1,592</td>
+<td>The node's records follow that vocabulary (1,582 foods)</td>
+</tr>
+<tr>
+<td><code>authority</code> <code>part_of</code> → <code>domain</code></td>
+<td style="text-align: right;">15</td>
+<td>All systems sit under "Data &amp; Standards"</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Stale IRI stems on two authority nodes</p>
+<p>In the served graph <code>onto-mesh</code> carries <code>iri_stem: https://id.nlm.nih.gov/mesh/</code> and <code>onto-umls</code>
+carries the former UTS REST URL, while <code>codesystems.json</code> has the corrected stems (changed
+2026-09-26). <code>build_rdf.py</code> takes <code>iri_stem</code>, <code>rdf_iri_basis</code> and <code>fhir_system</code> from
+<code>codesystems.json</code>, so the RDF is correct; consumers of <code>graph.json</code> should read the stems from
+<code>codesystems.json</code>.</p>
+</div>
+<h2 id="mesh-grounding">MeSH grounding<a class="headerlink" href="#mesh-grounding" title="Permanent link">&para;</a></h2>
+<h3 id="fields-on-a-grounded-node">Fields on a grounded node<a class="headerlink" href="#fields-on-a-grounded-node" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th style="text-align: right;">Nodes</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>canonical_id</code></td>
+<td style="text-align: right;">3,390 with prefix <code>mesh:</code></td>
+<td><code>mesh:&lt;descriptor UI&gt;</code> (for example <code>mesh:D002309</code>, Cardiology)</td>
+</tr>
+<tr>
+<td><code>grounding</code></td>
+<td style="text-align: right;"></td>
+<td><code>mesh</code> (3,387), <code>mesh_broader</code> (2: grounded through a parent descriptor), <code>mesh-scr</code> (1: a supplementary concept record), <code>mesh+wikipedia</code> (2)</td>
+</tr>
+<tr>
+<td><code>mesh_dui</code></td>
+<td style="text-align: right;">3,400</td>
+<td>Descriptor UI</td>
+</tr>
+<tr>
+<td><code>mesh_name</code></td>
+<td style="text-align: right;">3,400</td>
+<td>Descriptor preferred name</td>
+</tr>
+<tr>
+<td><code>mesh_tree</code></td>
+<td style="text-align: right;">3,175</td>
+<td>List of MeSH tree numbers (a descriptor can sit in several trees)</td>
+</tr>
+<tr>
+<td><code>mesh_url</code></td>
+<td style="text-align: right;"></td>
+<td>Browser link to the descriptor (<code>https</code>)</td>
+</tr>
+<tr>
+<td><code>cui</code>, <code>snomed</code>, <code>loinc</code>, <code>rxnorm</code>, <code>icd10cm</code></td>
+<td style="text-align: right;">202, 47, 42, 0, 2 non-empty</td>
+<td>Cross-codes from the licensed UMLS crosswalk</td>
+</tr>
+<tr>
+<td><code>wiki_oldid</code>, <code>wp_url</code></td>
+<td style="text-align: right;">51, 211</td>
+<td>Pinned Wikipedia revision and page, as a readable overlay</td>
+</tr>
+<tr>
+<td><code>built_by</code></td>
+<td style="text-align: right;"></td>
+<td>The grounding method (below)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="node-identifiers-by-origin">Node identifiers by origin<a class="headerlink" href="#node-identifiers-by-origin" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Origin</th>
+<th>Id form</th>
+<th style="text-align: right;">Nodes</th>
+<th><code>built_by</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Curated concept pages (<code>atlas/20-concepts/*.md</code>)</td>
+<td><code>concept-&lt;slug&gt;</code></td>
+<td style="text-align: right;">51</td>
+<td>"grounded to MeSH via UMLS UTS (resolver + adversarial audit + live confirmation); hierarchy from MeSH tree numbers; …"</td>
+</tr>
+<tr>
+<td>MeSH tree expansion (<code>mesh_expand_clean.json</code>)</td>
+<td><code>mesh-D&lt;UI&gt;</code></td>
+<td style="text-align: right;">142</td>
+<td>"MeSH tree expansion: real child descriptor of a curated specialty, via UMLS UTS"</td>
+</tr>
+<tr>
+<td>FoodAtlas diseases</td>
+<td><code>fa-dis-&lt;UI&gt;</code></td>
+<td style="text-align: right;">3,160 grounded</td>
+<td>"FoodAtlas KG; grounded to MeSH; specialty by tree number"</td>
+</tr>
+<tr>
+<td>Domain registrations (neuropathology, renal, ultrasound)</td>
+<td><code>concept-&lt;slug&gt;</code></td>
+<td style="text-align: right;"></td>
+<td>dated lookup statements, for example "2026-10-11 id.nlm.nih.gov descriptor + preferred-concept JSON"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="grounding-files">Grounding files<a class="headerlink" href="#grounding-files" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th style="text-align: right;">Records</th>
+<th>Fields</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>web/concept_mesh_grounded.json</code></td>
+<td style="text-align: right;">71</td>
+<td><code>slug</code>, <code>label</code>, <code>kind</code>, <code>part_of</code>, <code>grounding</code>, <code>mesh_dui</code>, and on most <code>mesh_name</code>, <code>mesh_tree</code>, <code>cui</code>, <code>snomed</code>, <code>rxnorm</code>, <code>loinc</code>, <code>icd10cm</code>, <code>overridden</code> (12 true), <code>scope_note</code>; on some <code>verified</code> (20), <code>gene</code>, <code>panel_analyte</code>, <code>reason</code>, <code>mesh_mapped_to</code></td>
+</tr>
+<tr>
+<td><code>web/concept_mesh_v2.json</code></td>
+<td style="text-align: right;">51</td>
+<td>Earlier candidate pass: <code>slug</code>, <code>label</code>, <code>kind</code>, <code>our_part_of</code>, <code>candidates[{dui, name, tree}]</code>, the chosen <code>mesh_dui</code>, <code>mesh_name</code>, <code>mesh_tree</code>, cross-codes, <code>non_mesh</code></td>
+</tr>
+<tr>
+<td><code>web/mesh_expand_clean.json</code></td>
+<td style="text-align: right;">142</td>
+<td><code>mesh_dui</code>, <code>mesh_name</code>, <code>mesh_tree</code>, <code>parents</code> (descriptor UIs), <code>parent_slugs</code>, <code>cui</code>, <code>scope_note</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>concept_mesh_grounded.json</code> is the verified concept → MeSH mapping that <code>build_layered.py</code> consumes.
+Its kinds are <code>concept</code> 34, <code>map</code> 28 (written to the graph as <code>specialty</code>), <code>modality</code> 5, <code>gate</code>,
+<code>specialty</code>, <code>measurement</code>, <code>method</code> 1 each.</p>
+<h3 id="hierarchy-from-tree-numbers">Hierarchy from tree numbers<a class="headerlink" href="#hierarchy-from-tree-numbers" title="Permanent link">&para;</a></h3>
+<p>A descriptor's parent is the descriptor whose tree number is the immediate prefix, for example
+Cardiology <code>H02.403.429.163</code> under Internal Medicine <code>H02.403.429</code> under Medicine <code>H02.403</code>.
+Specialties are in the H02 (Health Occupations) tree, diseases in C, techniques in E. In the graph
+these are <code>part_of</code> edges with <code>src: mesh_tree</code> (3,360). FoodAtlas diseases are attached to a
+specialty by tree number (2,478 <code>disease</code> <code>part_of</code> <code>specialty</code> edges).</p>
+<h3 id="how-a-mesh-grounding-is-verified">How a MeSH grounding is verified<a class="headerlink" href="#how-a-mesh-grounding-is-verified" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Curated concepts: resolved through the UMLS UTS API, then adversarially verified, one agent per
+  concept, each confirming the descriptor UI with a live UTS call (<code>GRAPH_STANDARDS.md</code>).</li>
+<li>Artifact types (2026-08-08): checked against the live NLM MeSH descriptor lookup with
+  <code>match=exact</code>, audit trail <code>web/pipeline/groundings_verified.json</code>; then a concept-identity judge
+  pass (2026-08-09) decided whether the descriptor is the same thing as the record type (see
+  <a href="../models-and-curriculum/">Models and curriculum</a>).</li>
+<li>Later domain additions record the lookup in <code>built_by</code>, with its date.</li>
+<li>In the SPARQL store, 3,373 of 3,377 panAtlas MeSH IRIs exist in NLM's MeSH RDF (2026-09-26).</li>
+</ul>
+<h2 id="wikipedia-and-wikidata">Wikipedia and Wikidata<a class="headerlink" href="#wikipedia-and-wikidata" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th style="text-align: right;">Nodes</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>wiki_title</code></td>
+<td style="text-align: right;">161</td>
+<td>Wikipedia article title</td>
+</tr>
+<tr>
+<td><code>wp_url</code></td>
+<td style="text-align: right;">211</td>
+<td>Article URL, with <code>?oldid=</code> when a revision is pinned</td>
+</tr>
+<tr>
+<td><code>wiki_oldid</code></td>
+<td style="text-align: right;">51</td>
+<td>Pinned revision id</td>
+</tr>
+<tr>
+<td><code>canonical_id</code> <code>wikipedia:&lt;…&gt;</code></td>
+<td style="text-align: right;">24</td>
+<td>Wikipedia as identity (non-MeSH nodes)</td>
+</tr>
+<tr>
+<td><code>grounding: wikipedia</code></td>
+<td style="text-align: right;">154</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Wikipedia is a fallback identity only for genuinely non-medical nodes, and an overlay otherwise. The
+general concept space, <code>web/general_concept_space.json</code> (<code>proposed</code> 153; <code>final.concepts</code> 120 with
+<code>name</code>, <code>wikipedia_title</code>, <code>definition</code>, <code>domain</code>, <code>granularity</code> <code>top</code>/<code>mid</code>/<code>leaf</code>, <code>serves</code>,
+<code>example_item</code>; plus <code>coverage_summary</code>, <code>gaps</code>), gives benchmark items in mathematics, science,
+reading and similar areas a Wikipedia-grounded concept. <code>build_concept_remap.py</code> writes them as
+<code>concept</code> nodes with <code>grounding: wikipedia</code>, <code>wiki_title</code>, <code>wp_url</code>, <code>general_domain</code> and
+<code>granularity</code> (117 nodes at HEAD; 3 already existed).</p>
+<p>The markdown fact pages record a pinned revision in frontmatter as
+<code>wikipedia: {title, oldid, retrieved}</code>, and every claim seeded from Wikipedia carries the revision
+in its provenance tag. Wikipedia text is evidence, never verification
+(<a href="../../concepts/layers/">Knowledge layers</a>).</p>
+<p>Wikidata is registered (<code>onto-wikidata</code>, stem <code>http://www.wikidata.org/entity/</code>), but no node in the
+served graph carries a Wikidata QID. The bridge exists in the SPARQL store: 3,310 panAtlas concepts
+reach 3,313 Wikidata entities through the OKN <code>identifier-mappings</code> graph (vault, 2026-09-26). See
+<a href="../rdf-vocabulary/">RDF vocabulary</a>.</p>
+<h2 id="fhir-and-nacc">FHIR and NACC<a class="headerlink" href="#fhir-and-nacc" title="Permanent link">&para;</a></h2>
+<p><code>web/fhir.json</code> roots the clinical instance layer in HL7 FHIR R4. Keys: <code>_note</code>, <code>root</code>
+(<code>onto-fhir</code>), <code>resources</code> (13), <code>dataset_instantiates</code> (rules).</p>
+<table>
+<thead>
+<tr>
+<th>Resource node</th>
+<th>Group</th>
+<th>Binds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fhir-patient</code></td>
+<td>clinical</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>fhir-condition</code></td>
+<td>clinical</td>
+<td>SNOMED CT, ICD-10-CM, ICD-11</td>
+</tr>
+<tr>
+<td><code>fhir-procedure</code></td>
+<td>clinical</td>
+<td>SNOMED CT</td>
+</tr>
+<tr>
+<td><code>fhir-allergyintolerance</code></td>
+<td>clinical</td>
+<td>SNOMED CT, RxNorm</td>
+</tr>
+<tr>
+<td><code>fhir-observation</code></td>
+<td>diagnostics</td>
+<td>LOINC, SNOMED CT</td>
+</tr>
+<tr>
+<td><code>fhir-diagnosticreport</code></td>
+<td>diagnostics</td>
+<td>LOINC</td>
+</tr>
+<tr>
+<td><code>fhir-specimen</code></td>
+<td>diagnostics</td>
+<td>SNOMED CT</td>
+</tr>
+<tr>
+<td><code>fhir-imagingstudy</code></td>
+<td>imaging</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>fhir-medicationrequest</code></td>
+<td>medications</td>
+<td>RxNorm</td>
+</tr>
+<tr>
+<td><code>fhir-medication</code></td>
+<td>medications</td>
+<td>RxNorm</td>
+</tr>
+<tr>
+<td><code>fhir-documentreference</code></td>
+<td>documents</td>
+<td>LOINC</td>
+</tr>
+<tr>
+<td><code>fhir-composition</code></td>
+<td>documents</td>
+<td>LOINC</td>
+</tr>
+<tr>
+<td><code>fhir-molecularsequence</code></td>
+<td>genomics</td>
+<td>Gene Ontology</td>
+</tr>
+</tbody>
+</table>
+<p>Resource fields: <code>id</code>, <code>label</code>, <code>group</code>, <code>binds</code> (code-system ids), <code>desc</code>. In the graph each
+becomes a <code>fhir</code> node (<code>layer: ontology</code>, <code>fhir_group</code>), with <code>binds</code> edges to the code systems.
+<code>dataset_instantiates</code> rules (<code>match_modality</code> or <code>match_ids</code> → <code>resources</code>) give 36 <code>dataset</code>
+<code>instantiates</code> → <code>fhir</code> edges: imaging datasets instantiate <code>ImagingStudy</code> and <code>DiagnosticReport</code>,
+genomics datasets <code>MolecularSequence</code>, clinical-note datasets <code>DocumentReference</code> and <code>Composition</code>,
+drug-label datasets <code>Medication</code>.</p>
+<p><code>web/nacc/</code> holds the NACC Digital Neuropathology Metadata schema (<code>openapi.yaml</code>, <code>schemas/</code>,
+<code>codelists.json</code>, <code>data_dictionary.json</code>, <code>mappings/</code>, <code>slide_staining_matrix.json</code>). The
+<code>onto-nacc</code> node records version <code>6.0.0-draft</code>, 92 variables, 39 codelists and five record types,
+which are the five non-FHIR <code>fhir</code>-kind nodes: <code>nacc-case-level</code>, <code>nacc-slide-level</code>,
+<code>nacc-pathology</code>, <code>nacc-non-pathology</code>, <code>nacc-qc-checklist</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Instance layer: model only</p>
+<p>The graph holds the FHIR and NACC resource types and which datasets would instantiate them. It
+holds no FHIR instance records. Layer 2 of <code>GRAPH_STANDARDS.md</code> (FHIR RDF instances whose codings
+join the backbone) is designed, not built.</p>
+</div>
+<h2 id="domains-webdomainsjson">Domains: <code>web/domains.json</code><a class="headerlink" href="#domains-webdomainsjson" title="Permanent link">&para;</a></h2>
+<p>The navigational spine, broad to granular, grounded to Wikipedia main-topic categories and, where
+medical, to a MeSH tree category.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>root</code></td>
+<td><code>atlas-root</code> ("PanAtlas")</td>
+</tr>
+<tr>
+<td><code>domains</code> (5)</td>
+<td><code>id</code>, <code>label</code>, <code>wiki</code>, <code>mesh_cat</code>, <code>entries</code> (entry concept ids), <code>desc</code>: <code>domain-health</code> (Health &amp; Medicine, MeSH C / N), <code>domain-food</code> (Food &amp; Nutrition), <code>domain-lifesci</code> (Life Sciences &amp; Chemistry, MeSH G / D), <code>domain-standards</code> (Data &amp; Standards), <code>domain-general</code> (General Knowledge, non-medical)</td>
+</tr>
+<tr>
+<td><code>general_categories</code> (3)</td>
+<td><code>id</code>, <code>label</code>, <code>wiki</code>, <code>match</code> (keywords assigning datasets): <code>gen-physical</code>, <code>gen-computing</code>, <code>gen-society</code></td>
+</tr>
+<tr>
+<td><code>ontology_backbone</code></td>
+<td>The 15 authority ids listed above</td>
+</tr>
+</tbody>
+</table>
+<p>Graph: <code>domain</code> (5), <code>gen-category</code> (3) and <code>atlas-root</code> (1) nodes in <code>layer: domain</code>; <code>domain</code>
+<code>part_of</code> <code>atlas-root</code> (5), <code>gen-category</code> <code>part_of</code> <code>domain</code> (3), <code>dataset</code> <code>part_of</code>
+<code>gen-category</code> (43).</p>
+<h2 id="food-and-nutrition-vocabularies">Food and nutrition vocabularies<a class="headerlink" href="#food-and-nutrition-vocabularies" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>In the graph</th>
+<th>Fields</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FoodAtlas KG v4.8 (Apache-2.0; 216,804 entities, 542,674 triplets, 161,655 evidence records per <code>foodatlas_summary.json</code>)</td>
+<td>The <code>kg</code> node <code>dataset-foodatlas</code>; 3,170 <code>disease</code> nodes (3,160 MeSH-grounded, 10 with an OMIM upstream id and <code>grounding: none</code>); 1,582 <code>food</code> nodes (<code>foodon</code> 1,558, <code>fdc</code> 24)</td>
+<td><code>fa_n_chem</code>, <code>fa_n_food</code> / <code>fa_n_disease</code>, <code>fa_top_foods</code>, <code>fa_top_diseases</code>, <code>fa_top_chemicals</code></td>
+</tr>
+<tr>
+<td>FNDDS (USDA)</td>
+<td>172 <code>food-category</code> nodes, one per WWEIA category (<code>fndds-cat-&lt;code&gt;</code>)</td>
+<td><code>fndds_wweia_code</code>, <code>fndds_n_foods</code>, <code>fndds_n_resolved</code>, <code>fndds_sample_foods</code></td>
+</tr>
+<tr>
+<td>FoodOn, ChEBI, FDC</td>
+<td><code>authority</code> nodes; foods <code>structured_as</code> their vocabulary</td>
+<td></td>
+</tr>
+<tr>
+<td><code>nutrition.json</code></td>
+<td>8 MeSH nutrition concepts (<code>concept-nutritional-sciences</code>, <code>concept-diet</code>, <code>concept-food</code>, …), 3 guideline documents (<code>doc-*</code>), 1 restricted system</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><code>web/fndds_resolution.json</code> resolves FNDDS foods to FoodAtlas entities by name (Jaccard ≥ 0.5):
+5,432 FNDDS foods, 1,379 resolved (25.4 %), across 172 WWEIA categories. Record fields:
+<code>fndds_fdc_id</code>, <code>food_code</code>, <code>desc</code>, <code>wweia_code</code>, <code>wweia</code>, and when resolved <code>foodatlas_id</code>,
+<code>foodatlas_name</code>, <code>jaccard</code>. These become 250 <code>food-category</code> <code>resolves_to</code> <code>food</code> edges
+(<code>src: entity_resolution</code>).</p>
+<h2 id="internal-vocabularies">Internal vocabularies<a class="headerlink" href="#internal-vocabularies" title="Permanent link">&para;</a></h2>
+<p>These are controlled by panAtlas and documented on the pages that use them:</p>
+<table>
+<thead>
+<tr>
+<th>Vocabulary</th>
+<th style="text-align: right;">Size</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Artifact types (<code>atype-*</code>)</td>
+<td style="text-align: right;">35</td>
+<td><a href="../models-and-curriculum/">Models and curriculum</a></td>
+</tr>
+<tr>
+<td>Registers (<code>register-*</code>)</td>
+<td style="text-align: right;">5</td>
+<td><a href="../models-and-curriculum/">Models and curriculum</a></td>
+</tr>
+<tr>
+<td>Testing types, evaluation domains, capabilities, capability groups</td>
+<td style="text-align: right;">21, 10, 35, 13</td>
+<td><a href="../benchmarks/">Benchmarks</a></td>
+</tr>
+<tr>
+<td>Benchmark ontology facets</td>
+<td style="text-align: right;">26 dimensions</td>
+<td><a href="../benchmarks/">Benchmarks</a></td>
+</tr>
+<tr>
+<td><code>eval_type</code> → modality</td>
+<td style="text-align: right;">7</td>
+<td><a href="../evaluation-records/">Evaluation records</a></td>
+</tr>
+<tr>
+<td>Fact predicates (<code>atlas/predicates.yaml</code>)</td>
+<td style="text-align: right;">9 fact types</td>
+<td><a href="../../concepts/layers/">Knowledge layers</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="corpus-cells-to-concepts">Corpus cells to concepts<a class="headerlink" href="#corpus-cells-to-concepts" title="Permanent link">&para;</a></h3>
+<p><code>web/cell2concept.json</code> (1,740 records) maps clusters of the training corpus to concepts. Fields:
+<code>cell_id</code>, <code>topic_cluster</code>, <code>subtopic_cluster</code>, <code>count</code> (documents), <code>slug</code> (concept id, 50
+distinct), <code>cos</code> (cosine to the concept anchor), <code>cell_domain</code> (for example <code>basic_science</code> 533,
+<code>general</code> 498, <code>radiology</code> 113), <code>topic_summary</code>. This is the path by which corpus documents, and in
+the first question mapping benchmark items, reach a concept. <code>web/concept_similarity.json</code> gives the
+top related concepts by anchor cosine, written as <code>related</code> edges at 0.72 or above.</p>
+<h2 id="umls">UMLS<a class="headerlink" href="#umls" title="Permanent link">&para;</a></h2>
+<p>The UMLS Metathesaurus is a licensed vocabulary. In panAtlas it is internal and entitlement-gated:</p>
+<ul>
+<li>It is used as a lookup service through the UTS API under licence, to resolve MeSH groundings and
+  obtain cross-codes. The cross-code fields listed above come from that lookup.</li>
+<li>The release files were acquired for the planned restricted store (phase P1 passed 2026-10-16,
+  owner-only access). They are not loaded, and nothing from them is in the served graph.</li>
+<li><code>PLAN-restricted-data-umls.md</code> designs per-user, per-project access with restriction levels read
+  from the release itself; it is not built.</li>
+<li>This documentation contains no UMLS content.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

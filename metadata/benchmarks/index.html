@@ -1,0 +1,3343 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+      
+      
+      
+        <link rel="canonical" href="https://thepanatlas.github.io/docs/metadata/benchmarks/">
+      
+      
+        <link rel="prev" href="../graph-schema/">
+      
+      
+        <link rel="next" href="../evaluation-records/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Benchmarks - panAtlas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#benchmarks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="panAtlas" class="md-header__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            panAtlas
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Benchmarks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/purpose/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../distributed/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Distributed system
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Metadata
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../system/build-pipeline/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/repository-map/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="panAtlas" class="md-nav__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    panAtlas
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/purpose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Purpose and principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed system
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Distributed system
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/cresco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cresco for panAtlas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/dataset-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Participating agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wire contract and schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage on GaiaKeep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../identifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manifests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manifests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acquisition-and-licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../document-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#where-benchmark-metadata-lives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where benchmark metadata lives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-registry-benchmarks_llmjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The registry: benchmarks_llm.json
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The registry: benchmarks_llm.json">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#top-level-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top-level keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-entry-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmark entry fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decontamination-block-decontam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decontamination block (decontam)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audit-block-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audit block (audit)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-benchmark-ontology-facets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The benchmark ontology (facets)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The benchmark ontology (facets)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-identity-and-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Identity and domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-what-it-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. What it measures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-item-and-task-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Item and task shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D. Scoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e-running-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E. Running it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f-quality-and-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F. Quality and trust
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#g-fit-to-the-concept-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        G. Fit to the concept model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#free-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Free text
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taxonomy-testing-types-domains-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Taxonomy: testing types, domains, capabilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suite-fit-benchmark_suite_fitjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Suite fit: benchmark_suite_fit.json
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage-catalogued-against-scored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coverage: catalogued against scored
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-concept-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Question → concept mapping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Question → concept mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#first-mapping-qconcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        First mapping (qconcept)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#judge-gated-mapping-qconcept2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Judge-gated mapping (qconcept2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmark-nodes-in-the-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmark nodes in the graph
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Benchmark nodes in the graph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#llm-benchmark-106" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        llm-benchmark (106)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-18-imaging-benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        benchmark (18): imaging benchmarks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluation-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models-and-curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models and curriculum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rdf-vocabulary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../codesystems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/build-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/knowledge-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge store (SPARQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/acquisition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/web-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/public-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/astral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/repository-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#where-benchmark-metadata-lives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where benchmark metadata lives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-registry-benchmarks_llmjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The registry: benchmarks_llm.json
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The registry: benchmarks_llm.json">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#top-level-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top-level keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-entry-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmark entry fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decontamination-block-decontam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decontamination block (decontam)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audit-block-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audit block (audit)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-benchmark-ontology-facets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The benchmark ontology (facets)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The benchmark ontology (facets)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-identity-and-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Identity and domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-what-it-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. What it measures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-item-and-task-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Item and task shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D. Scoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e-running-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E. Running it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f-quality-and-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F. Quality and trust
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#g-fit-to-the-concept-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        G. Fit to the concept model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#free-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Free text
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taxonomy-testing-types-domains-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Taxonomy: testing types, domains, capabilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suite-fit-benchmark_suite_fitjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Suite fit: benchmark_suite_fit.json
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage-catalogued-against-scored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coverage: catalogued against scored
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-concept-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Question → concept mapping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Question → concept mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#first-mapping-qconcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        First mapping (qconcept)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#judge-gated-mapping-qconcept2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Judge-gated mapping (qconcept2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmark-nodes-in-the-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmark nodes in the graph
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Benchmark nodes in the graph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#llm-benchmark-106" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        llm-benchmark (106)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-18-imaging-benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        benchmark (18): imaging benchmarks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="benchmarks">Benchmarks<a class="headerlink" href="#benchmarks" title="Permanent link">&para;</a></h1>
+<p>A benchmark in panAtlas is described once, by a registry entry, an ontology classification, a
+taxonomy placement, a suite-fit verdict and a mapping from its items to concepts. Results attach to
+it separately (see <a href="../evaluation-records/">Evaluation records</a>). This page documents every field of
+that description. Counts were computed with <code>python3</code> from the files at repo HEAD <code>57505c6</code> on
+2026-11-10.</p>
+<h2 id="where-benchmark-metadata-lives">Where benchmark metadata lives<a class="headerlink" href="#where-benchmark-metadata-lives" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th style="text-align: right;">Records</th>
+<th>What it holds</th>
+<th>Written by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>web/benchmarks_llm.json</code></td>
+<td style="text-align: right;">109 benchmarks</td>
+<td>The language-model benchmark registry: identity, description, taxonomy, decontamination, reference scores, battery scores, audit block, coverage</td>
+<td><code>build_llm_benchmarks.py</code>, <code>apply_bench_taxonomy.py</code>, <code>build_artifact_types.py</code>, <code>reconcile_benchmarks.py</code>, <code>build_eval_map.py</code></td>
+</tr>
+<tr>
+<td><code>web/benchmark_audit.json</code></td>
+<td style="text-align: right;">106 records</td>
+<td>Audit source: <code>benchmark</code>, <code>panatlas_id</code>, <code>kind</code>, <code>purpose</code>, <code>capability</code>, <code>used_for</code>, <code>item_concept_linked</code>, <code>n_items</code>, <code>executable</code>, <code>how_to_run</code>, <code>engine</code>, <code>run_on_kos</code>, <code>kos_result</code>, <code>caveats</code>; partly joined into <code>audit</code></td>
+<td>audit pass</td>
+</tr>
+<tr>
+<td><code>web/wp-plugin/panatlas-explorer/data/benchmarks_llm.json</code></td>
+<td style="text-align: right;">109</td>
+<td>The served copy. Byte-identical to <code>web/benchmarks_llm.json</code> at HEAD</td>
+<td><code>reconcile_benchmarks.py</code> writes both</td>
+</tr>
+<tr>
+<td><code>web/benchmark_ontology_facets.json</code></td>
+<td style="text-align: right;">106 rows</td>
+<td>The 26-dimension ontology classification, one row per benchmark</td>
+<td>classification pass (<code>docs/benchmark-ontology.md</code>)</td>
+</tr>
+<tr>
+<td><code>web/bench_taxonomy.json</code></td>
+<td style="text-align: right;">21 types, 10 domains, 106 classifications</td>
+<td>Testing-type and domain taxonomy with definitions</td>
+<td>taxonomy pass, applied by <code>apply_bench_taxonomy.py</code></td>
+</tr>
+<tr>
+<td><code>web/bench_taxonomy_merged.json</code></td>
+<td style="text-align: right;">21, 10, 103</td>
+<td>The same taxonomy; three classifications fewer (Natural Questions, Needle-in-a-Haystack, AlpacaEval)</td>
+<td>taxonomy pass</td>
+</tr>
+<tr>
+<td><code>web/benchmark_suite_fit.json</code></td>
+<td style="text-align: right;">106 dossiers</td>
+<td>Suite-fit dossiers, the recommended suite, the fit rule, and 29 candidate benchmarks not yet catalogued</td>
+<td>suite-fit audit</td>
+</tr>
+<tr>
+<td><code>web/qconcept/qconcept_&lt;bench&gt;_dist.json</code></td>
+<td style="text-align: right;">21 files</td>
+<td>First item-to-concept distribution per benchmark</td>
+<td><code>build_question_concept_map.py</code></td>
+</tr>
+<tr>
+<td><code>web/pipeline/qconcept2/qconcept2_&lt;bench&gt;.jsonl</code></td>
+<td style="text-align: right;">20 files, 48,931 rows</td>
+<td>Judge-gated item-to-concept mapping, one row per item</td>
+<td>cluster re-map, wired by <code>build_concept_remap.py</code></td>
+</tr>
+<tr>
+<td><code>web/qconcept_stats.json</code></td>
+<td style="text-align: right;">21 benchmarks</td>
+<td>Fit statistics of the first mapping</td>
+<td><code>build_question_concept_map.py</code></td>
+</tr>
+<tr>
+<td><code>web/pipeline/artifact_types.json</code></td>
+<td style="text-align: right;">35 types</td>
+<td>Artifact-type vocabulary and the benchmark task-format map</td>
+<td><code>build_artifact_types.py</code> reads it</td>
+</tr>
+<tr>
+<td>Served graph</td>
+<td style="text-align: right;">106 <code>llm-benchmark</code>, 18 <code>benchmark</code> nodes</td>
+<td>Benchmarks as graph nodes, with taxonomy and topic edges</td>
+<td>see <a href="../graph-schema/">Graph schema</a></td>
+</tr>
+</tbody>
+</table>
+<p>Imaging and multimodal benchmarks (CT-RATE, RadGraph, pathology suites) are registered in
+<code>mm_evals.json</code>, and the tabular and forecasting suites in <code>predictor_evals.json</code>. Both are
+documented on <a href="../evaluation-records/">Evaluation records</a>, because those files carry results as
+well as descriptions.</p>
+<h2 id="the-registry-benchmarks_llmjson">The registry: <code>benchmarks_llm.json</code><a class="headerlink" href="#the-registry-benchmarks_llmjson" title="Permanent link">&para;</a></h2>
+<h3 id="top-level-keys">Top-level keys<a class="headerlink" href="#top-level-keys" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>suite</code></td>
+<td>string</td>
+<td><code>"KOS paper evaluation"</code>, the battery the registry was first built for</td>
+</tr>
+<tr>
+<td><code>arms</code></td>
+<td>object</td>
+<td><code>intrinsic</code> = "Arm A · intrinsic methods", <code>medical</code> = "Arm B · medical", <code>general</code> = "Arm C · general"</td>
+</tr>
+<tr>
+<td><code>capabilities</code></td>
+<td>list (35)</td>
+<td>Capability vocabulary: <code>id</code> (<code>cap-&lt;slug&gt;</code>), <code>name</code>, <code>group</code> (one of 13 groups), <code>desc</code></td>
+</tr>
+<tr>
+<td><code>benchmarks</code></td>
+<td>list (109)</td>
+<td>One entry per benchmark, fields below</td>
+</tr>
+<tr>
+<td><code>taxonomy_types</code></td>
+<td>list (21)</td>
+<td>Testing types: <code>name</code>, <code>definition</code></td>
+</tr>
+<tr>
+<td><code>taxonomy_domains</code></td>
+<td>list (10)</td>
+<td>Evaluation domains: <code>name</code>, <code>definition</code></td>
+</tr>
+<tr>
+<td><code>_decontam_note</code></td>
+<td>string</td>
+<td>Summary of the KOS-V4/V5 decontamination audit (6 benchmarks provably held out, 4 partial, the rest never on the blocklist)</td>
+</tr>
+<tr>
+<td><code>suite_meta</code></td>
+<td>object</td>
+<td><code>coverage</code> (counts) and <code>coverage_grid</code> (<code>capabilities</code>, <code>domains</code>, <code>grid</code> of capability × domain counts)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="benchmark-entry-fields">Benchmark entry fields<a class="headerlink" href="#benchmark-entry-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th style="text-align: right;">Entries</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td style="text-align: right;">109</td>
+<td>string</td>
+<td><code>bench-&lt;slug&gt;</code>; the graph node id</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td style="text-align: right;">109</td>
+<td>string</td>
+<td>Display name</td>
+</tr>
+<tr>
+<td><code>metric</code></td>
+<td style="text-align: right;">109</td>
+<td>string</td>
+<td>Headline metric as catalogued (for candidates this can be an arm note such as "Arm C, candidate")</td>
+</tr>
+<tr>
+<td><code>measures</code></td>
+<td style="text-align: right;">109</td>
+<td>string</td>
+<td>What the benchmark measures (Markdown)</td>
+</tr>
+<tr>
+<td><code>testing_type</code></td>
+<td style="text-align: right;">109</td>
+<td>string</td>
+<td>One of the 21 testing types</td>
+</tr>
+<tr>
+<td><code>provenance</code></td>
+<td style="text-align: right;">109</td>
+<td>string</td>
+<td><code>official</code> (105) or <code>homegrown</code> (4: MedThink, Bias / demographic disparity, Long-context retrieval, DPM1 patient-management reasoning). Derived in <code>reconcile_benchmarks.py</code></td>
+</tr>
+<tr>
+<td><code>verified_published</code></td>
+<td style="text-align: right;">109</td>
+<td>bool</td>
+<td>True when a verified published reference score exists to check the harness against (7: BFCL, IFEval, MedMCQA, MedQA, MMLU, PubMedQA, RGB)</td>
+</tr>
+<tr>
+<td><code>run_status</code></td>
+<td style="text-align: right;">109</td>
+<td>string</td>
+<td><code>scored</code> (23) = run in the panAtlas battery; <code>cataloged</code> (86) = described, not yet run</td>
+</tr>
+<tr>
+<td><code>n_models_scored</code></td>
+<td style="text-align: right;">109</td>
+<td>int</td>
+<td>Number of models with a battery score</td>
+</tr>
+<tr>
+<td><code>arm</code></td>
+<td style="text-align: right;">106</td>
+<td>string</td>
+<td><code>general</code> (67), <code>medical</code> (29), <code>intrinsic</code> (10)</td>
+</tr>
+<tr>
+<td><code>gated</code></td>
+<td style="text-align: right;">106</td>
+<td>bool</td>
+<td>Access is gated (2 true)</td>
+</tr>
+<tr>
+<td><code>composition</code></td>
+<td style="text-align: right;">106</td>
+<td>string</td>
+<td>Size and split description (Markdown)</td>
+</tr>
+<tr>
+<td><code>kos_usage</code></td>
+<td style="text-align: right;">106</td>
+<td>string</td>
+<td>How the KOS evaluation ran it (task name, metric, shots); empty for 64</td>
+</tr>
+<tr>
+<td><code>tests</code></td>
+<td style="text-align: right;">106</td>
+<td>list</td>
+<td>Capability ids (<code>cap-*</code>) the benchmark tests; wired as <code>tests</code> edges</td>
+</tr>
+<tr>
+<td><code>scores</code></td>
+<td style="text-align: right;">106</td>
+<td>object</td>
+<td>Reference scores keyed by model variant, each <code>{value, metric, model, verified, source}</code>; populated for 7 benchmarks (BFCL, IFEval, MedMCQA, MedQA, MMLU, PubMedQA, RGB), 8 values</td>
+</tr>
+<tr>
+<td><code>domain</code></td>
+<td style="text-align: right;">106</td>
+<td>string</td>
+<td>Evaluation domain (taxonomy); one entry has <code>pathology</code></td>
+</tr>
+<tr>
+<td><code>decontam</code></td>
+<td style="text-align: right;">106</td>
+<td>object</td>
+<td>Exact-document decontamination check, below</td>
+</tr>
+<tr>
+<td><code>audit</code></td>
+<td style="text-align: right;">102</td>
+<td>object</td>
+<td>Audit block, below</td>
+</tr>
+<tr>
+<td><code>artifact_types</code>, <code>artifact_type_ids</code></td>
+<td style="text-align: right;">96</td>
+<td>list</td>
+<td>Artifact-type labels and <code>atype-*</code> ids (see <a href="../models-and-curriculum/">Models and curriculum</a>)</td>
+</tr>
+<tr>
+<td><code>tier</code></td>
+<td style="text-align: right;">29</td>
+<td>string</td>
+<td>KOS harness tier, for example <code>T6 MCQ</code>, <code>T7 BLURB</code>, <code>T10 context</code></td>
+</tr>
+<tr>
+<td><code>higher_better</code></td>
+<td style="text-align: right;">24</td>
+<td>bool</td>
+<td>Direction of <code>battery_metric</code> (2 false: calibration ECE and demographic disparity)</td>
+</tr>
+<tr>
+<td><code>model_scores</code></td>
+<td style="text-align: right;">23</td>
+<td>object</td>
+<td>Battery scores keyed by model name, each <code>{value, metric}</code></td>
+</tr>
+<tr>
+<td><code>battery_metric</code></td>
+<td style="text-align: right;">23</td>
+<td>string</td>
+<td>The metric the battery reports, for example <code>acc</code>, <code>macro-F1</code>, <code>ECE</code>, <code>disparity_score</code></td>
+</tr>
+<tr>
+<td><code>topics_status</code></td>
+<td style="text-align: right;">15</td>
+<td>string</td>
+<td>State of the item-to-concept topic distribution</td>
+</tr>
+<tr>
+<td><code>mcq_floor</code></td>
+<td style="text-align: right;">8</td>
+<td>string</td>
+<td>Caveat that T6 MCQ is a floor for KOS base models</td>
+</tr>
+<tr>
+<td><code>topics</code></td>
+<td style="text-align: right;">6</td>
+<td>object</td>
+<td><code>{n, distribution}</code>: item count and items per concept</td>
+</tr>
+<tr>
+<td><code>added_from_battery</code></td>
+<td style="text-align: right;">3</td>
+<td>bool</td>
+<td>Benchmark was added because it was run, not because it was catalogued</td>
+</tr>
+<tr>
+<td><code>score_is</code></td>
+<td style="text-align: right;">2</td>
+<td>string</td>
+<td>Which sub-test the score is ("the FCT test only", "RadGraph-XL only")</td>
+</tr>
+</tbody>
+</table>
+<h3 id="decontamination-block-decontam">Decontamination block (<code>decontam</code>)<a class="headerlink" href="#decontamination-block-decontam" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>exact_doc_uid.checked</code></td>
+<td>Whether the exact-document membership check has been run (16 true, 90 false)</td>
+</tr>
+<tr>
+<td><code>exact_doc_uid.items</code></td>
+<td>Items checked</td>
+</tr>
+<tr>
+<td><code>exact_doc_uid.matched_either</code></td>
+<td>Items found in either training ledger</td>
+</tr>
+<tr>
+<td><code>exact_doc_uid.verdict</code></td>
+<td>Plain statement, for example "no verbatim-document match (held out at the exact-document level)"</td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td>"exact doc_uid membership (blake2b digest_size=16, raw text) vs doc_ledger_v4/v5 crosswalk; holdout_status from KOS decontamination-holdouts audit"</td>
+</tr>
+</tbody>
+</table>
+<p>On the graph node the same object also carries <code>holdout_status</code> and <code>holdout_note</code>. The status
+values on the 106 <code>llm-benchmark</code> nodes are <code>unchecked</code> 85, <code>not_held_out</code> 10, <code>provably_held_out</code> 5,
+<code>partial</code> 4, <code>proven_trained_on</code> 2.</p>
+<div class="admonition warning">
+<p class="admonition-title">Decontamination fields differ from the catalog document</p>
+<p><code>docs/evaluation-dimensions-and-metadata.md</code> (section G) documents
+<code>exact_doc_uid = {checked, matched_either, matched_v4, matched_v5}</code>. The data has
+<code>{checked, items, matched_either, verdict}</code>; no record has <code>matched_v4</code> or <code>matched_v5</code>.</p>
+</div>
+<h3 id="audit-block-audit">Audit block (<code>audit</code>)<a class="headerlink" href="#audit-block-audit" title="Permanent link">&para;</a></h3>
+<p>102 entries carry an audit block with 15 keys. <code>build_eval_map.py</code> writes it by joining <code>benchmark_ontology_facets.json</code> (by name), <code>benchmark_audit.json</code> (by panAtlas id) and the suite-fit buckets of <code>benchmark_suite_fit.json</code> (by name):</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kind</code></td>
+<td>Free text: <code>official-published (&lt;citation&gt;)</code> or homegrown</td>
+</tr>
+<tr>
+<td><code>what_it_does</code>, <code>how_it_works</code>, <code>the_document</code></td>
+<td>Free text</td>
+</tr>
+<tr>
+<td><code>executable</code></td>
+<td><code>not-implemented</code> 42, <code>runnable-standard-harness</code> 19, <code>runnable-custom-driver</code> 16, <code>cached-not-run</code> 16, <code>homegrown-scorer</code> 8, <code>gated-unavailable</code> 1</td>
+</tr>
+<tr>
+<td><code>run_on_kos</code></td>
+<td><code>never-run</code> (58) or <code>v4-and-v5</code> (23), plus annotated variants of each</td>
+</tr>
+<tr>
+<td><code>item_concept_linked</code></td>
+<td><code>no</code> 81, <code>yes-mesh; NO per-item correctness</code> 16, <code>yes-mesh; per-item correctness=TRUE</code> 5</td>
+</tr>
+<tr>
+<td><code>n_items</code></td>
+<td>Integer item count</td>
+</tr>
+<tr>
+<td><code>data_on_disk</code></td>
+<td>true 52, false 50</td>
+</tr>
+<tr>
+<td><code>concept_fit</code></td>
+<td><code>partial</code> 35, <code>weak</code> 29, <code>strong</code> 23, <code>none</code> 15</td>
+</tr>
+<tr>
+<td><code>concept_fit_how</code></td>
+<td>Free text justification</td>
+</tr>
+<tr>
+<td><code>suite</code></td>
+<td><code>exclude</code> 61, <code>suite-core</code> 17, <code>suite-secondary</code> 15, <code>candidate</code> 9</td>
+</tr>
+<tr>
+<td><code>domain</code></td>
+<td>Evaluation domain</td>
+</tr>
+<tr>
+<td><code>onto</code></td>
+<td>The ontology facets for this benchmark, joined by name from <code>benchmark_ontology_facets.json</code>: 18 controlled facets plus <code>subdomain</code> on every entry, <code>n_options</code> on 39; <code>typical_shots</code>, <code>decontam_checkable</code> and <code>panatlas_class</code> are not copied</td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td><code>{x, y}</code>: position on the evaluation map, a UMAP projection of the benchmark's facet vector</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">The audit block is smaller than documented</p>
+<p><code>docs/evaluation-dimensions-and-metadata.md</code> (section D) lists 23 audit fields, including
+<code>purpose</code>, <code>used_for</code>, <code>how_to_run</code>, <code>engine</code>, <code>kos_result</code>, <code>reporting</code>, <code>quality_notes</code>,
+<code>rationale</code> and <code>caveats</code>. None of these is in the served registry at HEAD. <code>purpose</code>,
+<code>used_for</code>, <code>how_to_run</code>, <code>engine</code>, <code>kos_result</code> and <code>caveats</code> exist in
+<code>web/benchmark_audit.json</code> (106 records), but <code>build_eval_map.py</code> does not copy them;
+<code>quality_notes</code> and <code>rationale</code> exist only in the <code>benchmark_suite_fit.json</code> dossiers.</p>
+</div>
+<h2 id="the-benchmark-ontology-facets">The benchmark ontology (facets)<a class="headerlink" href="#the-benchmark-ontology-facets" title="Permanent link">&para;</a></h2>
+<p><code>docs/benchmark-ontology.md</code> defines 26 dimensions in seven groups (A to G) and states that no model is
+run to produce it: it is characterization only. <code>web/benchmark_ontology_facets.json</code> holds one row
+per benchmark for 106 benchmarks. Each row has 27 keys: <code>benchmark</code> (the name), 22 controlled facets,
+and four free-text fields (<code>subdomain</code>, <code>the_document</code>, <code>primary_metric</code>, <code>notes</code>).</p>
+<p>Three of the documented dimensions are not in the facets file:</p>
+<table>
+<thead>
+<tr>
+<th>Documented dimension</th>
+<th>Where it is in the data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>executability</code></td>
+<td><code>audit.executable</code> in the registry (same value set)</td>
+</tr>
+<tr>
+<td><code>suite_decision</code></td>
+<td><code>audit.suite</code> in the registry (same value set)</td>
+</tr>
+<tr>
+<td><code>engine</code></td>
+<td><code>engine</code> in <code>web/benchmark_audit.json</code> only, as free text (<code>n/a</code> for 38; otherwise strings such as "lm-eval-harness (pristine); stock task present"), not the documented controlled values; not copied into the registry</td>
+</tr>
+</tbody>
+</table>
+<p>Every facet and every value in use, with the number of benchmarks:</p>
+<h4 id="a-identity-and-domain">A. Identity and domain<a class="headerlink" href="#a-identity-and-domain" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Facet</th>
+<th>Values (benchmarks)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain</code></td>
+<td><code>general</code> 45, <code>medical</code> 15, <code>biomedical</code> 9, <code>none</code> 9, <code>commonsense</code> 6, <code>clinical</code> 5, <code>science</code> 5, <code>math</code> 5, <code>code</code> 3, <code>safety</code> 3, <code>law</code> 1</td>
+</tr>
+<tr>
+<td><code>subdomain</code></td>
+<td>free text; 105 distinct values over 106 rows</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td><code>english</code> 96, <code>multilingual</code> 10</td>
+</tr>
+</tbody>
+</table>
+<h4 id="b-what-it-measures">B. What it measures<a class="headerlink" href="#b-what-it-measures" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Facet</th>
+<th>Values (benchmarks)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>capability</code></td>
+<td><code>knowledge-qa</code> 14, <code>commonsense-reasoning</code> 8, <code>representation-diagnostic</code> 8, <code>hallucination-faithfulness</code> 7, <code>long-context</code> 7, <code>multi-hop-qa</code> 6, <code>reading-comprehension</code> 5, <code>multi-step-reasoning</code> 5, <code>math-reasoning</code> 5, <code>clinical-reasoning</code> 4, <code>rag</code> 4, <code>safety-bias</code> 4, <code>instruction-following</code> 4, <code>code-generation</code> 3, <code>tool-use</code> 3, <code>truthfulness-factuality</code> 3, <code>named-entity-recognition</code> 2, <code>information-extraction</code> 2, <code>claim-verification</code> 2, <code>language-modeling</code> 2, <code>agentic</code> 2, <code>semantic-similarity</code> 1, <code>retrieval</code> 1, <code>clinical-note-generation</code> 1, <code>summarization</code> 1, <code>relation-extraction</code> 1, <code>calibration</code> 1</td>
+</tr>
+<tr>
+<td><code>knowledge_source</code></td>
+<td><code>web</code> 20, <code>mixed</code> 17, <code>crowd</code> 17, <code>synthetic</code> 13, <code>medical-exam</code> 11, <code>biomedical-literature</code> 9, <code>model-internal</code> 9, <code>clinical-notes-ehr</code> 6, <code>textbook</code> 4</td>
+</tr>
+</tbody>
+</table>
+<h4 id="c-item-and-task-shape">C. Item and task shape<a class="headerlink" href="#c-item-and-task-shape" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Facet</th>
+<th>Values (benchmarks)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>the_document</code></td>
+<td>free text; 106 distinct values over 106 rows</td>
+</tr>
+<tr>
+<td><code>task_format</code></td>
+<td><code>mcq</code> 25, <code>open-generation</code> 21, <code>mixed</code> 17, <code>numeric-answer</code> 12, <code>binary-classification</code> 7, <code>multi-class-classification</code> 5, <code>agentic-trajectory</code> 3, <code>pairwise-preference</code> 3, <code>sequence-labeling</code> 2, <code>similarity-regression</code> 2, <code>cloze-continuation</code> 2, <code>code-completion</code> 2, <code>tool-call</code> 2, <code>retrieval</code> 1, <code>ranking</code> 1, <code>span-extraction</code> 1</td>
+</tr>
+<tr>
+<td><code>n_options</code></td>
+<td><code>null</code> 67, <code>4</code> 18, <code>2</code> 7, <code>5</code> 6, <code>3</code> 5, <code>10</code> 3</td>
+</tr>
+<tr>
+<td><code>output_type</code></td>
+<td><code>single-label</code> 36, <code>free-text</code> 33, <code>structured</code> 14, <code>numeric</code> 13, <code>boolean</code> 3, <code>code</code> 3, <code>entity-tags</code> 2, <code>ranked-list</code> 2</td>
+</tr>
+<tr>
+<td><code>modality</code></td>
+<td><code>text</code> 98, <code>code</code> 8</td>
+</tr>
+</tbody>
+</table>
+<h4 id="d-scoring">D. Scoring<a class="headerlink" href="#d-scoring" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Facet</th>
+<th>Values (benchmarks)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scoring_method</code></td>
+<td><code>accuracy</code> 32, <code>mixed</code> 15, <code>exact-match</code> 12, <code>llm-judge</code> 10, <code>custom-geometry</code> 10, <code>acc_norm</code> 6, <code>entity-f1</code> 3, <code>label-f1</code> 3, <code>pass@k</code> 3, <code>programmatic-verifier</code> 3, <code>token-f1</code> 2, <code>win-rate</code> 2, <code>correlation</code> 1, <code>rubric-score</code> 1, <code>macro-f1</code> 1, <code>bits-per-byte</code> 1, <code>ece-calibration</code> 1</td>
+</tr>
+<tr>
+<td><code>primary_metric</code></td>
+<td>free text; 94 distinct values over 106 rows</td>
+</tr>
+<tr>
+<td><code>scoring_determinism</code></td>
+<td><code>deterministic-programmatic</code> 67, <code>reference-metric</code> 18, <code>llm-judge</code> 15, <code>execution-based</code> 6</td>
+</tr>
+<tr>
+<td><code>judge_dependency</code></td>
+<td><code>none</code> 88, <code>llm-judge</code> 17, <code>user-simulator</code> 1</td>
+</tr>
+</tbody>
+</table>
+<h4 id="e-running-it">E. Running it<a class="headerlink" href="#e-running-it" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Facet</th>
+<th>Values (benchmarks)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model_stage</code></td>
+<td><code>instruct-only</code> 39, <code>both</code> 37, <code>base-safe</code> 30</td>
+</tr>
+<tr>
+<td><code>typical_shots</code></td>
+<td><code>0-shot</code> 57, <code>few-shot</code> 28, <code>n/a</code> 15, <code>cot</code> 6</td>
+</tr>
+<tr>
+<td><code>compute_cost</code></td>
+<td><code>cheap</code> 48, <code>medium</code> 41, <code>expensive</code> 17</td>
+</tr>
+<tr>
+<td><code>license_access</code></td>
+<td><code>open</code> 96, <code>gated-license</code> 4, <code>api-judge-required</code> 4, <code>gated-dua</code> 2</td>
+</tr>
+</tbody>
+</table>
+<h4 id="f-quality-and-trust">F. Quality and trust<a class="headerlink" href="#f-quality-and-trust" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Facet</th>
+<th>Values (benchmarks)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>reporting_prevalence</code></td>
+<td><code>common</code> 45, <code>occasional</code> 33, <code>ubiquitous</code> 24, <code>rare</code> 4</td>
+</tr>
+<tr>
+<td><code>difficulty</code></td>
+<td><code>moderate</code> 71, <code>hard</code> 24, <code>saturated</code> 8, <code>anti-saturation-designed</code> 3</td>
+</tr>
+<tr>
+<td><code>contamination_risk</code></td>
+<td><code>medium</code> 42, <code>high</code> 41, <code>low</code> 23</td>
+</tr>
+<tr>
+<td><code>decontam_checkable</code></td>
+<td><code>yes</code> 57, <code>partial</code> 30, <code>no</code> 19</td>
+</tr>
+</tbody>
+</table>
+<h4 id="g-fit-to-the-concept-model">G. Fit to the concept model<a class="headerlink" href="#g-fit-to-the-concept-model" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Facet</th>
+<th>Values (benchmarks)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>concept_fit</code></td>
+<td><code>partial</code> 35, <code>weak</code> 30, <code>strong</code> 23, <code>none</code> 18</td>
+</tr>
+<tr>
+<td><code>concept_space</code></td>
+<td><code>none</code> 57, <code>wikipedia-general</code> 23, <code>mesh-medical</code> 19, <code>ontology-entities</code> 7</td>
+</tr>
+<tr>
+<td><code>panatlas_class</code></td>
+<td><code>A-programmatic</code> 41, <code>mcq-standard</code> 36, <code>probe-diagnostic</code> 17, <code>B-llm-judge</code> 12</td>
+</tr>
+</tbody>
+</table>
+<h4 id="free-text">Free text<a class="headerlink" href="#free-text" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Facet</th>
+<th>Values (benchmarks)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>notes</code></td>
+<td>free text; 106 distinct values over 106 rows</td>
+</tr>
+</tbody>
+</table>
+<p>Values that <code>docs/benchmark-ontology.md</code> defines but no benchmark uses: <code>domain</code> <code>multilingual</code>;
+<code>language</code> <code>other</code>; <code>knowledge_source</code> <code>code-repos</code>; <code>output_type</code> <code>span-set</code>; <code>modality</code>
+<code>text+image</code>, <code>structured-ehr</code>; <code>scoring_method</code> <code>rouge</code>, <code>bertscore</code>, <code>bleu</code>;
+<code>scoring_determinism</code> <code>human-required</code>; <code>judge_dependency</code> <code>human</code>; <code>license_access</code> <code>restricted</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">The per-benchmark table in the ontology document mislabels a column</p>
+<p>In <code>docs/benchmark-ontology.md</code>, the per-benchmark table's column headed "scoring" contains
+<code>scoring_determinism</code> values (<code>deterministic-programmatic</code>, <code>reference-metric</code>, …), not
+<code>scoring_method</code> values.</p>
+</div>
+<p>The decision axis is group G. <code>concept_fit</code> grades whether individual items relate to concepts:
+<code>strong</code> (each item maps to one dominant concept), <code>partial</code> (diffuse, or the scored quantity is a
+relation or inference), <code>weak</code> (only coarse mapping), <code>none</code> (no item-to-concept relation).
+<code>panatlas_class</code> gives the operational class: <code>A-programmatic</code> (deterministic or execution scoring,
+suite-eligible), <code>B-llm-judge</code> (the score depends on a judge), <code>mcq-standard</code>, and
+<code>probe-diagnostic</code> (no item-to-concept relation).</p>
+<h2 id="taxonomy-testing-types-domains-capabilities">Taxonomy: testing types, domains, capabilities<a class="headerlink" href="#taxonomy-testing-types-domains-capabilities" title="Permanent link">&para;</a></h2>
+<p>Three controlled axes place a benchmark in the graph. All three are graph nodes.</p>
+<table>
+<thead>
+<tr>
+<th>Axis</th>
+<th>Values</th>
+<th>Graph nodes</th>
+<th>Edges</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Testing type</td>
+<td>21 (definitions in <code>bench_taxonomy.json</code>)</td>
+<td><code>testing-type</code>, ids <code>type-&lt;name&gt;</code></td>
+<td><code>llm-benchmark</code> <code>is_type</code> → <code>testing-type</code> (106); <code>eval-suite</code> <code>has_type</code> → <code>testing-type</code> (21)</td>
+</tr>
+<tr>
+<td>Evaluation domain</td>
+<td>10 (<code>medical</code>, <code>biomedical</code>, <code>science</code>, <code>math</code>, <code>law</code>, <code>commonsense</code>, <code>general</code>, <code>none</code>, <code>code</code>, <code>safety</code>)</td>
+<td><code>eval-domain</code>, ids <code>evdomain-&lt;name&gt;</code>; 9 nodes (no node for <code>none</code>)</td>
+<td><code>llm-benchmark</code> <code>in_domain</code> → <code>eval-domain</code> (97 = 106 minus the 9 <code>none</code> benchmarks)</td>
+</tr>
+<tr>
+<td>Capability</td>
+<td>35 capabilities in 13 groups</td>
+<td><code>capability</code> (<code>cap-*</code>), <code>capability-group</code> (<code>capgroup-*</code>)</td>
+<td><code>llm-benchmark</code> <code>tests</code> → <code>capability</code> (247); <code>capability-group</code> <code>groups</code> → <code>capability</code> (35)</td>
+</tr>
+</tbody>
+</table>
+<p>The 21 testing types and their benchmark counts (from <code>bench_taxonomy.json</code> classifications):
+<code>knowledge-qa</code> 20, <code>commonsense-reasoning</code> 8, <code>representation-diagnostic</code> 8, <code>rag</code> 7, <code>long-context</code> 7,
+<code>multi-hop-qa</code> 6, <code>tool-use</code> 5, <code>multi-step-reasoning</code> 5, <code>arithmetic-math</code> 5,
+<code>information-extraction</code> 5, <code>reading-comprehension</code> 5, <code>clinical-nlp</code> 4, <code>instruction-following</code> 4,
+<code>truthfulness-factuality</code> 4, <code>safety-bias</code> 3, <code>code-generation</code> 3, <code>hallucination-faithfulness</code> 2,
+<code>claim-verification</code> 2, <code>semantic-similarity</code> 1, <code>language-modeling</code> 1, <code>calibration</code> 1.</p>
+<p>The 13 capability groups are <code>code</code>, <code>health</code>, <code>instruction</code>, <code>knowledge</code>, <code>language</code>, <code>meta</code>,
+<code>nli</code>, <code>other</code>, <code>rag</code>, <code>reasoning</code>, <code>safety</code>, <code>summarization</code>, <code>truthfulness</code>.</p>
+<p>The testing type (taxonomy, 21 values) and the ontology <code>capability</code> facet (27 values) are separate
+vocabularies. For example the taxonomy has <code>arithmetic-math</code> and <code>clinical-nlp</code>; the facet has
+<code>math-reasoning</code>, <code>clinical-reasoning</code>, <code>named-entity-recognition</code> and <code>agentic</code>.</p>
+<h2 id="suite-fit-benchmark_suite_fitjson">Suite fit: <code>benchmark_suite_fit.json</code><a class="headerlink" href="#suite-fit-benchmark_suite_fitjson" title="Permanent link">&para;</a></h2>
+<p>The suite-fit audit decides which benchmarks belong to the concept-relational suite. Its rule, stated
+in <code>suite.principles</code>, has a decisive first test: a benchmark belongs only if each individual item is
+a document that maps to a dominant concept grounded in MeSH (clinical and biomedical) or Wikipedia
+(general). This is judged before and independently of score quality. Reporting prevalence is the
+second criterion.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dossiers</code> (106)</td>
+<td>Per benchmark: <code>benchmark</code>, <code>capability</code>, <code>what_it_does</code>, <code>how_it_works</code>, <code>the_document</code>, <code>concept_fit</code>, <code>concept_fit_how</code>, <code>reporting_prevalence</code>, <code>quality_notes</code>, <code>recommendation</code>, <code>rationale</code></td>
+</tr>
+<tr>
+<td><code>suite.suite_core</code> (17)</td>
+<td><code>benchmark</code>, <code>arm</code>, <code>concept_fit</code>, <code>reporting_prevalence</code>, <code>the_document</code>, <code>concept</code>, <code>why_core</code>, <code>open_work</code></td>
+</tr>
+<tr>
+<td><code>suite.suite_secondary</code> (15)</td>
+<td>Same, with <code>why_secondary</code></td>
+</tr>
+<tr>
+<td><code>suite.diagnostic_or_excluded</code> (73)</td>
+<td><code>benchmark</code>, <code>concept_fit</code>, <code>category</code>, <code>reason</code></td>
+</tr>
+<tr>
+<td><code>suite.add_to_fill_gaps</code> (24)</td>
+<td><code>name</code>, <code>concept_fit</code>, <code>reporting_prevalence</code>, <code>availability</code>, <code>gap_filled</code>, <code>priority</code></td>
+</tr>
+<tr>
+<td><code>suite.coverage_map</code>, <code>suite.medical_coverage</code>, <code>suite.principles</code></td>
+<td>Free-text analysis</td>
+</tr>
+<tr>
+<td><code>missing.candidates</code> (29)</td>
+<td>Benchmarks not in the registry: <code>name</code>, <code>what</code>, <code>how</code>, <code>the_document</code>, <code>concept_fit</code>, <code>reporting_prevalence</code>, <code>fills_gap</code>, <code>availability</code></td>
+</tr>
+</tbody>
+</table>
+<p>The core suite is MedQA (USMLE 4-opt), MedMCQA, MedXpertQA (Text), Medical-MMLU (9-subject), MMLU,
+MMLU-Pro, ARC-Challenge, ARC-Easy, OpenBookQA, PubMedQA, MIRAGE, SciFact, AfriMed-QA, TruthfulQA,
+SimpleQA, GSM8K and MATH. The secondary suite is Medbullets, MedExpQA, CareQA, MedNLI, MEDEC,
+Med-HALT, CommonsenseQA, HellaSwag, PIQA, WinoGrande, BoolQ, MedRAG, ASDiv (CoT), MathQA and GPQA.</p>
+<div class="admonition warning">
+<p class="admonition-title">Three suite-decision tallies disagree</p>
+<p>The core (17) and secondary (15) lists agree everywhere. The rest does not:
+<code>dossiers[].recommendation</code> gives <code>candidate</code> 43, <code>exclude</code> 31;
+<code>suite.diagnostic_or_excluded</code> lists 73 benchmarks; the registry's <code>audit.suite</code> gives
+<code>exclude</code> 61, <code>candidate</code> 9 (over 102 audited entries). Treat <code>audit.suite</code> as the value the site
+reads.</p>
+</div>
+<h2 id="coverage-catalogued-against-scored">Coverage: catalogued against scored<a class="headerlink" href="#coverage-catalogued-against-scored" title="Permanent link">&para;</a></h2>
+<p><code>reconcile_benchmarks.py</code> matches each catalogued benchmark to the run battery (<code>full_eval.json</code>) by
+normalised name and writes <code>suite_meta.coverage</code>. At HEAD:</p>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th style="text-align: right;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Catalogued (<code>total</code>)</td>
+<td style="text-align: right;">109</td>
+</tr>
+<tr>
+<td>Scored</td>
+<td style="text-align: right;">23</td>
+</tr>
+<tr>
+<td>Gap (catalogued, not run)</td>
+<td style="text-align: right;">86</td>
+</tr>
+<tr>
+<td>Official</td>
+<td style="text-align: right;">105</td>
+</tr>
+<tr>
+<td>Homegrown</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>Verified against a published score</td>
+<td style="text-align: right;">7</td>
+</tr>
+</tbody>
+</table>
+<p>By testing type (catalogued / scored): <code>knowledge-qa</code> 20/6, <code>representation-diagnostic</code> 8/0,
+<code>long-context</code> 8/1, <code>commonsense-reasoning</code> 8/2, <code>rag</code> 7/0, <code>multi-hop-qa</code> 6/0,
+<code>multi-step-reasoning</code> 6/2, <code>arithmetic-math</code> 5/1, <code>information-extraction</code> 5/4,
+<code>reading-comprehension</code> 5/1, <code>tool-use</code> 5/0, <code>clinical-nlp</code> 4/0, <code>instruction-following</code> 4/1,
+<code>safety-bias</code> 4/1, <code>truthfulness-factuality</code> 4/0, <code>code-generation</code> 3/0, <code>claim-verification</code> 2/0,
+<code>hallucination-faithfulness</code> 2/2, <code>calibration</code> 1/1, <code>language-modeling</code> 1/0,
+<code>semantic-similarity</code> 1/1.</p>
+<div class="admonition note">
+<p class="admonition-title">Snapshot in the model-evaluation document</p>
+<p><code>docs/model-evaluation-system.md</code> section 9 gives a snapshot of 110 catalogued, 24 scored, 86
+gaps, 106 official. The registry at HEAD has 109, 23, 86, 105. The evaluation index
+(<code>evals_index.json</code>) counts 26 scored language benchmarks because it also counts scored
+sub-benchmarks; see <a href="../evaluation-records/">Evaluation records</a>.</p>
+</div>
+<h2 id="question-concept-mapping">Question → concept mapping<a class="headerlink" href="#question-concept-mapping" title="Permanent link">&para;</a></h2>
+<p>The mapping gives each benchmark item a concept, so a model's per-item correctness rolls up to
+per-concept accuracy. It exists in two generations. Item text and answers are not in the
+repository; only distributions and item-to-concept rows are.</p>
+<h3 id="first-mapping-qconcept">First mapping (<code>qconcept</code>)<a class="headerlink" href="#first-mapping-qconcept" title="Permanent link">&para;</a></h3>
+<p>Designed in <code>web/BENCHMARK-QUESTION-MAPPING.md</code> and implemented in
+<code>build_question_concept_map.py</code>. Each question is embedded with BioClinical-ModernBERT-large (1024-d,
+masked mean pool, <code>max_length</code> 1024, L2-normalised), assigned to the nearest of 4,096 corpus cell
+centroids, and given that cell's dominant concept, the same path the corpus documents use.</p>
+<table>
+<thead>
+<tr>
+<th>Row field (<code>qconcept_&lt;bench&gt;.jsonl</code>)</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>question_id</code></td>
+<td>Source id, else <code>&lt;bench&gt;__&lt;index&gt;</code> (six-digit, zero-padded)</td>
+</tr>
+<tr>
+<td><code>doc_uid</code></td>
+<td><code>blake2b</code> hex digest of the question text</td>
+</tr>
+<tr>
+<td><code>benchmark</code></td>
+<td><code>bench-&lt;slug&gt;</code></td>
+</tr>
+<tr>
+<td><code>concept</code></td>
+<td>Concept node id, or <code>unmapped</code></td>
+</tr>
+<tr>
+<td><code>cell</code></td>
+<td>Corpus cell key</td>
+</tr>
+<tr>
+<td><code>cosine</code></td>
+<td>Cosine to the cell centroid</td>
+</tr>
+</tbody>
+</table>
+<p>The repository holds the 21 distribution files (<code>{benchmark, n, distribution}</code>) and
+<code>qconcept_stats.json</code> (per benchmark: <code>n</code>, <code>n_concepts</code>, <code>top_concept</code>, <code>top_share</code>,
+<code>entropy_bits</code>, <code>mean_cosine</code>, <code>poor_fit_frac</code>). The row files are on the cluster. The 21
+benchmarks are AfriMed-QA, AGIEval LSAT-AR, ARC-Challenge, ARC-Easy, ASDiv, BoolQ, CommonsenseQA,
+COPA, GPQA, GSM8K, HellaSwag, LAMBADA, Medical-MMLU, MedMCQA, MedQA, MedXpertQA, MMLU-Pro, MMLU,
+OpenBookQA, PubMedQA and WinoGrande. This mapping feeds <code>concept_accuracy.json</code> and the
+<code>measured_on</code> edges (<a href="../evaluation-records/">Evaluation records</a>).</p>
+<div class="admonition warning">
+<p class="admonition-title">The <code>doc_uid</code> in question rows is not the ledger <code>doc_uid</code></p>
+<p><code>build_question_concept_map.py</code> computes <code>hashlib.blake2b(text).hexdigest()</code> with the default
+64-byte digest. The training-ledger identity used for decontamination is
+<code>blake2b(raw_text, digest_size=16)</code>. The two cannot be joined.</p>
+</div>
+<h3 id="judge-gated-mapping-qconcept2">Judge-gated mapping (<code>qconcept2</code>)<a class="headerlink" href="#judge-gated-mapping-qconcept2" title="Permanent link">&para;</a></h3>
+<p><code>build_concept_remap.py</code> wires a corrected mapping from <code>web/pipeline/qconcept2/</code>. Its rows carry
+<code>question_id</code>, <code>benchmark</code>, <code>concept</code> and <code>cosine</code>. Over the 20 files there are 48,931 rows, of
+which 2,925 are <code>unmapped</code>. The method string the script stamps is "judge-gated: BGE-large
+retrieval + gemma-4-31B concept judge". The script:</p>
+<ol>
+<li>creates the Wikipedia-grounded general concepts from <code>general_concept_space.json</code> (homes for
+   math, science and reading items);</li>
+<li>rebuilds each benchmark's distribution, stored on the node as
+   <code>topics = {n, unmapped, distribution}</code>;</li>
+<li>wires the 15 largest concepts per benchmark as <code>covers_topic</code> edges with <code>n</code> = number of items
+   (300 edges at HEAD).</li>
+</ol>
+<p><code>hygiene_enrich.py</code> then derives a <code>grounded_in</code> edge (attribute <code>via: mesh:&lt;UI&gt;</code>) from a benchmark
+to every MeSH-grounded concept it reaches through <code>covers_topic</code>, <code>tests</code> or <code>covers</code> (239 edges).</p>
+<div class="admonition warning">
+<p class="admonition-title">Design, graph and served registry disagree on the mapping</p>
+<p><code>BENCHMARK-QUESTION-MAPPING.md</code> requires one embedding space (BioClinical-ModernBERT) and lists
+MedMCQA (270 questions) as the only benchmark mapped. The served graph's topic edges come from
+the judge-gated BGE mapping over 20 benchmarks (MedMCQA is not among them). The served
+<code>benchmarks_llm.json</code> still carries <code>topics</code> on 6 entries and <code>topics_status</code> "pending general
+concept space" on 15, while the graph nodes carry judge-gated <code>topics</code> on 20. The per-concept
+accuracies on concept nodes still use the first mapping's concept ids.</p>
+</div>
+<h2 id="benchmark-nodes-in-the-graph">Benchmark nodes in the graph<a class="headerlink" href="#benchmark-nodes-in-the-graph" title="Permanent link">&para;</a></h2>
+<h3 id="llm-benchmark-106"><code>llm-benchmark</code> (106)<a class="headerlink" href="#llm-benchmark-106" title="Permanent link">&para;</a></h3>
+<p>Built from the registry. Fields on every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code> (<code>concept</code>), <code>arm</code>,
+<code>metric</code>, <code>gated</code>, <code>measures</code>, <code>composition</code>, <code>kos_usage</code>, <code>benchmark</code> (always true), <code>modality</code>
+(always <code>text</code>), <code>testing_type</code>, <code>domain</code>, <code>concept_class</code> (always <code>evaluation</code>), <code>decontam</code>.
+On some: <code>artifact_types</code>, <code>artifact_type_labels</code>, <code>artifact_type_via</code> (96); <code>tier</code> (29); <code>topics</code>,
+<code>topics_status</code> (20); <code>grounding</code>, <code>wp_topic</code>, <code>wp_url</code> (7: intrinsic methods given a Wikipedia
+grounding by <code>hygiene_enrich.py</code>).</p>
+<p><code>artifact_type_via</code> records how the artifact types were assigned: <code>override</code> (34, from
+<code>benchmark_overrides</code> in <code>artifact_types.json</code>) or <code>facet:&lt;task_format&gt;</code> (from
+<code>benchmark_task_format_map</code>). Ten nodes have none; representation diagnostics are deliberately
+untyped.</p>
+<p>Edges out of an <code>llm-benchmark</code>: <code>is_type</code>, <code>in_domain</code>, <code>tests</code>, <code>covers_topic</code>, <code>grounded_in</code>,
+<code>has_artifact_type</code>. Edges into it: <code>scored</code> and <code>evaluated_on</code> from models.</p>
+<h3 id="benchmark-18-imaging-benchmarks"><code>benchmark</code> (18): imaging benchmarks<a class="headerlink" href="#benchmark-18-imaging-benchmarks" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>CT benchmarks (10, <code>layer: dataset</code>)</th>
+<th>WSI benchmarks (8, <code>layer: concept</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>modality</code></td>
+<td><code>imaging-ct</code></td>
+<td><code>imaging-wsi</code></td>
+</tr>
+<tr>
+<td><code>task</code></td>
+<td>Task description</td>
+<td>not present</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>verified</code> (8) or <code>needs-verification</code> (2)</td>
+<td>not present</td>
+</tr>
+<tr>
+<td><code>test_sets</code></td>
+<td>Dataset ids of the held-out test sets</td>
+<td>not present</td>
+</tr>
+<tr>
+<td><code>tests_concepts</code></td>
+<td>Concept labels the benchmark tests</td>
+<td>not present</td>
+</tr>
+<tr>
+<td><code>held_out_total</code></td>
+<td>Number of held-out cases</td>
+<td>not present</td>
+</tr>
+<tr>
+<td><code>decontam</code></td>
+<td>Same block as above</td>
+<td>not present</td>
+</tr>
+<tr>
+<td><code>domain</code>, <code>metric</code>, <code>measures</code>, <code>n_models</code>, <code>source</code></td>
+<td>not present</td>
+<td>present</td>
+</tr>
+<tr>
+<td><code>artifact_types</code></td>
+<td><code>atype-medical-image</code></td>
+<td><code>atype-whole-slide-image</code></td>
+</tr>
+</tbody>
+</table>
+<p>CT benchmarks receive <code>test_set_of</code> edges from their test-set datasets (14 edges). WSI benchmarks
+mirror benchmarks in <code>mm_evals.json</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

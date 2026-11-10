@@ -1,0 +1,2873 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+      
+      
+      
+        <link rel="canonical" href="https://thepanatlas.github.io/docs/metadata/document-index/">
+      
+      
+        <link rel="prev" href="../acquisition-and-licence/">
+      
+      
+        <link rel="next" href="../graph-schema/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Document index - panAtlas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#document-index" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="panAtlas" class="md-header__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            panAtlas
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Document index
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/purpose/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../distributed/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Distributed system
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Metadata
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../system/build-pipeline/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/repository-map/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="panAtlas" class="md-nav__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    panAtlas
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/purpose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Purpose and principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed system
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Distributed system
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/cresco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cresco for panAtlas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/dataset-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Participating agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wire contract and schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage on GaiaKeep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../identifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manifests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manifests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acquisition-and-licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#document-ledger-and-doc_uid-crosswalk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document ledger and doc_uid crosswalk
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#master-document-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Master document index
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arxiv-reference-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        arXiv reference index
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estate-document-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estate document index
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exact-decontamination-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact decontamination records
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registry-labels-v53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registry labels v5.3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registry labels v5.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cell-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cell tables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-document-artifacts-labels_v53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-document artifacts (labels_v53/)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pmc-identifier-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PMC identifier map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluation-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models-and-curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models and curriculum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rdf-vocabulary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../codesystems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/build-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/knowledge-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge store (SPARQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/acquisition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/web-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/public-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/astral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/repository-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#document-ledger-and-doc_uid-crosswalk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document ledger and doc_uid crosswalk
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#master-document-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Master document index
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arxiv-reference-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        arXiv reference index
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estate-document-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estate document index
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exact-decontamination-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact decontamination records
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registry-labels-v53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registry labels v5.3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registry labels v5.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cell-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cell tables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-document-artifacts-labels_v53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-document artifacts (labels_v53/)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pmc-identifier-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PMC identifier map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="document-index">Document index<a class="headerlink" href="#document-index" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Status</p>
+<p><strong>Built and measured, on the cluster.</strong> The document ledger and its <code>doc_uid</code> crosswalk (2026-08-01), the
+master document index (2026-07-27, labels remapped 2026-09-07, Wikipedia columns added 2026-09-10), the
+v5.3 registry labels (2026-09-07), the arXiv reference index and the estate document index (2026-09-23)
+exist as Parquet, NumPy and JSON files in <code>&lt;cluster project storage&gt;/panatlas/</code>. They are not in the
+repository. The repository holds the scripts that build them and their small JSON rollups
+(<code>web/doc_ledger_summary.json</code>, <code>web/master_rollup.json</code>, <code>web/estate_doc_rollup.json</code>,
+<code>web/licence/estate_licence_rollup.json</code>, <code>web/decontam_exact.json</code>). Numbers below are dated; none are
+projected.</p>
+</div>
+<p>The document index answers, for any text document panAtlas knows about: which source and role it belongs
+to, whether a model trained on it, what concept it is about, what Wikipedia article it links to, and under what
+licence. It is built from several tables that share two keys, <code>doc_id</code> (where a row is) and <code>doc_uid</code> (what
+text it is); see <a href="../identifiers/#document-uid-doc_uid">Identifiers</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Artifact</th>
+<th style="text-align: right;">Rows</th>
+<th style="text-align: right;">Size</th>
+<th>Key</th>
+<th>Built by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>doc_ledger_v4.parquet</code></td>
+<td style="text-align: right;">131,739,051</td>
+<td style="text-align: right;">2.88 GB</td>
+<td><code>doc_uid</code></td>
+<td>document-ledger build, jobs 207724 / 208237</td>
+</tr>
+<tr>
+<td><code>doc_ledger_v5.parquet</code></td>
+<td style="text-align: right;">178,562,639</td>
+<td style="text-align: right;">4.02 GB</td>
+<td><code>doc_uid</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>doc_ledger_crosswalk.parquet</code></td>
+<td style="text-align: right;">200,497,968</td>
+<td style="text-align: right;">3.03 GB</td>
+<td><code>doc_uid</code></td>
+<td>job 208241</td>
+</tr>
+<tr>
+<td><code>master_doc_index.parquet</code></td>
+<td style="text-align: right;">89,907,669</td>
+<td style="text-align: right;">706,689,139 B before the Wikipedia columns were added</td>
+<td><code>doc_id</code></td>
+<td><code>web/dgx/build_master_index.py</code></td>
+</tr>
+<tr>
+<td><code>arxiv_doc_index.parquet</code></td>
+<td style="text-align: right;">3,148,796</td>
+<td style="text-align: right;">282,794,241 B</td>
+<td><code>doc_id</code></td>
+<td><code>web/acquisition/arxiv/arxiv_doc_index.py</code></td>
+</tr>
+<tr>
+<td><code>estate_doc_index.parquet</code></td>
+<td style="text-align: right;">93,056,465</td>
+<td style="text-align: right;">not re-measured after the licence build</td>
+<td><code>doc_id</code></td>
+<td><code>web/licence/estate_licence_build.py</code></td>
+</tr>
+<tr>
+<td><code>pmc_doc_pmid_map.parquet</code></td>
+<td style="text-align: right;">14,383,878</td>
+<td style="text-align: right;"></td>
+<td><code>doc_uid</code></td>
+<td>PMC identity recovery, job 212698</td>
+</tr>
+<tr>
+<td><code>labels_v53/</code></td>
+<td style="text-align: right;">per document, e8 order</td>
+<td style="text-align: right;">186,798,930,278 B</td>
+<td>e8 row</td>
+<td>v5.3 promotion, job 219233</td>
+</tr>
+</tbody>
+</table>
+<p>Measured 2026-09-19: the whole index estate is 198,036,273,201 B over 200,497,968 documents, about 988 B per
+document. Of that, 11.24 GB (5.7 %) is the five source-of-record Parquet tables (the three ledger files,
+<code>master_doc_index</code>, <code>pmc_doc_pmid_map</code>) and 186.80 GB (94.3 %) is the derived <code>labels_v53/</code> directory.</p>
+<h2 id="document-ledger-and-doc_uid-crosswalk">Document ledger and <code>doc_uid</code> crosswalk<a class="headerlink" href="#document-ledger-and-doc_uid-crosswalk" title="Permanent link">&para;</a></h2>
+<p>The ledger records every document that entered the V4 and V5 pretraining runs, one row per document as it
+was trained, with its content-addressed id.</p>
+<p><strong>Ledger columns</strong> (<code>doc_ledger_v4.parquet</code>, <code>doc_ledger_v5.parquet</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>doc_uid</code></td>
+<td><code>blake2b(raw_text, digest_size=16)</code> as 32 hex characters</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><code>v4</code> or <code>v5</code></td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>training source name</td>
+</tr>
+<tr>
+<td><code>file</code></td>
+<td>the corpus file the row came from</td>
+</tr>
+<tr>
+<td><code>row_idx</code></td>
+<td>row index within that file</td>
+</tr>
+<tr>
+<td><code>n_chars</code></td>
+<td>text length in characters</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Crosswalk columns</strong> (<code>doc_ledger_crosswalk.parquet</code>): <code>doc_uid</code>, <code>in_v4</code>, <code>in_v5</code> (booleans). One row per
+distinct <code>doc_uid</code> in either ledger. It is membership only: it does not carry concepts or positions.</p>
+<p>Build: 11,848 input files (V4 610 over 14 sources, V5 11,238 over 56 units), a 500-task CPU array with zero
+failures. The build gates failed closed on the audited census counts and both passed. It was acceptance-tested
+by round-tripping a real document: text → <code>doc_uid</code> → exactly one ledger row with the correct file and
+<code>row_idx</code> → crosswalk <code>in_v4 = true, in_v5 = true</code>.</p>
+<p><code>web/doc_ledger_summary.json</code> holds the summary:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th style="text-align: right;">V4</th>
+<th style="text-align: right;">V5</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rows_entered</code></td>
+<td style="text-align: right;">131,739,051</td>
+<td style="text-align: right;">178,562,639</td>
+<td>rows that entered training</td>
+</tr>
+<tr>
+<td><code>census_entered</code></td>
+<td style="text-align: right;">131,739,051</td>
+<td style="text-align: right;">178,562,639</td>
+<td>the audited census count</td>
+</tr>
+<tr>
+<td><code>gate_entered</code></td>
+<td style="text-align: right;"><code>PASS</code></td>
+<td style="text-align: right;"><code>PASS</code></td>
+<td>rows equal the census</td>
+</tr>
+<tr>
+<td><code>census_trained</code></td>
+<td style="text-align: right;">131,577,161</td>
+<td style="text-align: right;">178,344,619</td>
+<td>rows after the over-length drop</td>
+</tr>
+<tr>
+<td><code>dropped_overlength</code></td>
+<td style="text-align: right;">161,890</td>
+<td style="text-align: right;">218,020</td>
+<td>whole documents dropped for length (0.12 % of each)</td>
+</tr>
+<tr>
+<td><code>distinct_doc_uid</code></td>
+<td style="text-align: right;">79,548,810</td>
+<td style="text-align: right;">177,728,829</td>
+<td>distinct texts</td>
+</tr>
+<tr>
+<td><code>duplicate_rows</code></td>
+<td style="text-align: right;">52,190,241</td>
+<td style="text-align: right;">833,810</td>
+<td>rows beyond the first copy</td>
+</tr>
+<tr>
+<td><code>duplicate_pct</code></td>
+<td style="text-align: right;">39.6164</td>
+<td style="text-align: right;">0.467</td>
+<td>duplicate rows as a percentage of rows</td>
+</tr>
+<tr>
+<td><code>max_copies_of_one_doc</code></td>
+<td style="text-align: right;">4,280</td>
+<td style="text-align: right;">1,520</td>
+<td>the most-repeated single text</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><code>crosswalk</code> key</th>
+<th style="text-align: right;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>distinct_v4</code></td>
+<td style="text-align: right;">79,548,810</td>
+</tr>
+<tr>
+<td><code>distinct_v5</code></td>
+<td style="text-align: right;">177,728,829</td>
+</tr>
+<tr>
+<td><code>in_both</code></td>
+<td style="text-align: right;">56,779,671</td>
+</tr>
+<tr>
+<td><code>v4_only</code></td>
+<td style="text-align: right;">22,769,139</td>
+</tr>
+<tr>
+<td><code>v5_only</code></td>
+<td style="text-align: right;">120,949,158</td>
+</tr>
+<tr>
+<td><code>union</code></td>
+<td style="text-align: right;">200,497,968</td>
+</tr>
+</tbody>
+</table>
+<p>Owner ruling (2026-08-01): every document in the ledger counts as trained on. The over-length drop is not
+distinguished per document. Exposure is counted on distinct <code>doc_uid</code>, never on rows.</p>
+<div class="admonition note">
+<p class="admonition-title">What the crosswalk revealed</p>
+<p>The V4 run was never deduplicated: 39.6 % of its rows are exact duplicates, concentrated in the general
+web source (54.7 % duplicate) and PMC (22.3 %). V5 is nearly duplicate-free (0.47 %). Only 56.8 M documents
+are common to both runs; V5 dropped 22.8 M documents V4 trained on and added 120.9 M. These are
+measurements of the ledger, not estimates.</p>
+</div>
+<h2 id="master-document-index">Master document index<a class="headerlink" href="#master-document-index" title="Permanent link">&para;</a></h2>
+<p><code>master_doc_index.parquet</code> lists every document that was embedded and clustered: the pretraining chunk store
+and the SFT assignment table. <code>web/dgx/build_master_index.py</code> builds it by joining each document's
+<code>(topic_cluster, subtopic_cluster)</code> cell to a concept label through <code>cell2concept.json</code> and
+<code>cell2concept_llm.json</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Meaning</th>
+<th>Added</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>doc_id</code></td>
+<td>string</td>
+<td><code>&lt;source&gt;__&lt;NNNNNNNNN&gt;__c&lt;KKKK&gt;</code> for pretrain chunks; SFT ids end in the source line number</td>
+<td>build</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>string</td>
+<td>source name (136 sources)</td>
+<td>build</td>
+</tr>
+<tr>
+<td><code>topic_cluster</code></td>
+<td>integer</td>
+<td>top-level cluster</td>
+<td>build</td>
+</tr>
+<tr>
+<td><code>subtopic_cluster</code></td>
+<td>integer</td>
+<td>cluster within the topic; with <code>topic_cluster</code>, identifies the cell</td>
+<td>build</td>
+</tr>
+<tr>
+<td><code>role</code></td>
+<td>string</td>
+<td><code>pretrain</code> or <code>sft</code></td>
+<td>build</td>
+</tr>
+<tr>
+<td><code>concept</code></td>
+<td>string</td>
+<td>the cell's concept label; remapped to the v5.3 primaries on 2026-09-07</td>
+<td>build, remapped</td>
+</tr>
+<tr>
+<td><code>wiki_primary_page_id</code></td>
+<td>int64</td>
+<td>the Wikipedia article this document's primary link points to</td>
+<td>2026-09-10</td>
+</tr>
+<tr>
+<td><code>wiki_primary_cos</code></td>
+<td>float32</td>
+<td>cosine of that link</td>
+<td>2026-09-10</td>
+</tr>
+<tr>
+<td><code>wiki_band</code></td>
+<td>uint8</td>
+<td>link strength: <code>0</code> weak · <code>1</code> medium · <code>2</code> strong · <code>3</code> curated bridge · <code>5</code> lexical agreement</td>
+<td>2026-09-10</td>
+</tr>
+<tr>
+<td><code>wiki_channel</code></td>
+<td>uint8</td>
+<td>which linking channel produced the link</td>
+<td>2026-09-10</td>
+</tr>
+</tbody>
+</table>
+<p>The four <code>wiki_*</code> columns were added by the Wikipedia-layer promotion; the schema of record is the cluster
+file, not the build script (which writes the first six).</p>
+<p>Measured: 89,907,669 rows (pretrain 77,327,492 · SFT 12,580,177), 89,907,665 with a concept (4 null); but only
+<strong>81,372,220 distinct <code>doc_id</code>s</strong> (8,535,449 duplicate rows), because the pretrain and SFT frames overlap
+(measured 2026-09-23). The "89.9 M documents" headline is a row count; for pretrain sources a row is a chunk,
+not an article. <code>wiki_band</code> distribution over all rows (2026-09-10): strong 0.44 %, medium 4.1 %, lexical
+agreement 5.04 %, bridge 79.8 %, weak 10.66 %.</p>
+<p><code>web/master_rollup.json</code> (repository copy) holds <code>total_docs</code>, <code>mapped</code>, <code>by_role</code>, <code>n_sources</code>,
+<code>per_concept</code> (rows per concept) and <code>per_source</code> (<code>{role, docs, concepts: [[concept, percent], …]}</code>, top 8).</p>
+<div class="admonition warning">
+<p class="admonition-title">Read-only by contract</p>
+<p>The Wikipedia chain asserts the master index's row count, so the estate builders read
+<code>master_doc_index.parquet</code> and never change it (<code>web/estate_doc_index.py</code> docstring). Re-running
+<code>build_master_index.py</code> would drop the <code>wiki_*</code> columns and revert the v5.3 remap.</p>
+</div>
+<h2 id="arxiv-reference-index">arXiv reference index<a class="headerlink" href="#arxiv-reference-index" title="Permanent link">&para;</a></h2>
+<p><code>arxiv_doc_index.parquet</code> holds the first <strong>reference-tier</strong> source: indexed, never embedded, never in a
+training mix. One row per paper, sorted by <code>paper_id</code>. No text is stored.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>doc_id</code></td>
+<td><code>arxiv_complete__&lt;paper_id&gt;</code></td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td><code>arxiv_complete</code></td>
+</tr>
+<tr>
+<td><code>role</code></td>
+<td><code>reference</code></td>
+</tr>
+<tr>
+<td><code>paper_id</code></td>
+<td>arXiv id</td>
+</tr>
+<tr>
+<td><code>license</code></td>
+<td>per-paper licence from the metadata config (null when arXiv holds none)</td>
+</tr>
+<tr>
+<td><code>license_text</code></td>
+<td>the same value from the assembled-text config (cross-check; the two agree on all 2,431,445 papers that have both)</td>
+</tr>
+<tr>
+<td><code>has_text</code></td>
+<td>an assembled text exists</td>
+</tr>
+<tr>
+<td><code>n_chars</code></td>
+<td>UTF-8 length of the assembled text</td>
+</tr>
+<tr>
+<td><code>n_abstract_chars</code></td>
+<td>abstract length</td>
+</tr>
+<tr>
+<td><code>title</code>, <code>primary_category</code>, <code>categories</code>, <code>doi</code></td>
+<td>metadata</td>
+</tr>
+<tr>
+<td><code>n_versions</code>, <code>first_version_date</code>, <code>latest_version_date</code></td>
+<td>version history</td>
+</tr>
+<tr>
+<td><code>text_sha256</code></td>
+<td>sha256 of the assembled text (content hash for decontamination)</td>
+</tr>
+<tr>
+<td><code>text_encoding</code>, <code>resolution</code>, <code>n_tex_files</code>, <code>n_files_used</code>, <code>n_unused_files</code></td>
+<td>how the text was assembled</td>
+</tr>
+</tbody>
+</table>
+<p>Measured 2026-09-23 (<code>web/acquisition/arxiv/arxiv_doc_rollup.json</code>): 3,148,796 rows, 2,856,227 with text,
+246,780,951,228 characters in total, 452,715 papers with no licence.</p>
+<h2 id="estate-document-index">Estate document index<a class="headerlink" href="#estate-document-index" title="Permanent link">&para;</a></h2>
+<p><code>estate_doc_index.parquet</code> is the only place the two tiers are unioned: one row per estate document, each with
+its licence, Wikipedia link and MeSH concept. It is the table the licence policy is applied from.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Meaning (embedded tier / reference tier)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>doc_id</code></td>
+<td>string</td>
+<td>from <code>master_doc_index</code> / from <code>arxiv_doc_index</code></td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>dictionary string</td>
+<td>source name</td>
+</tr>
+<tr>
+<td><code>role</code></td>
+<td>dictionary string</td>
+<td><code>pretrain</code>, <code>sft</code> / <code>reference</code></td>
+</tr>
+<tr>
+<td><code>tier</code></td>
+<td>dictionary string</td>
+<td><code>embedded</code> / <code>reference</code></td>
+</tr>
+<tr>
+<td><code>license</code></td>
+<td>dictionary string</td>
+<td>resolved licence text</td>
+</tr>
+<tr>
+<td><code>license_id</code></td>
+<td>dictionary string</td>
+<td>resolved licence id</td>
+</tr>
+<tr>
+<td><code>license_scope</code></td>
+<td>dictionary string</td>
+<td><code>dataset</code>, <code>document</code>, <code>derived</code>, <code>internal</code>, <code>mixed</code>, <code>unknown</code></td>
+</tr>
+<tr>
+<td><code>license_status</code></td>
+<td>dictionary string</td>
+<td><code>verified</code>, <code>conflicting</code>, <code>not-found</code>, <code>internal</code>, <code>unresolved</code></td>
+</tr>
+<tr>
+<td><code>license_upstream</code></td>
+<td>dictionary string</td>
+<td>upstream key(s) in <code>web/licence/licence_registry.json</code></td>
+</tr>
+<tr>
+<td><code>license_resolved_by</code></td>
+<td>dictionary string</td>
+<td>resolution route</td>
+</tr>
+<tr>
+<td><code>wiki_primary_page_id</code></td>
+<td>int64</td>
+<td>Wikipedia primary link</td>
+</tr>
+<tr>
+<td><code>wiki_primary_cos</code></td>
+<td>float32</td>
+<td>its cosine</td>
+</tr>
+<tr>
+<td><code>wiki_band</code></td>
+<td>uint8</td>
+<td>band, as in the master index</td>
+</tr>
+<tr>
+<td><code>wiki_channel</code></td>
+<td>uint8</td>
+<td>channel</td>
+</tr>
+<tr>
+<td><code>wiki_basis</code></td>
+<td>dictionary string</td>
+<td><code>w5-primary-own_hub1</code> / <code>w5-primary-own_hub1 (arxiv_embed_align)</code></td>
+</tr>
+<tr>
+<td><code>mesh_concept</code></td>
+<td>dictionary string</td>
+<td>the cell concept / the cell concept only for MeSH-appropriate papers in non-boilerplate cells, else null</td>
+</tr>
+<tr>
+<td><code>mesh_basis</code></td>
+<td>dictionary string</td>
+<td><code>cell-v5.3</code> / <code>cell-v5.3 (arxiv_embed_align; MeSH-appropriate papers only)</code></td>
+</tr>
+<tr>
+<td><code>mesh_appropriate</code></td>
+<td>boolean</td>
+<td>reference tier only: whether MeSH applies to the paper</td>
+</tr>
+</tbody>
+</table>
+<p>Strings other than <code>doc_id</code> are dictionary-encoded; the file is zstd-compressed and replaced atomically
+(written to <code>.tmp</code>, then renamed). If the arXiv embedding alignment is absent, the builder falls back to the
+lexical alignment and writes <code>wiki_basis = arxiv-lexalign:&lt;basis&gt;</code> and <code>mesh_basis = arxiv-lexalign-v5.3-lexicon</code>.</p>
+<p>Rules enforced by the builders: every reference <code>doc_id</code> starts with <code>arxiv_complete__</code>; no embedded <code>doc_id</code>
+does; no reference id occurs in the embedded tier. Within-tier duplicates are counted and reported, not
+rejected.</p>
+<p>Measured 2026-09-23 (<code>web/licence/estate_licence_rollup.json</code>, <code>web/estate_doc_rollup.json</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rows</td>
+<td>93,056,465 (embedded 89,907,669 · reference 3,148,796)</td>
+</tr>
+<tr>
+<td>Distinct documents</td>
+<td>84,521,016 (embedded 81,372,220 · reference 3,148,796)</td>
+</tr>
+<tr>
+<td>Sources</td>
+<td>137</td>
+</tr>
+<tr>
+<td>Wikipedia-linked rows</td>
+<td>embedded 89,907,669 · reference 3,148,796</td>
+</tr>
+<tr>
+<td>Rows with a MeSH concept</td>
+<td>embedded 89,907,665 · reference 194,054</td>
+</tr>
+<tr>
+<td>Licence status, scope, resolution</td>
+<td>see <a href="../acquisition-and-licence/#per-document-licence-on-the-estate-index">Acquisition and licence</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Reference-tier alignment numbers differ between records</p>
+<p>The project's licence reference page (2026-09-23) reports 2,562,475 Wikipedia-linked and 213,809
+MeSH-labelled arXiv rows: those are the lexical-alignment figures, which the arXiv registry entry's
+<code>alignment</code> block also records (<code>wiki_linked: 2562475</code>). The estate rollup in the repository, built later
+the same day with the embedding alignment, reports 3,148,796 and 194,054. The current file follows the
+rollup. Also see the two-builder warning on
+<a href="../acquisition-and-licence/#per-document-licence-on-the-estate-index">Acquisition and licence</a>.</p>
+</div>
+<h2 id="exact-decontamination-records">Exact decontamination records<a class="headerlink" href="#exact-decontamination-records" title="Permanent link">&para;</a></h2>
+<p><code>web/decontam_exact.json</code> records whether any evaluation item's text is, verbatim, a document a model was
+trained on. It is produced by <code>web/dgx/decontam_exact.py</code> and is the only contamination claim panAtlas
+presents as proven.</p>
+<p><strong>Method.</strong></p>
+<ol>
+<li>For each benchmark, read the first lm-eval <code>samples_*.jsonl</code> file found (items are identical across
+   checkpoints). All <code>mmlu_*</code> subtasks are merged into <code>mmlu</code>.</li>
+<li>From each sample's <code>doc</code>, take every candidate string: <code>question</code>, <code>query</code>, <code>ctx</code>, <code>goal</code>, <code>sentence</code>,
+   <code>premise</code>, <code>text</code>, <code>passage</code>, <code>activity_label</code>; each string or joined list under <code>context.&lt;key&gt;</code>; or
+   <code>context</code> itself. A bare string <code>doc</code> is used as is.</li>
+<li>Hash each with the ledger recipe, <code>blake2b(text.encode("utf-8", "ignore"), digest_size=16)</code>, raw, with
+   no normalisation.</li>
+<li>Semi-join the distinct hashes against <code>doc_ledger_crosswalk.parquet</code> (DuckDB, with a row-group scan
+   fallback) to get <code>in_v4</code> and <code>in_v5</code>.</li>
+</ol>
+<p><strong>Structure.</strong> A JSON object keyed by benchmark task name; each value:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>items</code></td>
+<td>integer</td>
+<td>number of samples-file lines read for the benchmark (lines, not distinct hashes)</td>
+</tr>
+<tr>
+<td><code>item_doc_uids_matched_v4</code></td>
+<td>integer</td>
+<td>distinct item hashes found in the V4 ledger</td>
+</tr>
+<tr>
+<td><code>matched_v5</code></td>
+<td>integer</td>
+<td>distinct item hashes found in the V5 ledger</td>
+</tr>
+<tr>
+<td><code>matched_either</code></td>
+<td>integer</td>
+<td>distinct item hashes found in either</td>
+</tr>
+<tr>
+<td><code>trained_on</code></td>
+<td>boolean</td>
+<td><code>matched_either &gt; 0</code></td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td>string</td>
+<td><code>blake2b16 doc_uid membership vs doc_ledger_crosswalk</code></td>
+</tr>
+</tbody>
+</table>
+<p>The asymmetric names (<code>item_doc_uids_matched_v4</code> but <code>matched_v5</code>) are as written by the script.</p>
+<p><strong>Values at HEAD.</strong> 16 benchmarks, 38,491 items in total, <strong>zero matches and <code>trained_on: false</code> for all 16</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Benchmark key</th>
+<th style="text-align: right;">Items</th>
+<th></th>
+<th>Benchmark key</th>
+<th style="text-align: right;">Items</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>afrimedqa_mcq</code></td>
+<td style="text-align: right;">3,600</td>
+<td></td>
+<td><code>mathqa</code></td>
+<td style="text-align: right;">2,985</td>
+</tr>
+<tr>
+<td><code>arc_challenge</code></td>
+<td style="text-align: right;">1,172</td>
+<td></td>
+<td><code>medmcqa</code></td>
+<td style="text-align: right;">4,183</td>
+</tr>
+<tr>
+<td><code>arc_easy</code></td>
+<td style="text-align: right;">2,376</td>
+<td></td>
+<td><code>medqa_4options</code></td>
+<td style="text-align: right;">1,273</td>
+</tr>
+<tr>
+<td><code>asdiv</code></td>
+<td style="text-align: right;">2,305</td>
+<td></td>
+<td><code>medxpertqa_text</code></td>
+<td style="text-align: right;">2,450</td>
+</tr>
+<tr>
+<td><code>commonsense_qa</code></td>
+<td style="text-align: right;">1,221</td>
+<td></td>
+<td><code>mmlu</code></td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr>
+<td><code>gsm8k</code></td>
+<td style="text-align: right;">2,638</td>
+<td></td>
+<td><code>piqa</code></td>
+<td style="text-align: right;">1,838</td>
+</tr>
+<tr>
+<td><code>hellaswag</code></td>
+<td style="text-align: right;">10,042</td>
+<td></td>
+<td><code>pubmedqa</code></td>
+<td style="text-align: right;">500</td>
+</tr>
+<tr>
+<td><code>ifeval</code></td>
+<td style="text-align: right;">541</td>
+<td></td>
+<td><code>winogrande</code></td>
+<td style="text-align: right;">1,267</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Where it lands.</strong> <code>web/decontam_enrich.py</code> maps task names to benchmark slugs (for example <code>medqa_4options</code>
+→ <code>medqa</code>, <code>arc_challenge</code> → <code>arc-challenge</code>) and writes a <code>decontam</code> block on each benchmark node in the
+served graph and on each entry of <code>web/benchmarks_llm.json</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>holdout_status</code></td>
+<td><code>proven_trained_on</code>, <code>provably_held_out</code>, <code>partial</code>, <code>not_held_out</code> or <code>unchecked</code>, from a hand-maintained list per benchmark (the earlier 13-gram decontamination audit)</td>
+</tr>
+<tr>
+<td><code>holdout_note</code></td>
+<td>the sentence explaining that status</td>
+</tr>
+<tr>
+<td><code>exact_doc_uid.checked</code></td>
+<td><code>true</code> if the benchmark is in <code>decontam_exact.json</code></td>
+</tr>
+<tr>
+<td><code>exact_doc_uid.items</code>, <code>.matched_either</code></td>
+<td>copied from <code>decontam_exact.json</code></td>
+</tr>
+<tr>
+<td><code>exact_doc_uid.verdict</code></td>
+<td><code>no verbatim-document match (held out at the exact-document level)</code> or <code>EXACT doc_uid match in training ledger</code></td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td>the recipe in words</td>
+</tr>
+</tbody>
+</table>
+<p>At HEAD the served graph has 124 benchmark nodes; 116 carry a <code>decontam</code> block, 16 with
+<code>exact_doc_uid.checked: true</code>. <code>web/benchmarks_llm.json</code> has 106 blocks, 16 checked. See
+<a href="../benchmarks/">Benchmarks</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Documented fields differ from the data</p>
+<p><code>docs/evaluation-dimensions-and-metadata.md</code> §G lists <code>exact_doc_uid = {checked, matched_either,
+matched_v4, matched_v5}</code>. The data and <code>decontam_enrich.py</code> carry <code>{checked, items, matched_either,
+verdict}</code>; per-run V4/V5 matches are only in <code>decontam_exact.json</code>. The 106 blocks in
+<code>web/benchmarks_llm.json</code> also lack <code>holdout_status</code> and <code>holdout_note</code>, which the graph's blocks have.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Limits of the exact check</p>
+<p>It detects verbatim identity of a whole field with a whole training document. A reformatted, truncated
+or paraphrased copy, or an item embedded inside a longer training document, does not match. Zero
+matches means "not trained on verbatim", not "not seen". All 16 benchmarks are text; no imaging
+benchmark has an exact-overlap record.</p>
+</div>
+<h2 id="registry-labels-v53">Registry labels v5.3<a class="headerlink" href="#registry-labels-v53" title="Permanent link">&para;</a></h2>
+<p>The v5.3 promotion (job 219233, 2026-09-07, 19 minutes) relabelled the estate's 1,740 cells with MeSH
+descriptors and wrote per-document label artifacts. An independent job (219234, <code>p6_verify.py</code>) verified every
+count below. Originals were backed up before the change; a promotion log and a labels manifest record it.</p>
+<h3 id="cell-tables">Cell tables<a class="headerlink" href="#cell-tables" title="Permanent link">&para;</a></h3>
+<p><code>cell2concept.json</code> (the v5.3 table on the cluster; the v1 copy is kept beside it):</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cell_id</code></td>
+<td>cell number</td>
+</tr>
+<tr>
+<td><code>topic_cluster</code>, <code>subtopic_cluster</code></td>
+<td>the cell's cluster coordinates (join key to <code>master_doc_index</code>)</td>
+</tr>
+<tr>
+<td><code>count</code></td>
+<td>documents in the cell</td>
+</tr>
+<tr>
+<td><code>slug</code></td>
+<td><code>mesh-&lt;primary_dui&gt;</code> for a v5.3 cell; the v1 <code>concept-*</code> slug otherwise</td>
+</tr>
+<tr>
+<td><code>cos</code>, <code>cell_domain</code>, <code>topic_summary</code></td>
+<td>v1 fields (cosine to the v1 concept, domain, summary sentence)</td>
+</tr>
+<tr>
+<td><code>primary_dui</code>, <code>primary_name</code></td>
+<td>the v5.3 primary MeSH descriptor</td>
+</tr>
+<tr>
+<td>enrichment, support and top-8 fields</td>
+<td>the statistics that chose the primary</td>
+</tr>
+<tr>
+<td><code>boilerplate</code>, <code>primary_is_boilerplate</code></td>
+<td>boilerplate flags (the estate builder reads these two keys)</td>
+</tr>
+<tr>
+<td><code>label_source</code></td>
+<td><code>v5.3</code> or <code>v1</code></td>
+</tr>
+</tbody>
+</table>
+<p>The repository copy, <code>web/cell2concept.json</code>, is the v1 table: it has only the v1 fields above, and all
+1,740 slugs are <code>concept-*</code> (see the warning on <a href="../identifiers/#mesh-derived-ids">Identifiers</a>). The exact
+key names of the enrichment, support and top-8 fields are recorded only in the cluster file and the labels
+manifest; they could not be verified from the repository.</p>
+<p><code>cell2concept_llm.json</code> maps <code>cell_id</code> to the concept name used for the <code>concept</code> column.</p>
+<p>Measured: 1,740 cells; <strong>1,380 carry a v5.3 primary</strong>; 360 cells with fewer than 200 labelled rows keep their
+v1 label and say so. 114 cells (11,217,630 rows) are flagged boilerplate because their primary is in a fixed
+set of 28 descriptors; their primaries are flagged, not replaced. In <code>master_doc_index.parquet</code>, the
+<code>concept</code> column was remapped through the new table: 89,890,687 rows changed, and the verification found the
+column agrees with the cell table on all 89,907,669 rows (0 mismatches, 4 null concepts).</p>
+<h3 id="per-document-artifacts-labels_v53">Per-document artifacts (<code>labels_v53/</code>)<a class="headerlink" href="#per-document-artifacts-labels_v53" title="Permanent link">&para;</a></h3>
+<p>All arrays are in <strong>e8 row order</strong> (the order of the embedding store), not master order.
+<code>e8_to_master_rowmap.npy</code> maps an e8 row to a master row; e8 lists the SFT rows first, so e8 row 0 is master
+row 77,327,492. The map is unique, and e8 ids 0 to 2,999 were checked equal to the registry <code>doc_id</code> at the
+mapped row. The map carries ids only; there is no content join.</p>
+<table>
+<thead>
+<tr>
+<th>Artifact</th>
+<th style="text-align: right;">Size</th>
+<th>Content</th>
+<th>Measured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>doc_mesh_labels_v53.npz</code></td>
+<td style="text-align: right;">8.95 GiB</td>
+<td>per-row lexical MeSH labels, CSR over e8 rows (estate linker, lexicon v5.3)</td>
+<td>83,752,006 labelled rows · 2,066,519,278 pairs</td>
+</tr>
+<tr>
+<td><code>doc_mesh_labels_v53_granular.npz</code></td>
+<td style="text-align: right;">3.08 GiB</td>
+<td>the most specific labels per row</td>
+<td>81,505,814 rows · 501,191,944 pairs</td>
+</tr>
+<tr>
+<td><code>doc_mesh_edges_v53_s1.npz</code>, <code>_s2.npz</code></td>
+<td style="text-align: right;">55.67 GiB each</td>
+<td>weighted document → descriptor edges for two seeds of a 10 % held-out split; fields <code>share</code>, <code>enr</code>, <code>nlp</code> (fp16), <code>flags</code> (bit 0 lexical, bit 1 neighbour), base rates, hold mask, neighbour count</td>
+<td>s1: 5,292,977,718 edges over 85,546,517 documents; s2: 5,292,887,159 over 85,547,766; about 58.9 per document, median 13 neighbour edges, no cap</td>
+</tr>
+<tr>
+<td><code>knn_exact96/</code></td>
+<td style="text-align: right;"></td>
+<td>the exact 96 nearest neighbours of every document: 86 parts of <code>idx</code> (int32) and <code>sim</code> (fp16), plus <code>mean.npy</code>; exhaustive search over the text-encoder vectors, centred on the corpus mean</td>
+<td>last part 778,709 × 96</td>
+</tr>
+<tr>
+<td><code>doc_ids_e8_order.txt</code></td>
+<td style="text-align: right;">2.37 GiB</td>
+<td>the document id of every e8 row</td>
+<td></td>
+</tr>
+<tr>
+<td><code>cell_boilerplate_flags.json</code>, <code>P4_relabel_report.json</code></td>
+<td style="text-align: right;">small</td>
+<td>boilerplate flags and the relabel report</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The edge build also wrote <code>P5_edges_report_s1.json</code> and <code>P5_edges_report_s2.json</code>, and the lexicon build
+<code>lexicon_v53.jsonl</code> with <code>lexicon_v53_report.json</code>; the project record names them but not whether they sit
+inside <code>labels_v53/</code>.</p>
+<p>Total <code>labels_v53/</code>: 186,798,930,278 B, re-measured with <code>du -sb</code> on 2026-09-19 (an earlier "140 GB" figure
+was low).</p>
+<div class="admonition danger">
+<p class="admonition-title">Derived label arrays cannot be redacted row by row</p>
+<p>An <code>.npz</code> is a zip of whole arrays and a CSR row cannot be blanked without rewriting them. Removing one
+document from <code>labels_v53/</code> means invalidating and recomputing it from the retained recipe (jobs
+219233 and 219234, lexicon v5.3). The cost of that recompute has not been measured. The Parquet tables,
+by contrast, are row-group structured and can be sharded so that a withdrawal touches only its own rows.
+<code>doc_ids_e8_order.txt</code> is 89.9 M unkeyed content-derived ids; see the storage rule on
+<a href="../identifiers/#document-uid-doc_uid">Identifiers</a>.</p>
+</div>
+<h2 id="pmc-identifier-map">PMC identifier map<a class="headerlink" href="#pmc-identifier-map" title="Permanent link">&para;</a></h2>
+<p>PMC documents in the V4 and V5 corpora were trained without per-article ids. Their identity was recovered by
+content anchor (job 212698, 2026-08-16): a 12-word key from each trained document's opening matched against
+the June-2026 Open Access baseline; a key that maps to two ids in one corpus is dropped as ambiguous (37,854,
+0.5 %), never guessed. Result: 7,194,690 of 7,686,832 baseline members matched (93.6 %), giving
+<code>pmc_doc_pmid_map.parquet</code> with columns <code>doc_uid, pmcid, pmid, in_v4, in_v5, corpus_index, match_offset</code>
+(14,383,878 rows, V4 and V5 renditions) and a list of 6,978,012 exact trained PMIDs. It is the one table that
+links a ledger <code>doc_uid</code> to a publisher identifier.</p>
+<p>Related pages: <a href="../identifiers/">Identifiers</a>, <a href="../acquisition-and-licence/">Acquisition and licence</a>,
+<a href="../dataset-registry/">Dataset registry</a>, <a href="../benchmarks/">Benchmarks</a>,
+<a href="../evaluation-records/">Evaluation records</a>, <a href="../models-and-curriculum/">Models and curriculum</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

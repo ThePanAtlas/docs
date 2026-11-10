@@ -1,0 +1,3930 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+      
+      
+      
+        <link rel="canonical" href="https://thepanatlas.github.io/docs/metadata/graph-schema/">
+      
+      
+        <link rel="prev" href="../document-index/">
+      
+      
+        <link rel="next" href="../benchmarks/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Graph schema - panAtlas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#graph-schema" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="panAtlas" class="md-header__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            panAtlas
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Graph schema
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/purpose/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../distributed/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Distributed system
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Metadata
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../system/build-pipeline/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/repository-map/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="panAtlas" class="md-nav__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    panAtlas
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/purpose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Purpose and principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed system
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Distributed system
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/cresco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cresco for panAtlas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/dataset-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Participating agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wire contract and schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage on GaiaKeep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../identifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manifests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manifests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acquisition-and-licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../document-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#totals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Totals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#node-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Node object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        layer values
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#node-kinds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Node kinds
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Node kinds">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#property-keys-by-kind" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Property keys by kind
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Property keys by kind">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disease-3170" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        disease (3,170)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#food-1582" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        food (1,582)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-513" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dataset (513)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-312" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        concept (312)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#food-category-172" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        food-category (172)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm-benchmark-106" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        llm-benchmark (106)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-90" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        model (90)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capability-35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        capability (35)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact-type-35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact-type (35)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specialty-28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        specialty (28)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-type-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        testing-type (21)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fhir-18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fhir (18)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        benchmark (18)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authority-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        authority (15)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#training-stage-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        training-stage (14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capability-group-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        capability-group (13)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eval-domain-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eval-domain (9)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        domain (5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#register-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register (5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modality-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        modality (5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codebase-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        codebase (4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guideline-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guideline (3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gen-category-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gen-category (3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#group-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        group (2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        system (2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#root-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        root (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gate-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gate (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kg-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kg (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atlas-root-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        atlas-root (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eval-suite-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eval-suite (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#measurement-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        measurement (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        method (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#edge-relations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge relations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Edge relations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#edge-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge attributes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#standards-that-govern-the-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standards that govern the graph
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Standards that govern the graph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identity-and-grounding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identity and grounding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hierarchy-and-edge-direction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hierarchy and edge direction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provenance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-graph-files-in-the-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other graph files in the repository
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build order
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluation-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models-and-curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models and curriculum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rdf-vocabulary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../codesystems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/build-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/knowledge-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge store (SPARQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/acquisition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/web-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/public-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/astral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/repository-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#totals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Totals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#node-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Node object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        layer values
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#node-kinds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Node kinds
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Node kinds">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#property-keys-by-kind" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Property keys by kind
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Property keys by kind">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disease-3170" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        disease (3,170)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#food-1582" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        food (1,582)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-513" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dataset (513)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-312" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        concept (312)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#food-category-172" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        food-category (172)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm-benchmark-106" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        llm-benchmark (106)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-90" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        model (90)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capability-35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        capability (35)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact-type-35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact-type (35)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specialty-28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        specialty (28)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-type-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        testing-type (21)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fhir-18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fhir (18)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        benchmark (18)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authority-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        authority (15)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#training-stage-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        training-stage (14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capability-group-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        capability-group (13)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eval-domain-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eval-domain (9)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        domain (5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#register-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register (5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modality-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        modality (5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codebase-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        codebase (4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guideline-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guideline (3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gen-category-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gen-category (3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#group-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        group (2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        system (2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#root-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        root (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gate-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gate (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kg-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kg (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atlas-root-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        atlas-root (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eval-suite-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eval-suite (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#measurement-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        measurement (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        method (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#edge-relations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge relations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Edge relations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#edge-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge attributes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#standards-that-govern-the-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standards that govern the graph
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Standards that govern the graph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identity-and-grounding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identity and grounding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hierarchy-and-edge-direction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hierarchy and edge direction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provenance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-graph-files-in-the-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other graph files in the repository
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build order
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="graph-schema">Graph schema<a class="headerlink" href="#graph-schema" title="Permanent link">&para;</a></h1>
+<p>This page documents every node type and every edge type in the panAtlas served graph, with the
+property keys each one carries and the script that writes it. Every count on this page was computed
+with <code>python3</code> from the served graph file at repo HEAD <code>57505c6</code> on 2026-11-10. Nothing here is
+taken from a summary block or a design document unless the text says so.</p>
+<p>The served graph is <code>web/wp-plugin/panatlas-explorer/data/graph.json</code>. It is the property graph the
+explorer renders, the input to the RDF export (<a href="../rdf-vocabulary/">RDF vocabulary</a>) and the input to
+the evaluation index behind the public API (<a href="../evaluation-records/">Evaluation records</a>). In the
+terms of <code>GRAPH_STANDARDS.md</code> it is layer 3, the "working / evidence property graph", which is a
+projection of the terminology backbone and the clinical instance layer. See
+<a href="../../concepts/layers/">Knowledge layers</a> for how the layers relate.</p>
+<h2 id="totals">Totals<a class="headerlink" href="#totals" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th style="text-align: right;">Value at HEAD <code>57505c6</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nodes</td>
+<td style="text-align: right;">6,187</td>
+</tr>
+<tr>
+<td>Edges</td>
+<td style="text-align: right;">17,119</td>
+</tr>
+<tr>
+<td>Node kinds (<code>kind</code>)</td>
+<td style="text-align: right;">32</td>
+</tr>
+<tr>
+<td>Edge relations (<code>rel</code>)</td>
+<td style="text-align: right;">36</td>
+</tr>
+<tr>
+<td>Values of <code>layer</code></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr>
+<td>Duplicate node ids</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Duplicate <code>(from, to, rel)</code> triples</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Edges whose <code>from</code> or <code>to</code> is not a node</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Self-loops</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>The deployed site can lag or lead the repository. The vault records these live totals:</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th style="text-align: right;">Nodes</th>
+<th style="text-align: right;">Edges</th>
+<th>Where recorded</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-09-12</td>
+<td style="text-align: right;">6,078</td>
+<td style="text-align: right;">16,680</td>
+<td>vault <code>project-panatlas</code>, deploy after the neuropathology and renal links</td>
+</tr>
+<tr>
+<td>2026-09-26</td>
+<td style="text-align: right;">6,088</td>
+<td style="text-align: right;">16,891</td>
+<td>vault <code>project-panatlas</code>, input to the first RDF export (213,647 quads)</td>
+</tr>
+<tr>
+<td>2026-10-16</td>
+<td style="text-align: right;">6,136</td>
+<td style="text-align: right;">17,035</td>
+<td>vault <code>project-panatlas</code>, deploy of the KOS-V6 curriculum (panAtlas commit <code>5af1a69</code>)</td>
+</tr>
+<tr>
+<td>2026-11-10</td>
+<td style="text-align: right;">6,187</td>
+<td style="text-align: right;">17,119</td>
+<td>this page, repo HEAD <code>57505c6</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">The <code>stats</code> block inside <code>graph.json</code> is stale</p>
+<p><code>graph.json</code> carries a <code>stats</code> object, but several scripts rewrite parts of it and
+<code>enrich_graph.py</code> replaces it wholesale, so it no longer matches the file. At HEAD:
+<code>stats.edges</code> says 13,869 (the file has 17,119); <code>stats.edges_by_rel</code> has no entry for ten
+relations that exist (for example <code>has_artifact_type</code>, <code>stage_trained_on</code>, <code>has_register</code>);
+<code>stats.layers</code> reports <code>concept</code> 203, <code>dataset</code> 174, <code>ontology</code> 43; <code>stats.concept_classes</code>
+reports 44 <code>model</code> nodes (there are 90); and <code>stats.curriculum.models_curriculum_undisclosed</code>
+is 1 (36 model nodes carry <code>curriculum_disclosed: false</code>). Compute counts from <code>nodes</code> and
+<code>edges</code>, never from <code>stats</code>.</p>
+</div>
+<h2 id="file-format">File format<a class="headerlink" href="#file-format" title="Permanent link">&para;</a></h2>
+<p><code>graph.json</code> is one JSON object with four keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stats</code></td>
+<td>object</td>
+<td>Summary counters written by the build scripts (stale, see above) plus measured corpus figures such as <code>footprint</code>, <code>documents_mapped</code> and <code>image_documents</code></td>
+</tr>
+<tr>
+<td><code>roots</code></td>
+<td>list</td>
+<td><code>["atlas-root"]</code>, the entry node for navigation</td>
+</tr>
+<tr>
+<td><code>nodes</code></td>
+<td>list</td>
+<td>6,187 node objects</td>
+</tr>
+<tr>
+<td><code>edges</code></td>
+<td>list</td>
+<td>17,119 edge objects</td>
+</tr>
+</tbody>
+</table>
+<h3 id="node-object">Node object<a class="headerlink" href="#node-object" title="Permanent link">&para;</a></h3>
+<p>Four keys are on every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>. Every other key is optional and
+depends on the kind. The most widely used optional keys are:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th style="text-align: right;">Nodes carrying it</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>source</code></td>
+<td style="text-align: right;">5,953</td>
+<td>Free-text statement of where the node's content came from</td>
+</tr>
+<tr>
+<td><code>modality</code></td>
+<td style="text-align: right;">5,701</td>
+<td><code>text</code>, <code>structured</code>, <code>imaging-ct</code>, <code>imaging-ultrasound-rf</code>, <code>time-series</code>, <code>imaging-wsi</code>, <code>imaging</code>, <code>genomics</code>, or an <code>omics-*</code> value</td>
+</tr>
+<tr>
+<td><code>concept_class</code></td>
+<td style="text-align: right;">5,577</td>
+<td><code>knowledge</code> (5,252), <code>evaluation</code> (195), <code>model</code> (90), <code>artifact-type</code> (35), <code>register</code> (5)</td>
+</tr>
+<tr>
+<td><code>built_by</code></td>
+<td style="text-align: right;">5,543</td>
+<td>Free-text statement of the method that produced the node (for example "grounded to MeSH via UMLS UTS (resolver + adversarial audit + live confirmation)")</td>
+</tr>
+<tr>
+<td><code>desc</code></td>
+<td style="text-align: right;">5,500</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><code>grounding</code></td>
+<td style="text-align: right;">5,328</td>
+<td>Which vocabulary grounds the node; see <a href="../codesystems/">Controlled vocabularies</a></td>
+</tr>
+<tr>
+<td><code>canonical_id</code></td>
+<td style="text-align: right;">5,013</td>
+<td>Canonical identity, <code>&lt;prefix&gt;:&lt;code&gt;</code>; prefixes in use are <code>mesh</code> (3,390), <code>foodon</code> (1,558), <code>wikipedia</code> (24), <code>fdc</code> (24), <code>panatlas</code> (17)</td>
+</tr>
+<tr>
+<td><code>mesh_dui</code>, <code>mesh_name</code></td>
+<td style="text-align: right;">3,400</td>
+<td>MeSH descriptor UI and preferred name</td>
+</tr>
+</tbody>
+</table>
+<h3 id="edge-object">Edge object<a class="headerlink" href="#edge-object" title="Permanent link">&para;</a></h3>
+<p>Every edge has exactly four required keys: <code>from</code>, <code>to</code>, <code>rel</code>, <code>id</code>. Some relations add
+attributes, listed per relation below.</p>
+<p>The edge <code>id</code> is content-addressed:</p>
+<div class="highlight"><pre><span></span><code><span class="s2">"e-"</span> <span class="o">+</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">blake2b</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">from</span><span class="si">}</span><span class="s2">|</span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s2">|</span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">encode</span><span class="p">(),</span> <span class="n">digest_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</code></pre></div>
+<p>The same formula appears in <code>enrich_graph.py</code>, <code>hygiene_enrich.py</code>, <code>build_curriculum.py</code> and
+<code>build_concept_remap.py</code>, so rerunning a script adds no duplicate edges. 16,916 of the 17,119 edges
+match the formula. The other 203 are the <code>covers_topic</code> edges with <code>basis: arxiv-lexalign</code>, whose ids
+have the form <code>e-arxiv-&lt;MeSH UI&gt;-&lt;target id&gt;</code>.</p>
+<h3 id="layer-values"><code>layer</code> values<a class="headerlink" href="#layer-values" title="Permanent link">&para;</a></h3>
+<p><code>layer</code> is a coarse partition used by the explorer. It is not the same thing as the knowledge
+layers of <code>LAYERS.md</code> or <code>GRAPH_STANDARDS.md</code> (see <a href="../../concepts/layers/">Knowledge layers</a>).</p>
+<table>
+<thead>
+<tr>
+<th><code>layer</code></th>
+<th style="text-align: right;">Nodes</th>
+<th>Kinds in it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>foodatlas</code></td>
+<td style="text-align: right;">4,752</td>
+<td><code>disease</code>, <code>food</code></td>
+</tr>
+<tr>
+<td><code>concept</code></td>
+<td style="text-align: right;">679</td>
+<td><code>concept</code>, <code>llm-benchmark</code>, <code>model</code>, <code>capability</code>, <code>artifact-type</code>, <code>specialty</code>, <code>testing-type</code>, <code>capability-group</code>, <code>eval-domain</code>, <code>benchmark</code> (8 WSI benchmarks), <code>register</code>, <code>modality</code>, <code>codebase</code>, <code>group</code>, <code>root</code>, <code>gate</code>, <code>system</code> (1), <code>eval-suite</code>, <code>measurement</code>, <code>method</code></td>
+</tr>
+<tr>
+<td><code>dataset</code></td>
+<td style="text-align: right;">527</td>
+<td><code>dataset</code>, <code>benchmark</code> (10 CT benchmarks), <code>guideline</code>, <code>system</code> (1)</td>
+</tr>
+<tr>
+<td><code>fndds</code></td>
+<td style="text-align: right;">172</td>
+<td><code>food-category</code></td>
+</tr>
+<tr>
+<td><code>ontology</code></td>
+<td style="text-align: right;">34</td>
+<td><code>fhir</code>, <code>authority</code>, <code>kg</code></td>
+</tr>
+<tr>
+<td><code>process</code></td>
+<td style="text-align: right;">14</td>
+<td><code>training-stage</code></td>
+</tr>
+<tr>
+<td><code>domain</code></td>
+<td style="text-align: right;">9</td>
+<td><code>domain</code>, <code>gen-category</code>, <code>atlas-root</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="node-kinds">Node kinds<a class="headerlink" href="#node-kinds" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Kind</th>
+<th style="text-align: right;">Nodes</th>
+<th><code>layer</code> value</th>
+<th>ID pattern</th>
+<th>Emitted by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>disease</code></td>
+<td style="text-align: right;">3,170</td>
+<td><code>foodatlas</code></td>
+<td><code>fa-dis-&lt;MeSH UI or upstream id&gt;</code></td>
+<td><code>build_layered.py</code> (FoodAtlas); <code>repair_foodatlas_nonmesh.py</code> (10 non-MeSH diseases)</td>
+</tr>
+<tr>
+<td><code>food</code></td>
+<td style="text-align: right;">1,582</td>
+<td><code>foodatlas</code></td>
+<td><code>fa-food-&lt;FoodOn or FDC id&gt;</code></td>
+<td><code>build_layered.py</code> (FoodAtlas)</td>
+</tr>
+<tr>
+<td><code>dataset</code></td>
+<td style="text-align: right;">513</td>
+<td><code>dataset</code></td>
+<td><code>dataset-&lt;slug&gt;</code>, <code>dsft-&lt;slug&gt;</code> (SFT sources); one <code>kg</code> node also uses <code>dataset-</code></td>
+<td><code>build_layered.py</code>, <code>build_graph.py</code>, <code>build_all_datasets.py</code>, <code>build_train_sources.py</code>, <code>sft_wiring.py</code>, <code>build_corpus_structure.py</code>, <code>link_datasets_to_nodes.py</code>, <code>link_arxiv.py</code>, <code>link_neuropath.py</code>, <code>link_openh.py</code>, <code>link_renal.py</code>, <code>link_predictors.py</code>, <code>build_curriculum.py</code> (inline datasets)</td>
+</tr>
+<tr>
+<td><code>concept</code></td>
+<td style="text-align: right;">312</td>
+<td><code>concept</code></td>
+<td><code>concept-&lt;slug&gt;</code>; <code>mesh-D&lt;UI&gt;</code> (MeSH tree expansion)</td>
+<td><code>build_layered.py</code> (curated pages, MeSH tree expansion), <code>build_concept_remap.py</code> (general Wikipedia concepts), <code>enrich_graph.py</code> (pending concepts), <code>build_artifact_types.py</code> (4 topics), <code>build_existing_meta.py</code>, <code>build_doc_relations.py</code>, <code>link_renal.py</code></td>
+</tr>
+<tr>
+<td><code>food-category</code></td>
+<td style="text-align: right;">172</td>
+<td><code>fndds</code></td>
+<td><code>fndds-cat-&lt;WWEIA code&gt;</code></td>
+<td><code>build_layered.py</code> (FNDDS)</td>
+</tr>
+<tr>
+<td><code>llm-benchmark</code></td>
+<td style="text-align: right;">106</td>
+<td><code>concept</code></td>
+<td><code>bench-&lt;slug&gt;</code></td>
+<td><code>build_llm_benchmarks.py</code>, <code>build_missing_benchmarks.py</code></td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td style="text-align: right;">90</td>
+<td><code>concept</code></td>
+<td><code>model-&lt;slug&gt;</code>, <code>model-predictor-&lt;slug&gt;</code></td>
+<td><code>attach_full_eval.py</code>, <code>add_biomed_models.py</code>, <code>build_curriculum.py</code>, <code>link_neuropath.py</code>, <code>link_predictors.py</code></td>
+</tr>
+<tr>
+<td><code>capability</code></td>
+<td style="text-align: right;">35</td>
+<td><code>concept</code></td>
+<td><code>cap-&lt;slug&gt;</code></td>
+<td><code>build_llm_benchmarks.py</code></td>
+</tr>
+<tr>
+<td><code>artifact-type</code></td>
+<td style="text-align: right;">35</td>
+<td><code>concept</code></td>
+<td><code>atype-&lt;slug&gt;</code></td>
+<td><code>build_artifact_types.py</code></td>
+</tr>
+<tr>
+<td><code>specialty</code></td>
+<td style="text-align: right;">28</td>
+<td><code>concept</code></td>
+<td><code>concept-&lt;slug&gt;</code></td>
+<td><code>build_layered.py</code> (atlas pages with <code>concept_kind: map</code>), <code>link_neuropath.py</code></td>
+</tr>
+<tr>
+<td><code>testing-type</code></td>
+<td style="text-align: right;">21</td>
+<td><code>concept</code></td>
+<td><code>type-&lt;testing type&gt;</code></td>
+<td><code>apply_bench_taxonomy.py</code></td>
+</tr>
+<tr>
+<td><code>fhir</code></td>
+<td style="text-align: right;">18</td>
+<td><code>ontology</code></td>
+<td><code>fhir-&lt;resource&gt;</code>, <code>nacc-&lt;record&gt;</code></td>
+<td><code>build_layered.py</code> (<code>fhir.json</code>, NACC schemas)</td>
+</tr>
+<tr>
+<td><code>benchmark</code></td>
+<td style="text-align: right;">18</td>
+<td><code>dataset</code> (10), <code>concept</code> (8)</td>
+<td><code>bench-&lt;slug&gt;</code></td>
+<td><code>build_benchmark_nodes.py</code> (CT, layer <code>dataset</code>); <code>build_patho_evals.py</code>, <code>link_neuropath.py</code> (WSI, layer <code>concept</code>)</td>
+</tr>
+<tr>
+<td><code>authority</code></td>
+<td style="text-align: right;">15</td>
+<td><code>ontology</code></td>
+<td><code>onto-&lt;system&gt;</code></td>
+<td><code>build_layered.py</code> (<code>codesystems.json</code>, <code>nutrition.json</code>, <code>fhir.json</code>, NACC)</td>
+</tr>
+<tr>
+<td><code>training-stage</code></td>
+<td style="text-align: right;">14</td>
+<td><code>process</code></td>
+<td><code>stage-&lt;model&gt;-&lt;stage&gt;</code></td>
+<td><code>build_curriculum.py</code></td>
+</tr>
+<tr>
+<td><code>capability-group</code></td>
+<td style="text-align: right;">13</td>
+<td><code>concept</code></td>
+<td><code>capgroup-&lt;group&gt;</code></td>
+<td><code>build_llm_benchmarks.py</code></td>
+</tr>
+<tr>
+<td><code>eval-domain</code></td>
+<td style="text-align: right;">9</td>
+<td><code>concept</code></td>
+<td><code>evdomain-&lt;domain&gt;</code></td>
+<td><code>apply_bench_taxonomy.py</code></td>
+</tr>
+<tr>
+<td><code>domain</code></td>
+<td style="text-align: right;">5</td>
+<td><code>domain</code></td>
+<td><code>domain-&lt;slug&gt;</code></td>
+<td><code>build_layered.py</code> (<code>domains.json</code>)</td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td style="text-align: right;">5</td>
+<td><code>concept</code></td>
+<td><code>register-&lt;slug&gt;</code></td>
+<td><code>build_existing_meta.py</code></td>
+</tr>
+<tr>
+<td><code>modality</code></td>
+<td style="text-align: right;">5</td>
+<td><code>concept</code></td>
+<td><code>concept-&lt;slug&gt;</code></td>
+<td><code>link_openh.py</code></td>
+</tr>
+<tr>
+<td><code>codebase</code></td>
+<td style="text-align: right;">4</td>
+<td><code>concept</code></td>
+<td><code>codebase-&lt;slug&gt;</code></td>
+<td><code>build_curriculum.py</code></td>
+</tr>
+<tr>
+<td><code>guideline</code></td>
+<td style="text-align: right;">3</td>
+<td><code>dataset</code></td>
+<td><code>doc-&lt;slug&gt;</code></td>
+<td><code>build_layered.py</code> (<code>nutrition.json</code>)</td>
+</tr>
+<tr>
+<td><code>gen-category</code></td>
+<td style="text-align: right;">3</td>
+<td><code>domain</code></td>
+<td><code>gen-&lt;slug&gt;</code></td>
+<td><code>build_layered.py</code> (<code>domains.json</code>)</td>
+</tr>
+<tr>
+<td><code>group</code></td>
+<td style="text-align: right;">2</td>
+<td><code>concept</code></td>
+<td><code>group-&lt;slug&gt;</code></td>
+<td><code>build_layered.py</code></td>
+</tr>
+<tr>
+<td><code>system</code></td>
+<td style="text-align: right;">2</td>
+<td><code>dataset</code> (1), <code>concept</code> (1)</td>
+<td><code>system-&lt;cluster slug&gt;</code>, <code>sys-&lt;slug&gt;</code></td>
+<td><code>build_curriculum.py</code> (training cluster); <code>build_layered.py</code> (<code>nutrition.json</code>)</td>
+</tr>
+<tr>
+<td><code>root</code></td>
+<td style="text-align: right;">1</td>
+<td><code>concept</code></td>
+<td><code>concept-medicine</code></td>
+<td><code>build_layered.py</code></td>
+</tr>
+<tr>
+<td><code>gate</code></td>
+<td style="text-align: right;">1</td>
+<td><code>concept</code></td>
+<td><code>concept-&lt;slug&gt;</code></td>
+<td><code>build_layered.py</code></td>
+</tr>
+<tr>
+<td><code>kg</code></td>
+<td style="text-align: right;">1</td>
+<td><code>ontology</code></td>
+<td><code>dataset-foodatlas</code></td>
+<td><code>build_layered.py</code> (<code>nutrition.json</code>)</td>
+</tr>
+<tr>
+<td><code>atlas-root</code></td>
+<td style="text-align: right;">1</td>
+<td><code>domain</code></td>
+<td><code>atlas-root</code></td>
+<td><code>build_layered.py</code> (<code>domains.json</code>)</td>
+</tr>
+<tr>
+<td><code>eval-suite</code></td>
+<td style="text-align: right;">1</td>
+<td><code>concept</code></td>
+<td><code>suite-&lt;slug&gt;</code></td>
+<td><code>build_llm_benchmarks.py</code></td>
+</tr>
+<tr>
+<td><code>measurement</code></td>
+<td style="text-align: right;">1</td>
+<td><code>concept</code></td>
+<td><code>concept-&lt;slug&gt;</code></td>
+<td><code>link_openh.py</code></td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td style="text-align: right;">1</td>
+<td><code>concept</code></td>
+<td><code>concept-&lt;slug&gt;</code></td>
+<td><code>link_openh.py</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Two kinds named benchmark</p>
+<p><code>llm-benchmark</code> (106) is a language-model benchmark from the benchmark registry
+(<code>benchmarks_llm.json</code>). <code>benchmark</code> (18) is an imaging benchmark: 10 CT benchmarks built by
+<code>build_benchmark_nodes.py</code> with <code>layer: dataset</code>, and 8 whole-slide-image benchmarks built by
+<code>build_patho_evals.py</code> and <code>link_neuropath.py</code> with <code>layer: concept</code>. Both are described on
+<a href="../benchmarks/">Benchmarks</a>.</p>
+</div>
+<h3 id="property-keys-by-kind">Property keys by kind<a class="headerlink" href="#property-keys-by-kind" title="Permanent link">&para;</a></h3>
+<p>For each kind, the first list holds the keys present on every node of that kind. The second list
+holds the keys present on only some nodes, with the number of nodes that carry each. Field meanings
+for the evaluation, model and vocabulary kinds are on <a href="../benchmarks/">Benchmarks</a>,
+<a href="../evaluation-records/">Evaluation records</a>, <a href="../models-and-curriculum/">Models and curriculum</a> and
+<a href="../codesystems/">Controlled vocabularies</a>. Dataset fields are on
+<a href="../dataset-registry/">Dataset registry</a>.</p>
+<h4 id="disease-3170"><code>disease</code> (3,170)<a class="headerlink" href="#disease-3170" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>grounding</code>, <code>modality</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>, <code>fa_n_chem</code>, <code>fa_n_food</code>, <code>fa_top_foods</code>, <code>fa_top_chemicals</code>, <code>concept_class</code>.</p>
+<p>On some nodes (count): <code>mesh_dui</code> (3,160), <code>mesh_name</code> (3,160), <code>canonical_id</code> (3,160), <code>mesh_url</code> (3,160), <code>mesh_tree</code> (3,160), <code>grounding_note</code> (10).</p>
+<h4 id="food-1582"><code>food</code> (1,582)<a class="headerlink" href="#food-1582" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>grounding</code>, <code>canonical_id</code>, <code>modality</code>, <code>fa_n_chem</code>, <code>fa_n_disease</code>, <code>fa_top_chemicals</code>, <code>fa_top_diseases</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>, <code>concept_class</code>.</p>
+<h4 id="dataset-513"><code>dataset</code> (513)<a class="headerlink" href="#dataset-513" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>modality</code>.</p>
+<p>On some nodes (count): <code>provenance</code> (502), <code>dtype</code> (502), <code>source</code> (481), <code>measured</code> (365), <code>built_by</code> (363), <code>benchmark</code> (332), <code>vault_desc</code> (280), <code>vault_page</code> (280), <code>vault_status</code> (280), <code>evalcap</code> (247), <code>origin</code> (231), <code>stage</code> (224), <code>tokens</code> (222), <code>docs</code> (209), <code>location</code> (195), <code>topics</code> (187), <code>access</code> (173), <code>data_stage</code> (162), <code>is_sft</code> (160), <code>artifact_types</code> (160), <code>artifact_type_labels</code> (159), <code>contamination</code> (132), <code>doc_concepts</code> (132), <code>doc_total</code> (132), <code>tier</code> (118), <code>domain</code> (118), <code>trained_by</code> (118), <code>used_in_training</code> (116), <code>corpus_status</code> (115), <code>tokens_measured</code> (107), <code>model</code> (105), <code>sft_type</code> (103), <code>records</code> (103), <code>sft_contents</code> (101), <code>parent_mix</code> (101), <code>record_topics</code> (101), <code>record_registers</code> (101), <code>record_register_atypes</code> (101), <code>record_topic_concepts</code> (100), <code>desc</code> (97), <code>cls_domain</code> (58), <code>cls_data_type</code> (58), <code>cls_register</code> (58), <code>per_model</code> (56), <code>share_pct</code> (56), <code>part_of_corpus</code> (56), <code>artifact_topics</code> (56), <code>cls_difficulty</code> (56), <code>cls_mean_quality</code> (56), <code>cls_docs</code> (56), <code>cls_sampled</code> (56), <code>cls_source</code> (56), <code>has_doc_embeddings</code> (56), <code>doc_classification_status</code> (56), <code>tok_per_doc</code> (55), <code>category</code> (52), <code>urn</code> (52), <code>docs_counted</code> (47), <code>license</code> (44), <code>host</code> (42), <code>scale</code> (42), <code>native_fields</code> (39), <code>native_field_values</code> (38), <code>native_field_sample_n</code> (38), <code>domain_mix</code> (30), <code>train_samples</code> (30), <code>quality</code> (30), <code>n_subtopics</code> (30), <code>n_domains</code> (30), <code>modality_detail</code> (30), <code>owner</code> (23), <code>data_type</code> (21), <code>register</code> (21), <code>modalities</code> (10), <code>status</code> (10), <code>embedding_refs</code> (9), <code>license_note</code> (9), <code>contamination_prior</code> (6), <code>contamination_note</code> (6), <code>n_sources</code> (4), <code>record_level_type_topic</code> (4), <code>id_namespace</code> (3), <code>unique_id_scheme</code> (3), <code>split_type</code> (3), <code>split_note</code> (3), <code>paired_text</code> (3), <code>store</code> (3), <code>n_patients</code> (2), <code>n_studies</code> (2), <code>is_sft_mix</code> (2), <code>doc_id_traceable</code> (2), <code>template</code> (2), <code>sft_recipe</code> (2), <code>sft_type_totals</code> (2), <code>pipeline</code> (2), <code>rl_stage</code> (2), <code>artifact_type_records</code> (2), <code>record_level_records</code> (2), <code>record_level_type_register</code> (2), <code>record_level_method</code> (2), <code>record_level_judge_audit</code> (2), <code>cls_sft_grammar</code> (2), <code>cls_sft_topology</code> (2), <code>cls_sft_orig_format</code> (2), <code>cls_sft_structural</code> (2), <code>cls_sft_source</code> (2), <code>artifact_type_tokens</code> (2), <code>artifact_type_pct</code> (2), <code>artifact_topic_tokens</code> (2), <code>record_level_coverage</code> (2), <code>cls_docs_classified</code> (2), <code>cls_sources</code> (2), <code>n_volumes</code> (1), <code>n_slices</code> (1), <code>n_patient_scans</code> (1), <code>n_curated_cases</code> (1), <code>n_human_annotated</code> (1), <code>human_annotation_type</code> (1), <code>identity_map</code> (1), <code>relations</code> (1), <code>fndds_total</code> (1), <code>fndds_resolved</code> (1), <code>wweia_categories</code> (1), <code>records_effective</code> (1), <code>file</code> (1), <code>blake2b</code> (1), <code>strata</code> (1), <code>domains_top</code> (1), <code>length_bands</code> (1), <code>over_cutoff_24576</code> (1), <code>tool_records</code> (1), <code>weld_tool_records</code> (1), <code>contaminated_in_mix</code> (1), <code>build_chain</code> (1), <code>caution</code> (1), <code>grounding</code> (1), <code>grounding_note</code> (1), <code>licence_note</code> (1), <code>wiki_linked</code> (1), <code>wiki_linked_fraction</code> (1), <code>wiki_distinct_pages</code> (1), <code>wiki_top</code> (1), <code>mesh_appropriate</code> (1), <code>wiki_bands</code> (1).</p>
+<h4 id="concept-312"><code>concept</code> (312)<a class="headerlink" href="#concept-312" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>source</code>.</p>
+<p>On some nodes (count): <code>grounding</code> (311), <code>desc</code> (299), <code>concept_class</code> (293), <code>canonical_id</code> (194), <code>mesh_dui</code> (194), <code>mesh_name</code> (194), <code>mesh_url</code> (182), <code>mesh_tree</code> (176), <code>cui</code> (176), <code>built_by</code> (172), <code>wp_url</code> (143), <code>expanded</code> (142), <code>wiki_title</code> (121), <code>general_domain</code> (120), <code>granularity</code> (120), <code>snomed</code> (34), <code>loinc</code> (34), <code>icd10cm</code> (34), <code>corpus_docs</code> (23), <code>rxnorm</code> (22), <code>wiki_oldid</code> (22), <code>n_subtopics</code> (22), <code>subtopics</code> (22), <code>corpus_source_docs</code> (14), <code>corpus_sources</code> (13), <code>corpus_docs_caveat</code> (13), <code>eval_questions</code> (11), <code>eval_benchmarks</code> (11), <code>n_diseases</code> (8), <code>modality</code> (8), <code>fa_n_chem</code> (7), <code>fa_n_food</code> (7), <code>fa_top_foods</code> (7), <code>fa_top_chemicals</code> (7), <code>eval_accuracy</code> (6), <code>gene</code> (4), <code>panel_analyte</code> (4), <code>n_foods</code> (2), <code>mesh_mapped_to</code> (1).</p>
+<h4 id="food-category-172"><code>food-category</code> (172)<a class="headerlink" href="#food-category-172" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>grounding</code>, <code>modality</code>, <code>fndds_wweia_code</code>, <code>fndds_n_foods</code>, <code>fndds_n_resolved</code>, <code>fndds_sample_foods</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>, <code>concept_class</code>.</p>
+<h4 id="llm-benchmark-106"><code>llm-benchmark</code> (106)<a class="headerlink" href="#llm-benchmark-106" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>arm</code>, <code>metric</code>, <code>gated</code>, <code>measures</code>, <code>composition</code>, <code>kos_usage</code>, <code>benchmark</code>, <code>modality</code>, <code>testing_type</code>, <code>domain</code>, <code>concept_class</code>, <code>decontam</code>.</p>
+<p>On some nodes (count): <code>artifact_types</code> (96), <code>artifact_type_labels</code> (96), <code>artifact_type_via</code> (96), <code>tier</code> (29), <code>topics</code> (20), <code>topics_status</code> (20), <code>grounding</code> (7), <code>wp_topic</code> (7), <code>wp_url</code> (7).</p>
+<h4 id="model-90"><code>model</code> (90)<a class="headerlink" href="#model-90" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>concept_class</code>, <code>is_external</code>, <code>source</code>.</p>
+<p>On some nodes (count): <code>modality</code> (85), <code>eval_status</code> (82), <code>family</code> (46), <code>role</code> (46), <code>open_weights</code> (46), <code>embedding</code> (46), <code>predictor_eval</code> (46), <code>curriculum_disclosed</code> (44), <code>full_eval</code> (39), <code>overall</code> (39), <code>cat_scores</code> (39), <code>ece</code> (39), <code>params_b</code> (39), <code>battery_n</code> (39), <code>owner</code> (38), <code>training_disclosed</code> (36), <code>curriculum_note</code> (36), <code>note</code> (9), <code>curriculum_verified</code> (8), <code>curriculum_summary</code> (8), <code>license</code> (6), <code>curriculum_stages</code> (5), <code>hf</code> (5), <code>architecture</code> (4), <code>params_h</code> (4), <code>leaderboard_eligible</code> (3), <code>withheld_reason</code> (3), <code>arxiv</code> (3), <code>params</code> (2), <code>pretrain_tokens_real</code> (2), <code>pretrain_slots</code> (2), <code>pretrain_steps</code> (2), <code>pretrain_sources</code> (2), <code>pretrain_job</code> (2), <code>sft</code> (2), <code>audit</code> (2), <code>training_audited</code> (2), <code>ledger</code> (2), <code>corpus_overlap</code> (2), <code>trained_on_caveat</code> (2), <code>embeddings</code> (2), <code>vocab</code> (2), <code>sft_mix</code> (2), <code>sft_records</code> (2), <code>sft_sources</code> (2), <code>sft_type_totals</code> (2), <code>pretrain_docs</code> (2), <code>pretrain_tokens_manifest</code> (2), <code>training_note</code> (2), <code>deployed</code> (1), <code>dedup_finding</code> (1), <code>rope_theta</code> (1), <code>corpus</code> (1).</p>
+<h4 id="capability-35"><code>capability</code> (35)<a class="headerlink" href="#capability-35" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>group</code>, <code>desc</code>, <code>concept_class</code>.</p>
+<h4 id="artifact-type-35"><code>artifact-type</code> (35)<a class="headerlink" href="#artifact-type-35" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>concept_class</code>, <code>group</code>, <code>desc</code>, <code>canonical_id</code>, <code>grounding</code>, <code>wiki_title</code>, <code>source</code>, <code>grounding_match</code>, <code>grounding_reason</code>, <code>grounding_judge</code>.</p>
+<p>On some nodes (count): <code>related_mesh</code> (31), <code>related_mesh_name</code> (31), <code>wp_url</code> (18), <code>related_wikipedia</code> (17), <code>grounding_note</code> (17), <code>mesh_dui</code> (4), <code>mesh_name</code> (4), <code>mesh_url</code> (4).</p>
+<h4 id="specialty-28"><code>specialty</code> (28)<a class="headerlink" href="#specialty-28" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>canonical_id</code>, <code>grounding</code>, <code>mesh_dui</code>, <code>mesh_name</code>, <code>mesh_tree</code>, <code>mesh_url</code>, <code>cui</code>, <code>snomed</code>, <code>rxnorm</code>, <code>loinc</code>, <code>icd10cm</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>, <code>concept_class</code>.</p>
+<p>On some nodes (count): <code>wiki_oldid</code> (27), <code>corpus_docs</code> (27), <code>n_subtopics</code> (27), <code>subtopics</code> (27), <code>wp_url</code> (27), <code>corpus_sources</code> (26), <code>corpus_docs_caveat</code> (26), <code>corpus_source_docs</code> (26), <code>eval_questions</code> (23), <code>eval_benchmarks</code> (23), <code>eval_accuracy</code> (18), <code>n_diseases</code> (16).</p>
+<h4 id="testing-type-21"><code>testing-type</code> (21)<a class="headerlink" href="#testing-type-21" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>desc</code>, <code>concept_class</code>.</p>
+<h4 id="fhir-18"><code>fhir</code> (18)<a class="headerlink" href="#fhir-18" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>modality</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>.</p>
+<p>On some nodes (count): <code>fhir_group</code> (13).</p>
+<h4 id="benchmark-18"><code>benchmark</code> (18)<a class="headerlink" href="#benchmark-18" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>modality</code>, <code>artifact_types</code>.</p>
+<p>On some nodes (count): <code>task</code> (10), <code>status</code> (10), <code>benchmark</code> (10), <code>test_sets</code> (10), <code>tests_concepts</code> (10), <code>held_out_total</code> (10), <code>concept_class</code> (10), <code>decontam</code> (10), <code>artifact_type_labels</code> (10), <code>domain</code> (8), <code>metric</code> (8), <code>measures</code> (8), <code>n_models</code> (8), <code>source</code> (8).</p>
+<h4 id="authority-15"><code>authority</code> (15)<a class="headerlink" href="#authority-15" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>modality</code>, <code>canonical</code>, <code>authority_org</code>, <code>source</code>, <code>built_by</code>, <code>note</code>.</p>
+<p>On some nodes (count): <code>fhir_system</code> (14), <code>iri_stem</code> (13), <code>code_example</code> (10), <code>version</code> (1), <code>n_variables</code> (1), <code>n_codelists</code> (1).</p>
+<h4 id="training-stage-14"><code>training-stage</code> (14)<a class="headerlink" href="#training-stage-14" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>stage_type</code>, <code>order</code>, <code>model</code>, <code>data</code>, <code>when</code>, <code>system</code>, <code>config</code>, <code>codebase</code>, <code>results</code>, <code>provenance</code>, <code>source</code>.</p>
+<h4 id="capability-group-13"><code>capability-group</code> (13)<a class="headerlink" href="#capability-group-13" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>concept_class</code>.</p>
+<h4 id="eval-domain-9"><code>eval-domain</code> (9)<a class="headerlink" href="#eval-domain-9" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>desc</code>, <code>concept_class</code>.</p>
+<h4 id="domain-5"><code>domain</code> (5)<a class="headerlink" href="#domain-5" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>grounding</code>, <code>wp_url</code>, <code>mesh_cat</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>, <code>modality</code>.</p>
+<p>On some nodes (count): <code>n_diseases</code> (3), <code>n_foods</code> (2), <code>gen_docs</code> (1).</p>
+<h4 id="register-5"><code>register</code> (5)<a class="headerlink" href="#register-5" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>concept_class</code>, <code>grounding</code>, <code>canonical_id</code>, <code>wiki_title</code>, <code>wp_url</code>, <code>mesh_dui</code>, <code>mesh_name</code>, <code>desc</code>, <code>source</code>.</p>
+<h4 id="modality-5"><code>modality</code> (5)<a class="headerlink" href="#modality-5" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>canonical_id</code>, <code>grounding</code>, <code>mesh_dui</code>, <code>mesh_name</code>, <code>mesh_tree</code>, <code>mesh_url</code>, <code>cui</code>, <code>snomed</code>, <code>rxnorm</code>, <code>loinc</code>, <code>icd10cm</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>, <code>concept_class</code>.</p>
+<h4 id="codebase-4"><code>codebase</code> (4)<a class="headerlink" href="#codebase-4" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>path</code>, <code>framework</code>, <code>desc</code>.</p>
+<h4 id="guideline-3"><code>guideline</code> (3)<a class="headerlink" href="#guideline-3" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>modality</code>, <code>origin</code>, <code>desc</code>, <code>wp_url</code>, <code>cites</code>, <code>access</code>, <code>measured</code>, <code>source</code>, <code>built_by</code>.</p>
+<h4 id="gen-category-3"><code>gen-category</code> (3)<a class="headerlink" href="#gen-category-3" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>grounding</code>, <code>wp_url</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>, <code>modality</code>.</p>
+<h4 id="group-2"><code>group</code> (2)<a class="headerlink" href="#group-2" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>.</p>
+<h4 id="system-2"><code>system</code> (2)<a class="headerlink" href="#system-2" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>desc</code>.</p>
+<p>On some nodes (count): <code>modality</code> (1), <code>origin</code> (1), <code>access</code> (1), <code>license_note</code> (1), <code>measured</code> (1), <code>source</code> (1), <code>built_by</code> (1).</p>
+<h4 id="root-1"><code>root</code> (1)<a class="headerlink" href="#root-1" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>canonical_id</code>, <code>grounding</code>, <code>mesh_dui</code>, <code>mesh_name</code>, <code>mesh_tree</code>, <code>mesh_url</code>, <code>cui</code>, <code>snomed</code>, <code>rxnorm</code>, <code>loinc</code>, <code>icd10cm</code>, <code>desc</code>, <code>wiki_oldid</code>, <code>corpus_docs</code>, <code>n_subtopics</code>, <code>subtopics</code>, <code>wp_url</code>, <code>source</code>, <code>built_by</code>, <code>n_diseases</code>, <code>n_foods</code>, <code>corpus_sources</code>, <code>eval_questions</code>, <code>eval_benchmarks</code>, <code>corpus_docs_caveat</code>, <code>corpus_source_docs</code>, <code>eval_accuracy</code>.</p>
+<h4 id="gate-1"><code>gate</code> (1)<a class="headerlink" href="#gate-1" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>canonical_id</code>, <code>grounding</code>, <code>mesh_dui</code>, <code>mesh_name</code>, <code>mesh_tree</code>, <code>mesh_url</code>, <code>cui</code>, <code>snomed</code>, <code>rxnorm</code>, <code>loinc</code>, <code>icd10cm</code>, <code>desc</code>, <code>wiki_oldid</code>, <code>corpus_docs</code>, <code>n_subtopics</code>, <code>subtopics</code>, <code>wp_url</code>, <code>source</code>, <code>built_by</code>, <code>corpus_sources</code>, <code>eval_questions</code>, <code>eval_benchmarks</code>, <code>corpus_docs_caveat</code>, <code>corpus_source_docs</code>, <code>eval_accuracy</code>.</p>
+<h4 id="kg-1"><code>kg</code> (1)<a class="headerlink" href="#kg-1" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>modality</code>, <code>origin</code>, <code>desc</code>, <code>measured</code>, <code>relations</code>, <code>source</code>, <code>built_by</code>, <code>fa_entities</code>, <code>fa_triplets</code>, <code>fa_evidence</code>, <code>fa_relations</code>, <code>fa_license</code>, <code>fa_version</code>, <code>fa_external_ids</code>, <code>fa_top_diseases</code>, <code>fa_overlap</code>, <code>docs</code>, <code>access</code>.</p>
+<h4 id="atlas-root-1"><code>atlas-root</code> (1)<a class="headerlink" href="#atlas-root-1" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>, <code>n_diseases</code>, <code>n_foods</code>, <code>modality</code>.</p>
+<h4 id="eval-suite-1"><code>eval-suite</code> (1)<a class="headerlink" href="#eval-suite-1" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>desc</code>, <code>canonical_standard</code>, <code>externals</code>, <code>peer_note</code>, <code>discipline</code>, <code>audit_chain</code>, <code>battery</code>, <code>decontam_gap</code>, <code>concept_class</code>.</p>
+<h4 id="measurement-1"><code>measurement</code> (1)<a class="headerlink" href="#measurement-1" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>canonical_id</code>, <code>grounding</code>, <code>mesh_dui</code>, <code>mesh_name</code>, <code>mesh_tree</code>, <code>mesh_url</code>, <code>cui</code>, <code>snomed</code>, <code>rxnorm</code>, <code>loinc</code>, <code>icd10cm</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>, <code>concept_class</code>.</p>
+<h4 id="method-1"><code>method</code> (1)<a class="headerlink" href="#method-1" title="Permanent link">&para;</a></h4>
+<p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>canonical_id</code>, <code>grounding</code>, <code>mesh_dui</code>, <code>mesh_name</code>, <code>mesh_tree</code>, <code>mesh_url</code>, <code>cui</code>, <code>snomed</code>, <code>rxnorm</code>, <code>loinc</code>, <code>icd10cm</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>, <code>concept_class</code>.</p>
+<h2 id="edge-relations">Edge relations<a class="headerlink" href="#edge-relations" title="Permanent link">&para;</a></h2>
+<p>Each row gives the number of edges, every source-kind to target-kind pair that occurs, the edge
+attributes that occur, and the scripts that write the relation.</p>
+<table>
+<thead>
+<tr>
+<th>Relation</th>
+<th style="text-align: right;">Edges</th>
+<th>Source kind → target kind (count)</th>
+<th>Edge properties (count)</th>
+<th>Emitted by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>part_of</code></td>
+<td style="text-align: right;">5,430</td>
+<td><code>disease</code>→<code>specialty</code> (2,478)<br><code>food</code>→<code>concept</code> (1,582)<br><code>disease</code>→<code>concept</code> (682)<br><code>dataset</code>→<code>dataset</code> (205)<br><code>food-category</code>→<code>concept</code> (172)<br><code>concept</code>→<code>specialty</code> (116)<br><code>concept</code>→<code>concept</code> (53)<br><code>dataset</code>→<code>gen-category</code> (43)<br><code>concept</code>→<code>root</code> (35)<br><code>specialty</code>→<code>root</code> (16)<br><code>authority</code>→<code>domain</code> (15)<br><code>specialty</code>→<code>concept</code> (7)<br><code>specialty</code>→<code>specialty</code> (5)<br><code>domain</code>→<code>atlas-root</code> (5)<br><code>modality</code>→<code>modality</code> (4)<br><code>gen-category</code>→<code>domain</code> (3)<br><code>artifact-type</code>→<code>artifact-type</code> (3)<br><code>concept</code>→<code>domain</code> (2)<br><code>specialty</code>→<code>domain</code> (2)<br><code>root</code>→<code>domain</code> (1)<br><code>group</code>→<code>domain</code> (1)</td>
+<td><code>src</code> (5,256), <code>via</code> (5)</td>
+<td><code>build_layered.py</code> (<code>src: mesh_tree</code> / <code>curated</code>), <code>build_artifact_types.py</code>, <code>build_corpus_structure.py</code>, <code>sft_wiring.py</code>, <code>link_openh.py</code>, <code>link_renal.py</code>, <code>register_neuropath.py</code>, <code>sync_catalog.py</code></td>
+</tr>
+<tr>
+<td><code>covers</code></td>
+<td style="text-align: right;">3,607</td>
+<td><code>kg</code>→<code>disease</code> (3,170)<br><code>dataset</code>→<code>food-category</code> (172)<br><code>dataset</code>→<code>specialty</code> (105)<br><code>dataset</code>→<code>concept</code> (47)<br><code>dataset</code>→<code>modality</code> (40)<br><code>dataset</code>→<code>disease</code> (24)<br><code>dataset</code>→<code>root</code> (20)<br><code>kg</code>→<code>concept</code> (14)<br><code>dataset</code>→<code>group</code> (10)<br><code>dataset</code>→<code>measurement</code> (3)<br><code>kg</code>→<code>specialty</code> (1)<br><code>dataset</code>→<code>method</code> (1)</td>
+<td><code>via</code> (193), <code>src</code> (94)</td>
+<td><code>build_layered.py</code>, <code>build_graph.py</code>, <code>link_datasets_to_nodes.py</code>, <code>link_neuropath.py</code>, <code>link_openh.py</code>, <code>link_renal.py</code>, <code>link_predictors.py</code>, <code>repair_foodatlas_nonmesh.py</code></td>
+</tr>
+<tr>
+<td><code>covers_topic</code></td>
+<td style="text-align: right;">2,209</td>
+<td><code>dataset</code>→<code>specialty</code> (1,099)<br><code>dataset</code>→<code>concept</code> (492)<br><code>llm-benchmark</code>→<code>concept</code> (297)<br><code>dataset</code>→<code>disease</code> (165)<br><code>dataset</code>→<code>root</code> (96)<br><code>dataset</code>→<code>authority</code> (48)<br><code>benchmark</code>→<code>specialty</code> (8)<br><code>llm-benchmark</code>→<code>specialty</code> (2)<br><code>llm-benchmark</code>→<code>gate</code> (1)<br><code>dataset</code>→<code>artifact-type</code> (1)</td>
+<td><code>n</code> (503), <code>basis</code> (203)</td>
+<td><code>build_concept_remap.py</code> (benchmark topics), <code>build_artifact_types.py</code>, <code>build_record_level.py</code>, <code>build_existing_meta.py</code>, <code>build_pretrain_multidim.py</code>, <code>fold_arxiv_alignment.py</code> (<code>basis: arxiv-lexalign</code>), <code>build_patho_evals.py</code>, <code>build_curriculum.py</code></td>
+</tr>
+<tr>
+<td><code>classified_as</code></td>
+<td style="text-align: right;">1,756</td>
+<td><code>dataset</code>→<code>specialty</code> (1,252)<br><code>dataset</code>→<code>concept</code> (324)<br><code>dataset</code>→<code>root</code> (124)<br><code>dataset</code>→<code>gate</code> (49)<br><code>guideline</code>→<code>concept</code> (6)<br><code>guideline</code>→<code>specialty</code> (1)</td>
+<td><code>n_docs</code> (1,749), <code>pct</code> (7)</td>
+<td><code>build_layered.py</code>, <code>build_corpus_structure.py</code>, <code>build_doc_relations.py</code>; agent side <code>embed_attach.py</code>, <code>pa_local_agent.py</code></td>
+</tr>
+<tr>
+<td><code>structured_as</code></td>
+<td style="text-align: right;">1,592</td>
+<td><code>food</code>→<code>authority</code> (1,582)<br><code>dataset</code>→<code>authority</code> (7)<br><code>kg</code>→<code>authority</code> (3)</td>
+<td>none</td>
+<td><code>build_layered.py</code></td>
+</tr>
+<tr>
+<td><code>has_artifact_type</code></td>
+<td style="text-align: right;">816</td>
+<td><code>dataset</code>→<code>artifact-type</code> (684)<br><code>llm-benchmark</code>→<code>artifact-type</code> (113)<br><code>benchmark</code>→<code>artifact-type</code> (19)</td>
+<td><code>src</code> (4)</td>
+<td><code>build_artifact_types.py</code>; also <code>build_curriculum.py</code>, <code>build_existing_meta.py</code>, <code>build_patho_evals.py</code>, <code>build_record_level.py</code>, <code>link_neuropath.py</code>, <code>link_openh.py</code></td>
+</tr>
+<tr>
+<td><code>resolves_to</code></td>
+<td style="text-align: right;">251</td>
+<td><code>food-category</code>→<code>food</code> (250)<br><code>dataset</code>→<code>kg</code> (1)</td>
+<td><code>src</code> (250)</td>
+<td><code>build_layered.py</code></td>
+</tr>
+<tr>
+<td><code>tests</code></td>
+<td style="text-align: right;">247</td>
+<td><code>llm-benchmark</code>→<code>capability</code> (247)</td>
+<td>none</td>
+<td><code>build_llm_benchmarks.py</code>, <code>build_missing_benchmarks.py</code></td>
+</tr>
+<tr>
+<td><code>grounded_in</code></td>
+<td style="text-align: right;">239</td>
+<td><code>llm-benchmark</code>→<code>concept</code> (132)<br><code>llm-benchmark</code>→<code>specialty</code> (101)<br><code>llm-benchmark</code>→<code>root</code> (6)</td>
+<td><code>via</code> (239)</td>
+<td><code>hygiene_enrich.py</code></td>
+</tr>
+<tr>
+<td><code>has_register</code></td>
+<td style="text-align: right;">162</td>
+<td><code>dataset</code>→<code>register</code> (162)</td>
+<td>none</td>
+<td><code>build_existing_meta.py</code></td>
+</tr>
+<tr>
+<td><code>is_type</code></td>
+<td style="text-align: right;">106</td>
+<td><code>llm-benchmark</code>→<code>testing-type</code> (106)</td>
+<td>none</td>
+<td><code>apply_bench_taxonomy.py</code>, <code>build_missing_benchmarks.py</code></td>
+</tr>
+<tr>
+<td><code>measured_on</code></td>
+<td style="text-align: right;">104</td>
+<td><code>model</code>→<code>specialty</code> (72)<br><code>model</code>→<code>concept</code> (24)<br><code>model</code>→<code>root</code> (4)<br><code>model</code>→<code>gate</code> (4)</td>
+<td><code>acc</code> (104), <code>n</code> (104)</td>
+<td><code>enrich_graph.py</code></td>
+</tr>
+<tr>
+<td><code>in_domain</code></td>
+<td style="text-align: right;">97</td>
+<td><code>llm-benchmark</code>→<code>eval-domain</code> (97)</td>
+<td>none</td>
+<td><code>apply_bench_taxonomy.py</code>, <code>build_missing_benchmarks.py</code></td>
+</tr>
+<tr>
+<td><code>scored</code></td>
+<td style="text-align: right;">85</td>
+<td><code>model</code>→<code>dataset</code> (79)<br><code>model</code>→<code>llm-benchmark</code> (6)</td>
+<td><code>value</code> (85), <code>metric</code> (85), <code>src</code> (79), <code>ratio_to_published</code> (26), <code>mean_rank</code> (15), <code>variant</code> (6)</td>
+<td><code>link_predictors.py</code> (79, <code>src: link_predictors</code>); the 6 <code>variant</code> edges: no emitter found at HEAD</td>
+</tr>
+<tr>
+<td><code>in_collection</code></td>
+<td style="text-align: right;">83</td>
+<td><code>dataset</code>→<code>group</code> (83)</td>
+<td><code>src</code> (10)</td>
+<td><code>build_layered.py</code>, <code>link_renal.py</code></td>
+</tr>
+<tr>
+<td><code>stage_trained_on</code></td>
+<td style="text-align: right;">45</td>
+<td><code>training-stage</code>→<code>dataset</code> (45)</td>
+<td>none</td>
+<td><code>build_curriculum.py</code></td>
+</tr>
+<tr>
+<td><code>related</code></td>
+<td style="text-align: right;">44</td>
+<td><code>concept</code>→<code>concept</code> (18)<br><code>concept</code>→<code>specialty</code> (11)<br><code>specialty</code>→<code>concept</code> (8)<br><code>specialty</code>→<code>specialty</code> (5)<br><code>specialty</code>→<code>root</code> (1)<br><code>root</code>→<code>specialty</code> (1)</td>
+<td><code>sim</code> (31), <code>src</code> (13), <code>basis</code> (13)</td>
+<td><code>build_layered.py</code> (<code>sim</code> from <code>concept_similarity.json</code>, cutoff 0.72), <code>link_renal.py</code> (<code>basis</code>)</td>
+</tr>
+<tr>
+<td><code>instantiates</code></td>
+<td style="text-align: right;">36</td>
+<td><code>dataset</code>→<code>fhir</code> (36)</td>
+<td>none</td>
+<td><code>build_layered.py</code></td>
+</tr>
+<tr>
+<td><code>groups</code></td>
+<td style="text-align: right;">35</td>
+<td><code>capability-group</code>→<code>capability</code> (35)</td>
+<td>none</td>
+<td><code>build_llm_benchmarks.py</code></td>
+</tr>
+<tr>
+<td><code>has_type</code></td>
+<td style="text-align: right;">21</td>
+<td><code>eval-suite</code>→<code>testing-type</code> (21)</td>
+<td>none</td>
+<td><code>apply_bench_taxonomy.py</code></td>
+</tr>
+<tr>
+<td><code>trained_on</code></td>
+<td style="text-align: right;">20</td>
+<td><code>model</code>→<code>dataset</code> (20)</td>
+<td><code>src</code> (3)</td>
+<td><code>model_wiring.py</code>, <code>build_train_sources.py</code>, <code>build_corpus_structure.py</code>, <code>link_neuropath.py</code></td>
+</tr>
+<tr>
+<td><code>has_resource</code></td>
+<td style="text-align: right;">18</td>
+<td><code>authority</code>→<code>fhir</code> (18)</td>
+<td>none</td>
+<td><code>build_layered.py</code></td>
+</tr>
+<tr>
+<td><code>binds</code></td>
+<td style="text-align: right;">15</td>
+<td><code>fhir</code>→<code>authority</code> (15)</td>
+<td>none</td>
+<td><code>build_layered.py</code></td>
+</tr>
+<tr>
+<td><code>test_set_of</code></td>
+<td style="text-align: right;">14</td>
+<td><code>dataset</code>→<code>benchmark</code> (14)</td>
+<td><code>src</code> (3)</td>
+<td><code>build_benchmark_nodes.py</code>, <code>link_neuropath.py</code></td>
+</tr>
+<tr>
+<td><code>has_training_stage</code></td>
+<td style="text-align: right;">14</td>
+<td><code>model</code>→<code>training-stage</code> (14)</td>
+<td>none</td>
+<td><code>build_curriculum.py</code></td>
+</tr>
+<tr>
+<td><code>executed_on</code></td>
+<td style="text-align: right;">14</td>
+<td><code>training-stage</code>→<code>system</code> (14)</td>
+<td>none</td>
+<td><code>build_curriculum.py</code></td>
+</tr>
+<tr>
+<td><code>built_with</code></td>
+<td style="text-align: right;">14</td>
+<td><code>training-stage</code>→<code>codebase</code> (14)</td>
+<td>none</td>
+<td><code>build_curriculum.py</code></td>
+</tr>
+<tr>
+<td><code>grounds</code></td>
+<td style="text-align: right;">13</td>
+<td><code>authority</code>→<code>specialty</code> (6)<br><code>authority</code>→<code>root</code> (5)<br><code>authority</code>→<code>concept</code> (2)</td>
+<td>none</td>
+<td><code>build_layered.py</code>, <code>register_neuropath.py</code>, <code>renal_sbir_registry.py</code></td>
+</tr>
+<tr>
+<td><code>follows</code></td>
+<td style="text-align: right;">9</td>
+<td><code>training-stage</code>→<code>training-stage</code> (9)</td>
+<td>none</td>
+<td><code>build_curriculum.py</code></td>
+</tr>
+<tr>
+<td><code>evaluated_on</code></td>
+<td style="text-align: right;">8</td>
+<td><code>model</code>→<code>llm-benchmark</code> (8)</td>
+<td>none</td>
+<td><code>model_wiring.py</code></td>
+</tr>
+<tr>
+<td><code>prereq</code></td>
+<td style="text-align: right;">6</td>
+<td><code>concept</code>→<code>concept</code> (4)<br><code>gate</code>→<code>concept</code> (2)</td>
+<td>none</td>
+<td><code>build_layered.py</code></td>
+</tr>
+<tr>
+<td><code>derived_from</code></td>
+<td style="text-align: right;">3</td>
+<td><code>dataset</code>→<code>dataset</code> (3)</td>
+<td><code>src</code> (3)</td>
+<td><code>link_predictors.py</code></td>
+</tr>
+<tr>
+<td><code>evaluated_by</code></td>
+<td style="text-align: right;">2</td>
+<td><code>model</code>→<code>eval-suite</code> (2)</td>
+<td>none</td>
+<td><code>build_llm_benchmarks.py</code></td>
+</tr>
+<tr>
+<td><code>sft_trained_on</code></td>
+<td style="text-align: right;">2</td>
+<td><code>model</code>→<code>dataset</code> (2)</td>
+<td>none</td>
+<td><code>sft_wiring.py</code></td>
+</tr>
+<tr>
+<td><code>defines</code></td>
+<td style="text-align: right;">1</td>
+<td><code>authority</code>→<code>root</code> (1)</td>
+<td>none</td>
+<td><code>build_layered.py</code></td>
+</tr>
+<tr>
+<td><code>uses</code></td>
+<td style="text-align: right;">1</td>
+<td><code>system</code>→<code>kg</code> (1)</td>
+<td>none</td>
+<td><code>build_layered.py</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="edge-attributes">Edge attributes<a class="headerlink" href="#edge-attributes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th style="text-align: right;">On edges</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src</code></td>
+<td style="text-align: right;">5,715</td>
+<td>Which build step or source asserted the edge: <code>mesh_tree</code> (3,360 <code>part_of</code> edges derived from MeSH tree numbers), <code>curated</code> (1,845), <code>entity_resolution</code> (250), <code>link_predictors</code>, <code>link_openh</code>, <code>link_renal</code>, <code>link_neuropath</code></td>
+</tr>
+<tr>
+<td><code>n_docs</code></td>
+<td style="text-align: right;">1,749</td>
+<td><code>classified_as</code>: number of corpus documents of the dataset classified to the concept</td>
+</tr>
+<tr>
+<td><code>pct</code></td>
+<td style="text-align: right;">7</td>
+<td><code>classified_as</code> from a guideline document: share in percent</td>
+</tr>
+<tr>
+<td><code>n</code></td>
+<td style="text-align: right;">607</td>
+<td><code>covers_topic</code>: number of benchmark items (or documents) mapped to the topic; <code>measured_on</code>: number of scored items</td>
+</tr>
+<tr>
+<td><code>basis</code></td>
+<td style="text-align: right;">216</td>
+<td>Why the edge exists: <code>arxiv-lexalign</code> (203 <code>covers_topic</code> edges), or a short reason on <code>related</code> edges from <code>link_renal.py</code></td>
+</tr>
+<tr>
+<td><code>via</code></td>
+<td style="text-align: right;">437</td>
+<td><code>grounded_in</code>: the MeSH code that grounds the target (<code>mesh:D…</code>); <code>covers</code>: <code>metadata</code>, <code>modality</code> or <code>finding-label</code>; <code>part_of</code>: path note</td>
+</tr>
+<tr>
+<td><code>sim</code></td>
+<td style="text-align: right;">31</td>
+<td><code>related</code>: cosine similarity between concept anchors (edges written only at 0.72 or above)</td>
+</tr>
+<tr>
+<td><code>acc</code></td>
+<td style="text-align: right;">104</td>
+<td><code>measured_on</code>: accuracy of the model on the items mapped to the concept</td>
+</tr>
+<tr>
+<td><code>value</code>, <code>metric</code></td>
+<td style="text-align: right;">85</td>
+<td><code>scored</code>: the score and its metric</td>
+</tr>
+<tr>
+<td><code>mean_rank</code></td>
+<td style="text-align: right;">15</td>
+<td><code>scored</code>: mean rank over the suite tasks (predictor suites)</td>
+</tr>
+<tr>
+<td><code>ratio_to_published</code></td>
+<td style="text-align: right;">26</td>
+<td><code>scored</code>: ratio of our run to the published leaderboard value (fev-bench)</td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td style="text-align: right;">6</td>
+<td><code>scored</code>: which release of the model the score belongs to (for example <code>V5-Instruct</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="standards-that-govern-the-graph">Standards that govern the graph<a class="headerlink" href="#standards-that-govern-the-graph" title="Permanent link">&para;</a></h2>
+<p><code>GRAPH_STANDARDS.md</code> is the decision record, adopted 2026-07-26 and extended 2026-09-26. Its binding
+rules are summarised here with what the served graph does.</p>
+<h3 id="identity-and-grounding">Identity and grounding<a class="headerlink" href="#identity-and-grounding" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Every node must be tied to a real MeSH descriptor or another core concept (SNOMED CT or a UMLS
+  concept). There are to be no orphan nodes.</li>
+<li>A concept's canonical identity is its MeSH descriptor UI, for example <code>mesh:D002309</code> for
+  Cardiology. The MeSH UI is the deduplication key: two nodes with the same UI are the same concept.</li>
+<li>MeSH is canonical over Wikipedia. Wikipedia is a readable overlay on a MeSH concept (an <code>oldid</code>
+  attribute), never a second node. Wikipedia is the fallback identity only for non-MeSH,
+  non-medical nodes, which may instead carry a Wikidata QID.</li>
+<li><code>LAYERS.md</code> restates the same rule as the substrate: identity is <code>canonical_id</code>, and two systems
+  that emit the same <code>canonical_id</code> name the same entity without reconciliation.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">1,174 nodes carry no <code>canonical_id</code></p>
+<p>The grounding rule is written for concepts, but it says "every node". At HEAD 1,174 nodes have
+no <code>canonical_id</code>: all 513 <code>dataset</code>, 172 <code>food-category</code>, 106 <code>llm-benchmark</code>, 90 <code>model</code>,
+35 <code>capability</code>, 21 <code>testing-type</code>, 18 <code>fhir</code>, 18 <code>benchmark</code>, 15 <code>authority</code>, 14
+<code>training-stage</code>, 13 <code>capability-group</code>, 9 <code>eval-domain</code>, 5 <code>domain</code>, 4 <code>codebase</code>, 3
+<code>guideline</code>, 3 <code>gen-category</code>, 2 <code>group</code>, 2 <code>system</code>, 1 <code>kg</code>, 1 <code>atlas-root</code> and 1
+<code>eval-suite</code> node, and also 118 <code>concept</code> and 10 <code>disease</code> nodes. The 118 concepts are the 117
+Wikipedia-grounded general concepts that <code>build_concept_remap.py</code> creates with <code>wiki_title</code> and
+<code>wp_url</code> but no <code>canonical_id</code> (where <code>build_layered.py</code> would write <code>wikipedia:&lt;slug&gt;</code>), plus
+one corpus-classification concept. The 10 diseases are FoodAtlas diseases whose upstream id is
+OMIM, flagged with <code>grounding: none</code> and a <code>grounding_note</code>.</p>
+</div>
+<h3 id="hierarchy-and-edge-direction">Hierarchy and edge direction<a class="headerlink" href="#hierarchy-and-edge-direction" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The concept hierarchy comes from MeSH tree numbers. A descriptor's parent is the descriptor whose
+  tree number is the immediate prefix. Specialties live in the MeSH H02 tree, diseases in C,
+  techniques in E. In the served graph this hierarchy is the <code>part_of</code> relation with
+  <code>src: mesh_tree</code> (3,360 edges); hand-curated links carry <code>src: curated</code> (1,845).</li>
+<li>Backbone edges are SKOS-aligned. The property graph does not use SKOS names. The RDF export
+  declares <code>pa:partOf rdfs:subPropertyOf skos:broader</code> and <code>pa:related rdfs:subPropertyOf
+  skos:related</code>, and writes every code as <code>skos:exactMatch</code>. It writes no <code>skos:narrower</code>.</li>
+<li>Edges point from the specific or owning node to the general or target node: a child is
+  <code>part_of</code> its parent, a dataset <code>covers</code> a concept, a model is <code>scored</code> against a benchmark, a
+  training stage <code>follows</code> the stage before it.</li>
+</ul>
+<p><code>GRAPH_STANDARDS.md</code> does not state naming rules. The served graph follows these conventions
+consistently: <code>kind</code> values are lower case with hyphens; <code>rel</code> values are lower case snake case
+verb phrases; node ids are lower case, prefixed by kind (<code>concept-</code>, <code>bench-</code>, <code>model-</code>,
+<code>dataset-</code>, <code>atype-</code>, <code>stage-</code>), with MeSH expansion nodes as <code>mesh-D&lt;UI&gt;</code> and FoodAtlas nodes as
+<code>fa-dis-</code> and <code>fa-food-</code>. Identifier rules are on <a href="../identifiers/">Identifiers</a>.</p>
+<h3 id="provenance">Provenance<a class="headerlink" href="#provenance" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Sources are evidence, not authority. Only panAtlas verification makes a fact <code>verified</code>, and a
+  curator sign-off is recorded as <code>verified_by</code>.</li>
+<li>FHIR-derived and vocabulary-derived assertions enter as evidence with provenance. Automatic MeSH
+  groundings are adversarially verified, one agent per concept, each confirming the descriptor with
+  a live UTS call, before they are trusted.</li>
+<li>Every triple lives in exactly one named graph, and the named graph is its source of record.
+  panAtlas curates only <code>https://panatlas.net/graph/panatlas</code>; mirrored graphs are read-only. See
+  <a href="../rdf-vocabulary/">RDF vocabulary</a>.</li>
+<li>A dataset maintained elsewhere carries <code>maintained_externally: true</code> and a <code>source_of_record</code>
+  block with the keys <code>system</code>, <code>graph</code>, <code>agent</code>, <code>upstream_version</code>, <code>upstream_last_updated_on</code>,
+  <code>held_version</code>, <code>endpoint</code>, <code>registry_file</code>, <code>registry_commit</code>, <code>funding</code>, <code>homepage</code>,
+  <code>authoritative_namespaces</code>, <code>authoritative_declared</code>. See <a href="../dataset-registry/">Dataset registry</a>.</li>
+<li><code>LAYERS.md</code> requires every edge to carry an <code>origin</code> (ontology-tree, curated, embedding-derived,
+  agent-contributed) and <code>evidence</code> (for example <code>{model, version, cosine}</code>), so that connectivity
+  merges as attributed claims.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Edge provenance in the served graph is partial</p>
+<p>No edge in the served graph has an <code>origin</code> or an <code>evidence</code> attribute, and no node or edge has
+a <code>verified_by</code> attribute. Provenance is carried instead by <code>src</code> (5,715 edges), <code>via</code> (437),
+<code>basis</code> (216) and, for measured edges, <code>n_docs</code>, <code>n</code>, <code>sim</code> and <code>acc</code>. 10,863 edges carry
+none of <code>src</code>, <code>via</code> or <code>basis</code>. On nodes, provenance is the free-text <code>source</code> and <code>built_by</code>
+fields. The closest implementation of the contract is in the attach process (<code>embed_attach.py</code>
+and the local agent report, see <a href="../../concepts/layers/">Knowledge layers</a>), which writes one
+nested attribute, <code>claims: {origin: "embedding", model, version, cosine, canonical_id}</code>, on its
+<code>classified_as</code> edges. Those edges are federation reports and are not in the served graph.</p>
+</div>
+<h2 id="other-graph-files-in-the-repository">Other graph files in the repository<a class="headerlink" href="#other-graph-files-in-the-repository" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th style="text-align: right;">Nodes</th>
+<th style="text-align: right;">Edges</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>web/wp-plugin/panatlas-explorer/data/graph.json</code></td>
+<td style="text-align: right;">6,187</td>
+<td style="text-align: right;">17,119</td>
+<td>Served graph, documented on this page</td>
+</tr>
+<tr>
+<td><code>web/graph.json</code></td>
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">386</td>
+<td>First interface graph from <code>build_graph.py</code> (kinds <code>dataset</code>, <code>external-benchmark</code>, <code>topic</code>, <code>origin</code>, <code>role</code>; relations <code>has_origin</code>, <code>has_role</code>, <code>in_topic</code>, <code>covers</code>). Not served</td>
+</tr>
+<tr>
+<td><code>web/explorer/graph.json</code></td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">174</td>
+<td>Prototype explorer graph from <code>web/explorer/build_graph.py</code>. Not served</td>
+</tr>
+</tbody>
+</table>
+<h2 id="build-order">Build order<a class="headerlink" href="#build-order" title="Permanent link">&para;</a></h2>
+<p>Each build script reads the served <code>graph.json</code>, changes it in place and writes it back. The
+ordered entry point is <code>web/build_all.sh</code>. Its stated precondition is that the upstream builders
+(<code>build_graph.py</code>, <code>build_layered.py</code>, <code>build_all_datasets.py</code>, <code>build_train_sources.py</code>,
+<code>build_source_topics.py</code>, <code>sft_wiring.py</code>, <code>build_corpus_structure.py</code>, <code>model_wiring.py</code>,
+<code>build_benchmark_nodes.py</code>, <code>build_concept_remap.py</code>, <code>apply_bench_taxonomy.py</code>) have already run. It
+then runs, in order:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>build_artifact_types.py
+python3<span class="w"> </span>build_curriculum.py
+python3<span class="w"> </span>build_record_level.py
+python3<span class="w"> </span>pipeline/existing_meta/merge_gap.py<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+python3<span class="w"> </span>build_existing_meta.py
+python3<span class="w"> </span>build_native_meta.py
+python3<span class="w"> </span>build_field_values.py
+python3<span class="w"> </span>build_patho_evals.py
+python3<span class="w"> </span>build_eval_map.py
+python3<span class="w"> </span>pipeline/check_curriculum_vault.py
+node<span class="w"> </span>pipeline/ui_harness.js
+</code></pre></div>
+<p>Scripts outside this sequence also write the graph: <code>enrich_graph.py</code> (<code>measured_on</code>,
+<code>eval_accuracy</code>), <code>hygiene_enrich.py</code> (<code>grounded_in</code>, contamination downgrades),
+<code>attach_full_eval.py</code> (model evaluation fields), <code>reconcile_benchmarks.py</code>, the <code>link_*.py</code> scripts
+and <code>register_*.py</code> fragments. No single script rebuilds the whole graph from scratch, so the order
+in which these were last run determines the file.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

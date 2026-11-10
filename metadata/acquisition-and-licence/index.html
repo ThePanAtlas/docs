@@ -1,0 +1,2791 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+      
+      
+      
+        <link rel="canonical" href="https://thepanatlas.github.io/docs/metadata/acquisition-and-licence/">
+      
+      
+        <link rel="prev" href="../manifests/">
+      
+      
+        <link rel="next" href="../document-index/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Acquisition and licence - panAtlas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#acquisition-and-licence" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="panAtlas" class="md-header__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            panAtlas
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Acquisition and licence
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/purpose/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../distributed/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Distributed system
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Metadata
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../system/build-pipeline/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/repository-map/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="panAtlas" class="md-nav__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    panAtlas
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/purpose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Purpose and principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed system
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Distributed system
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/cresco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cresco for panAtlas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/dataset-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Participating agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wire contract and schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage on GaiaKeep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../identifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manifests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manifests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-status-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The status lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acquisition-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acquisition records
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Acquisition records">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#completion-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Completion records
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-at-acquisition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification at acquisition
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#licence-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Licence metadata
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Licence metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-rule-licence-is-recorded-per-document-and-applied-late" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The rule: licence is recorded per document and applied late
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upstream-licence-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upstream licence table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-level-licence-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset-level licence fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-document-licence-on-the-estate-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-document licence on the estate index
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restricted-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricted data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restricted data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-classes-today" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access classes today
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-entitlement-model-designed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The entitlement model (designed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../document-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluation-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models-and-curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models and curriculum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rdf-vocabulary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../codesystems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/build-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/knowledge-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge store (SPARQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/acquisition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/web-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/public-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/astral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/repository-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-status-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The status lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acquisition-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acquisition records
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Acquisition records">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#completion-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Completion records
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-at-acquisition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification at acquisition
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#licence-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Licence metadata
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Licence metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-rule-licence-is-recorded-per-document-and-applied-late" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The rule: licence is recorded per document and applied late
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upstream-licence-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upstream licence table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-level-licence-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset-level licence fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-document-licence-on-the-estate-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-document licence on the estate index
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restricted-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricted data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restricted data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-classes-today" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access classes today
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-entitlement-model-designed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The entitlement model (designed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="acquisition-and-licence">Acquisition and licence<a class="headerlink" href="#acquisition-and-licence" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Status</p>
+<p><strong>Built:</strong> the registry status field and its transitions, acquisition records, completion summaries,
+fold-in, the upstream licence table (<code>web/licence/licence_registry.json</code>), dataset-level licence fields,
+and the per-document licence columns on the estate document index (measured 2026-09-23 over 93,056,465
+rows). <strong>Designed, not built:</strong> the per-user, per-project entitlement layer for restricted data
+(<code>PLAN-restricted-data-umls.md</code> phases P2 to P6), and any training-set assembler that reads the
+per-document licence column. Registry counts are at repository HEAD <code>57505c6</code> (2026-10-31).</p>
+</div>
+<p>This page covers three kinds of metadata that decide what may be done with a dataset: where it is in its
+lifecycle (status and acquisition records), what licence governs it (per dataset and per document), and who
+may see it (access class and, for restricted data, entitlements).</p>
+<h2 id="the-status-lifecycle">The status lifecycle<a class="headerlink" href="#the-status-lifecycle" title="Permanent link">&para;</a></h2>
+<p><code>status</code> on a registry entry has three values at HEAD:</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th style="text-align: right;">Entries</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>acquiring</code></td>
+<td style="text-align: right;">46</td>
+<td>registered, data not yet held or not yet verified complete; <code>manifest</code> is <code>null</code></td>
+</tr>
+<tr>
+<td><code>building</code></td>
+<td style="text-align: right;">5</td>
+<td>a derived dataset whose rows do not exist yet; <code>locations</code> empty and <code>host</code> <code>null</code> so no manifest, report or manager is produced</td>
+</tr>
+<tr>
+<td><code>active</code></td>
+<td style="text-align: right;">149</td>
+<td>data is held; the entry may have a manifest and a manager</td>
+</tr>
+</tbody>
+</table>
+<p>There is no <code>acquired</code> or <code>complete</code> top-level status. <code>complete</code> is a value of <code>acquisition.status</code>
+(below). No code path moves an entry out of <code>active</code>: there is no retired, removed or superseded state, and
+retired slugs are simply absent from the registry.</p>
+<pre class="mermaid"><code>stateDiagram-v2
+  [*] --&gt; acquiring: registered before the data is complete
+  [*] --&gt; building: derived set registered before its rows exist
+  [*] --&gt; active: registered with the data already held
+  acquiring --&gt; active: manifest folded with no missing locations
+  building --&gt; active: rows produced, locations and host set
+  active --&gt; active: re-registration keeps active</code></pre>
+<p>How each transition is made:</p>
+<ul>
+<li><strong>Registration</strong> writes the initial status. Fragments for downloads (<code>web/datasets_renal.json</code>,
+  <code>web/datasets_tcga.json</code>) arrive as <code>acquiring</code>; <code>web/register_openh.py</code> writes <code>acquiring</code> with
+  <code>manifest: null</code> and keeps it until the download's <code>DONE</code> marker exists and its manifest is folded;
+  <code>okn_agent.py describe</code> writes <code>active</code> when the graph's agent holds a verified version
+  (<code>state.json</code> <code>current_version</code>), else <code>acquiring</code>.</li>
+<li><strong>Fold-in</strong> (<code>web/fold_manifests.py</code> and its TCGA and renal predecessors) sets <code>status: active</code> only when the
+  folded manifest's <code>missing_locations</code> is empty, and sets <code>acquisition.status: complete</code>. See
+  <a href="../manifests/#where-manifests-are-computed">Manifests</a>.</li>
+<li><strong>Re-registration never demotes.</strong> <code>register_fragment.py</code> and <code>register_tcga.py</code> keep <code>active</code> and the
+  completed acquisition fields when an entry is already active; <code>register_openh.py</code> keeps <code>status</code> once a
+  manifest exists; <code>register_okn.py</code> keeps an existing <code>manifest</code>, <code>linked_nodes</code> and <code>manifest_full_walk</code>.</li>
+</ul>
+<p>State combinations in the registry at HEAD:</p>
+<table>
+<thead>
+<tr>
+<th><code>status</code></th>
+<th><code>acquisition</code></th>
+<th><code>manifest</code></th>
+<th style="text-align: right;">Entries</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>acquiring</td>
+<td>absent</td>
+<td><code>null</code></td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr>
+<td>building</td>
+<td>absent</td>
+<td><code>null</code></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>active</td>
+<td><code>status: complete</code></td>
+<td>summary</td>
+<td style="text-align: right;">67</td>
+</tr>
+<tr>
+<td>active</td>
+<td>absent</td>
+<td>summary</td>
+<td style="text-align: right;">54</td>
+</tr>
+<tr>
+<td>active</td>
+<td><code>{}</code></td>
+<td>summary</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td>active</td>
+<td><code>{}</code></td>
+<td><code>null</code></td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr>
+<td>active</td>
+<td><code>{}</code></td>
+<td>absent</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td>active</td>
+<td>object without <code>status</code></td>
+<td>absent</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>active</td>
+<td><code>status: complete</code></td>
+<td><code>null</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>active</td>
+<td>free-text <code>status</code></td>
+<td>absent</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<p>The 22 <code>active</code> entries without a manifest are model outputs, derived sets and evaluation suites registered
+as active without a file walk (listed on <a href="../dataset-registry/#counts-at-head">Dataset registry</a>).</p>
+<div class="admonition warning">
+<p class="admonition-title">OKN mirrors: registry says <code>acquiring</code>, the project record says served</p>
+<p>All 46 OKN entries are <code>acquiring</code> with <code>source_of_record.held_version: null</code>. The project's dated record
+states that the local SPARQL store has served 44 OKN graphs, each proven to round-trip exactly, since
+2026-10-03. The registry entries were generated by <code>okn_agent.py describe</code> before those copies were held
+and have not been regenerated and re-merged (<code>register_okn.py</code>) since. Treat the OKN <code>status</code> and
+<code>held_version</code> fields as stale until <code>describe</code> is re-run.</p>
+</div>
+<p>The served catalog adds three status values that are not part of the registry lifecycle, on catalog-only
+corpus entries: <code>listed</code> (228), <code>measured</code> (133), <code>on-disk</code> (61). See
+<a href="../dataset-registry/#catalog-only-entries-and-fields">Dataset registry</a>.</p>
+<h2 id="acquisition-records">Acquisition records<a class="headerlink" href="#acquisition-records" title="Permanent link">&para;</a></h2>
+<p><code>acquisition</code> is an object on 95 registry entries (21 of them <code>{}</code>). It records how the data was fetched and
+when the fetch finished. Its fields are not fixed by a schema; this is the union at HEAD.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th style="text-align: right;">Present</th>
+<th>Type</th>
+<th>Meaning</th>
+<th>Written by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status</code></td>
+<td style="text-align: right;">69</td>
+<td>string</td>
+<td><code>complete</code> (68) or a free-text verification statement (1). Code also writes <code>pending</code> (<code>register_openh.py</code>, before download) and <code>incomplete</code> (<code>fold_renal_manifests.py</code>, when a location is missing); neither occurs at HEAD</td>
+<td>fold scripts, registering scripts</td>
+</tr>
+<tr>
+<td><code>finished</code></td>
+<td style="text-align: right;">68</td>
+<td>string</td>
+<td>when the fetch finished; two formats occur: <code>YYYY-MM-DD HH:MM:SS</code> (cluster local time) and ISO 8601 with offset</td>
+<td>fold scripts (from the completion summary)</td>
+</tr>
+<tr>
+<td><code>summary</code></td>
+<td style="text-align: right;">57</td>
+<td>string</td>
+<td>root-relative path of the completion summary used for the fold</td>
+<td><code>fold_manifests.py</code>, <code>fold_tcga_manifests.py</code></td>
+</tr>
+<tr>
+<td><code>completion_summary</code></td>
+<td style="text-align: right;">11</td>
+<td>string</td>
+<td>the same, under the name <code>fold_renal_manifests.py</code> uses (one entry carries both keys)</td>
+<td><code>fold_renal_manifests.py</code></td>
+</tr>
+<tr>
+<td><code>started</code></td>
+<td style="text-align: right;">39</td>
+<td>date</td>
+<td>fetch start</td>
+<td>fragments, <code>register_openh.py</code></td>
+</tr>
+<tr>
+<td><code>driver</code></td>
+<td style="text-align: right;">34</td>
+<td>string</td>
+<td>the fetch script (root-relative path)</td>
+<td>fragments</td>
+</tr>
+<tr>
+<td><code>log</code></td>
+<td style="text-align: right;">34</td>
+<td>string</td>
+<td>the fetch log (for downloads, the shared estate log <code>data/sources_staging/_downloads/manifest.jsonl</code>)</td>
+<td>fragments</td>
+</tr>
+<tr>
+<td><code>program</code></td>
+<td style="text-align: right;">39</td>
+<td>string</td>
+<td>the programme the data was acquired for</td>
+<td>fragments</td>
+</tr>
+<tr>
+<td><code>vault</code></td>
+<td style="text-align: right;">39</td>
+<td>string</td>
+<td>knowledge-vault pages for the acquisition</td>
+<td>fragments</td>
+</tr>
+<tr>
+<td><code>jobs</code></td>
+<td style="text-align: right;">2</td>
+<td>list</td>
+<td><code>"&lt;job&gt; &lt;purpose&gt;"</code> strings</td>
+<td>fragments</td>
+</tr>
+<tr>
+<td><code>source</code>, <code>revision</code></td>
+<td style="text-align: right;">1 each</td>
+<td>string</td>
+<td>upstream repository and pinned revision</td>
+<td><code>register_arxiv.py</code></td>
+</tr>
+<tr>
+<td><code>method</code>, <code>order</code>, <code>purpose</code>, <code>result</code>, <code>verification</code>, <code>completed</code>, <code>elapsed_s</code>, <code>estate_log</code></td>
+<td style="text-align: right;">1 each</td>
+<td>string or integer</td>
+<td>transfer method, config order, why it was fetched, outcome, how files were verified, completion date, wall time, estate log path</td>
+<td>fragments, <code>register_arxiv.py</code>, <code>register_openh.py</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="completion-records">Completion records<a class="headerlink" href="#completion-records" title="Permanent link">&para;</a></h3>
+<p>A completion summary is written by the fetcher or finaliser on the cluster when a download ends, and is the
+input to fold-in. Three shapes are in use:</p>
+<p>=== "Per-dataset manifests (renal)"</p>
+<div class="highlight"><pre><span></span><code>`web/acquisition/renal/completion_summary.json` (repository mirror):
+
+| Key | Meaning |
+|---|---|
+| `finished` | finish time |
+| `manifests` | `{slug: {file_count, total_bytes, manifest_hash, missing_locations, computed_at}}` |
+| `log_tail` | the last fetch-log records: `{name, status, bytes, detail, t}` (80 records; `status` is `ok` 76, `start` 3, `partial` 1) |
+
+Recorded result: 10 manifests, 48,281 files, 6.86 TB, 0 missing locations, finished 2026-09-06 06:09:30.
+</code></pre></div>
+<p>=== "Per-dataset list (TCGA, default for <code>fold_manifests.py</code>)"</p>
+<div class="highlight"><pre><span></span><code>| Key | Meaning |
+|---|---|
+| `finished` | finish time |
+| `datasets[]` | `{slug, file_count, total_bytes, missing, hash}` per dataset |
+
+Fold-in refuses a dataset whose manifest hash differs from `hash`.
+</code></pre></div>
+<p>=== "Whole download (OpenH-RF, <code>openh_fetch.py finish</code>)"</p>
+<div class="highlight"><pre><span></span><code>| Key | Meaning |
+|---|---|
+| `repo`, `revision` | upstream repository and pinned revision |
+| `files`, `bytes` | files and bytes in the upstream tree |
+| `lfs_files_sha256_verified`, `git_files_sha1_verified` | files verified by each hash kind |
+| `n_missing_or_unverified`, `missing_or_unverified` | count and first 50 paths |
+| `partial_files` | count of `.part` / `.incomplete` files |
+| `extra_files` | first 50 files not in the upstream tree |
+| `checked` | when the check ran |
+
+`finish` writes a `DONE` marker (the summary plus `"verified": true`) only when nothing is missing,
+unverified, partial or extra. `fold_manifests.py` accepts this shape only under the same condition.
+</code></pre></div>
+<p>The per-file fetch log (<code>manifest.jsonl</code> on the cluster) is append-only JSON lines; the renal fetcher writes
+<code>{name, status, …, t}</code> records. Its full schema is not in the repository.</p>
+<h3 id="verification-at-acquisition">Verification at acquisition<a class="headerlink" href="#verification-at-acquisition" title="Permanent link">&para;</a></h3>
+<p>Content is verified when data is acquired, against the publisher's own checksums, not by the manifest (which
+does not read content; see <a href="../manifests/#honest-limits">Manifests</a>). What each recorded acquisition verified:</p>
+<table>
+<thead>
+<tr>
+<th>Acquisition</th>
+<th>Verification recorded</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenH-RF (2026-10-11 to 2026-10-15, jobs 231465 to 231468)</td>
+<td>every one of 19,662 files against the pinned Hugging Face tree: sha256 for LFS files, git blob sha1 otherwise; mismatches deleted and refetched; <code>DONE</code> only at 19,662 of 19,662; 34 manifests, 0 missing locations</td>
+</tr>
+<tr>
+<td>arXiv corpus</td>
+<td><code>acquisition.result</code>: all nine configs, 3,745 Parquet shards, 0 errors; 16.08 TB on disk matches the card</td>
+</tr>
+<tr>
+<td>CPTAC-LUAD slides</td>
+<td><code>md5sum -c</code> against each package's own sums: 508 of 508 and 1,137 of 1,137 (jobs 220431, 220430)</td>
+</tr>
+<tr>
+<td>TCGA slides</td>
+<td>GDC data endpoint, md5-verified (<code>source_of_truth</code>)</td>
+</tr>
+<tr>
+<td>OKN graphs</td>
+<td>a graph is done only if its line count equals the endpoint's <code>COUNT(*)</code>, nothing is malformed and lines are distinct or the repeats are confirmed by the endpoint; <code>PROOF.json</code> records fingerprint, upstream, re-extraction and store round-trip checks (<code>web/acquisition/okn/README.md</code>)</td>
+</tr>
+<tr>
+<td>UMLS 2026AA (job 237451, 2026-10-16)</td>
+<td>every zip member CRC, the release's inner md5 files, and all 56 RRF files equal to the release's own file list in rows (392,875,930) and size; the fetch fails if any path is group- or world-readable</td>
+</tr>
+</tbody>
+</table>
+<h2 id="licence-metadata">Licence metadata<a class="headerlink" href="#licence-metadata" title="Permanent link">&para;</a></h2>
+<h3 id="the-rule-licence-is-recorded-per-document-and-applied-late">The rule: licence is recorded per document and applied late<a class="headerlink" href="#the-rule-licence-is-recorded-per-document-and-applied-late" title="Permanent link">&para;</a></h3>
+<p>Owner policy of 2026-09-23 (<code>web/licence/licence_registry.py</code> docstring; <code>web/estate_doc_index.py</code> docstring):</p>
+<ol>
+<li><strong>Ingest is never gated by licence.</strong> Register, manifest, federate and index first.</li>
+<li><strong>The licence is a per-document attribute</strong>, recorded at ingest on the estate document index.</li>
+<li><strong>The licence is applied at two moments only</strong>: when documents are shared outward, and when a training set
+   is assembled. Both read the per-document column; neither is decided at ingest.</li>
+</ol>
+<p>"Not training-eligible" is therefore never a reason to leave data out of panAtlas. Inclusion and training
+eligibility are separate questions:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Where it is recorded</th>
+<th>Decided when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Is the data in panAtlas?</td>
+<td>the registry entry and its manifest</td>
+<td>at registration</td>
+</tr>
+<tr>
+<td>Did a model train on it?</td>
+<td>registry <code>used_in_training</code>; the document ledger (<code>doc_uid</code> membership in V4/V5)</td>
+<td>after training, from the training record</td>
+</tr>
+<tr>
+<td>May it go into a training set?</td>
+<td>per-document <code>license_*</code> columns on <code>estate_doc_index.parquet</code> (text); per-case governance columns such as <code>pretrain_eligible</code> and <code>held_out_eval</code> in a corpus's own case manifest (imaging)</td>
+<td>at training-set assembly</td>
+</tr>
+<tr>
+<td>May it be shared?</td>
+<td>the same licence columns, plus the dataset's <code>access</code> class</td>
+<td>at sharing</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">No assembler reads the licence column yet</p>
+<p>At HEAD no repository script filters a training set or an export by <code>license_status</code> or <code>license_scope</code>.
+The column is recorded and measured; its use at assembly time is a rule for whoever builds the next mix.</p>
+</div>
+<h3 id="upstream-licence-table">Upstream licence table<a class="headerlink" href="#upstream-licence-table" title="Permanent link">&para;</a></h3>
+<p><code>web/licence/licence_registry.json</code> (built by <code>web/licence/licence_registry.py</code>, <code>checked: 2026-09-23</code>) is the
+evidence layer. Each upstream records where its licence statement was read:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>upstream name</td>
+</tr>
+<tr>
+<td><code>license</code></td>
+<td>the licence as the source states it (empty when none is stated)</td>
+</tr>
+<tr>
+<td><code>license_id</code></td>
+<td>normalised id (SPDX where one exists, <code>custom-…</code>, <code>LicenseRef-…</code>, <code>MIXED</code>, or empty)</td>
+</tr>
+<tr>
+<td><code>basis</code></td>
+<td><code>file:&lt;root-relative path&gt;</code> (a card or LICENSE shipped with our copy) or <code>web:&lt;url&gt;</code> (a primary page); several separated by <code>;</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>verified</code> · <code>conflicting</code> (primary sources disagree; both recorded) · <code>not-found</code> (no statement where one should be; never guessed) · <code>internal</code> (generated inside the programme)</td>
+</tr>
+<tr>
+<td><code>note</code></td>
+<td>qualifications</td>
+</tr>
+<tr>
+<td><code>scope</code></td>
+<td><code>dataset</code> · <code>document</code> (licence varies per document) · <code>derived</code> (outputs of a model or a mix) · <code>internal</code></td>
+</tr>
+<tr>
+<td><code>checked</code></td>
+<td>date read</td>
+</tr>
+</tbody>
+</table>
+<p>At HEAD: 67 upstreams; status <code>verified</code> 48, <code>not-found</code> 10, <code>conflicting</code> 8, <code>internal</code> 1; scope <code>dataset</code> 57,
+<code>document</code> 6, <code>derived</code> 3, <code>internal</code> 1.</p>
+<p>The table also routes every estate source to its upstream:</p>
+<table>
+<thead>
+<tr>
+<th>Route table</th>
+<th>Form</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pretrain</code></td>
+<td><code>{source: "fixed:&lt;upstream&gt;" \| "pmc" \| "medrxiv" \| "medlineplus"}</code></td>
+<td>one upstream for every document of the source, or a per-document resolver</td>
+</tr>
+<tr>
+<td><code>leaf</code></td>
+<td><code>{sft source: upstream}</code></td>
+<td>an SFT source whose every row has one upstream</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td><code>{row label prefix: upstream}</code></td>
+<td>upstream for an SFT row's own label; longest prefix wins</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Upstream count differs from the project record</p>
+<p>The project's licence reference (2026-09-23) reports 66 upstreams (47 verified). The repository file at
+HEAD has 67 (48 verified). One verified upstream was added after that record; the per-document counts
+below are from the 2026-09-23 build and predate it.</p>
+</div>
+<h3 id="dataset-level-licence-fields">Dataset-level licence fields<a class="headerlink" href="#dataset-level-licence-fields" title="Permanent link">&para;</a></h3>
+<p>Registry entries carry the licence of the dataset as a whole (field-by-field table on
+<a href="../dataset-registry/#licence-fields">Dataset registry</a>). <code>web/licence/apply_registry_licences.py</code> copies the
+verified upstream record onto the 13 text-dataset entries whose slug maps to exactly one upstream, and writes
+the PMC entry as <code>license_scope: document</code> with <code>license_id: PMC-OA-groups</code>. The nine <code>document</code>-scope
+entries at HEAD are PMC, the arXiv corpus, DailyMed and six JK-Decide entries. OKN entries take the licence
+their publisher declares (<code>license_status: declared-by-publisher</code>) or record <code>not-found</code>;
+<code>upstream_licence_flag</code> marks three OKN graphs whose declared licence does not cover content they embed
+(credentialed clinical relations, terminology identifiers, or third-party records).</p>
+<p>Registry values at HEAD: <code>license_status</code> <code>verified</code> 46, <code>not-found</code> 25, <code>declared-by-publisher</code> 22,
+<code>conflicting</code> 2, three free-text values; <code>license_scope</code> <code>dataset</code> 98, <code>document</code> 9.</p>
+<h3 id="per-document-licence-on-the-estate-index">Per-document licence on the estate index<a class="headerlink" href="#per-document-licence-on-the-estate-index" title="Permanent link">&para;</a></h3>
+<p><code>estate_doc_index.parquet</code> (on the cluster, 93,056,465 rows; schema on <a href="../document-index/">Document index</a>)
+carries six licence columns on every row. <code>web/licence/estate_licence_build.py</code> fills them:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tier</code></td>
+<td><code>embedded</code> (from <code>master_doc_index.parquet</code>) or <code>reference</code> (arXiv, never embedded)</td>
+</tr>
+<tr>
+<td><code>license</code></td>
+<td>the licence text(s) of the resolved upstream(s), joined by <code>\|</code></td>
+</tr>
+<tr>
+<td><code>license_id</code></td>
+<td>the upstream id(s), joined by <code>\|</code>; for medRxiv the per-preprint code mapped to <code>CC-BY</code>, <code>CC-BY-NC</code>, <code>CC-BY-ND</code>, <code>CC-BY-NC-ND</code>, <code>CC0</code>, <code>CC0 (medRxiv cc0_ng)</code>, <code>no-reuse-licence</code></td>
+</tr>
+<tr>
+<td><code>license_scope</code></td>
+<td>the upstream's scope; <code>mixed</code> when a row resolves to more than one upstream; <code>unknown</code> when the status is <code>not-found</code> or nothing resolved</td>
+</tr>
+<tr>
+<td><code>license_status</code></td>
+<td>the upstream's status; <code>conflicting</code> when more than one upstream; <code>not-found</code> if any resolved upstream is <code>not-found</code>; <code>unresolved</code> when no upstream was found</td>
+</tr>
+<tr>
+<td><code>license_upstream</code></td>
+<td>upstream key(s), joined by <code>\|</code></td>
+</tr>
+<tr>
+<td><code>license_resolved_by</code></td>
+<td>how the upstream was found (table below)</td>
+</tr>
+</tbody>
+</table>
+<p>Resolution, in order, per row:</p>
+<table>
+<thead>
+<tr>
+<th><code>license_resolved_by</code></th>
+<th>Applies to</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>source-route</code></td>
+<td>pretrain sources with a <code>fixed:</code> route</td>
+<td>the source's single upstream</td>
+</tr>
+<tr>
+<td><code>pmc-record</code></td>
+<td>PMC</td>
+<td>the NLM Open Access group (commercial, non-commercial, other) on the row's stage-3 record</td>
+</tr>
+<tr>
+<td><code>medrxiv-api</code></td>
+<td>medRxiv</td>
+<td>the preprint's licence from the medRxiv API, by DOI</td>
+</tr>
+<tr>
+<td><code>medlineplus-url</code></td>
+<td>MedlinePlus</td>
+<td>by URL path: encyclopedia and drug-information pages are copyrighted, the rest public domain</td>
+</tr>
+<tr>
+<td><code>sft-row-label</code></td>
+<td>SFT rows</td>
+<td>the row's own upstream label</td>
+</tr>
+<tr>
+<td><code>sft-duplicate-trail</code></td>
+<td>SFT rows</td>
+<td>the labels or leaf upstreams of every exact-duplicate copy (the dedup <code>dup_of</code> trail); precedence: a specific upstream, then an instruction-following mix, then programme-internal</td>
+</tr>
+<tr>
+<td><code>arxiv-metadata</code></td>
+<td>arXiv</td>
+<td><code>metadata.license</code> per paper; <code>document</code> + <code>verified</code> when present, <code>unknown</code> + <code>not-found</code> when null</td>
+</tr>
+<tr>
+<td>(empty)</td>
+<td>anything unresolved</td>
+<td><code>unknown</code> / <code>unresolved</code></td>
+</tr>
+</tbody>
+</table>
+<p>Measured 2026-09-23 (<code>web/licence/estate_licence_rollup.json</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Rows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total</td>
+<td>93,056,465 (embedded 89,907,669 · reference 3,148,796)</td>
+</tr>
+<tr>
+<td><code>license_status</code></td>
+<td>verified 85,128,342 · conflicting 3,117,740 · not-found 2,120,877 · internal 1,850,711 · unresolved 838,795</td>
+</tr>
+<tr>
+<td><code>license_scope</code></td>
+<td>dataset 58,145,222 · document 27,920,759 · unknown 2,959,672 · derived 2,172,658 · internal 1,850,711 · mixed 7,443</td>
+</tr>
+<tr>
+<td><code>license_resolved_by</code></td>
+<td>source-route 54,112,889 · pmc-record 23,585,101 · sft-duplicate-trail 6,585,363 · arxiv-metadata 3,148,796 · sft-row-label 3,140,952 · medrxiv-api 1,643,554 · (empty) 838,710 · medlineplus-url 1,100</td>
+</tr>
+<tr>
+<td>Largest <code>license_id</code> values</td>
+<td>PMC-OA-commercial 16,046,523 · PhysioNet-CHDL-1.5.0 14,968,249 · custom-NLM-PubMed-terms 14,333,458 · ODC-By-1.0 7,906,368 · PMC-OA-noncommercial 6,357,130 · CC-BY-4.0 5,817,067</td>
+</tr>
+<tr>
+<td>Largest <code>unknown</code> sources</td>
+<td>dailymed 1,604,636 · arxiv_complete 452,715 · several SFT mixes (332,401; 293,620; 126,808; …)</td>
+</tr>
+</tbody>
+</table>
+<p>A row count is not a document count for chunked sources: PMC's 23,585,101 rows are 7,420,701 articles.</p>
+<div class="admonition warning">
+<p class="admonition-title">Two builders write <code>estate_doc_index.parquet</code> with different schemas</p>
+<p><code>web/estate_doc_index.py</code> (built 2026-09-23 09:13, per <code>web/estate_doc_rollup.json</code>) writes six columns,
+<code>doc_id, source, role, tier, license, license_scope</code>, with <code>license_scope</code> in <code>{document, dataset,
+unrecorded}</code>; it found no registry licence string for any embedded source, so all 89,907,669 embedded rows
+were <code>unrecorded</code>. <code>web/licence/estate_licence_build.py</code> (built 2026-09-23 21:50) overwrites the same file
+with the full schema and a different scope vocabulary (<code>dataset, document, unknown, derived, internal,
+mixed</code>). The second build is the current file. The policy text still describes the first vocabulary.
+Re-running <code>estate_doc_index.py</code> would silently replace the licence columns with the older, poorer ones.</p>
+</div>
+<h2 id="restricted-data">Restricted data<a class="headerlink" href="#restricted-data" title="Permanent link">&para;</a></h2>
+<h3 id="access-classes-today">Access classes today<a class="headerlink" href="#access-classes-today" title="Permanent link">&para;</a></h3>
+<p>Every registry entry has an <code>access</code> class (values and counts on
+<a href="../dataset-registry/#access">Dataset registry</a>). Restricted classes at HEAD: <code>restricted</code> 16,
+<code>credentialed-phi</code> 3, <code>credentialed</code> 2, <code>institutional</code> 2, <code>registered (Kaggle account, competition rules
+accepted)</code> 1, <code>restricted (in-house training data)</code> 1, <code>mixed (per member)</code> 1.</p>
+<p>The rule today is all-or-nothing: restricted datasets are <strong>catalogued as metadata only and never served</strong>.
+Their registry metadata is visible; their data is not available through panAtlas at all. The public API
+(<code>web/wp-plugin/panatlas-explorer/includes/public-api.php</code>) is anonymous and rate-limited per client per
+minute; its dataset routes return a fixed whitelist of metadata fields for every catalog entry, restricted
+ones included, with cluster paths and job numbers scrubbed from strings. The Astral assistant attaches a
+"metadata only" note to every non-<code>public</code> record. The explorer's full graph and catalog views are gated by
+an identity allowlist (<code>PLAN-restricted-data-umls.md</code> §1, 2026-10-11). No per-user or per-project control
+exists.</p>
+<h3 id="the-entitlement-model-designed">The entitlement model (designed)<a class="headerlink" href="#the-entitlement-model-designed" title="Permanent link">&para;</a></h3>
+<p><code>PLAN-restricted-data-umls.md</code> designs a restricted-data layer, with the UMLS Metathesaurus as its first
+dataset and the same layer intended for every later restricted dataset. Only the licence-fact and
+acquisition phases are done.</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Work</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0</td>
+<td>licence facts</td>
+<td><strong>done</strong> 2026-10-11</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>acquire the release in a Slurm job, verify it, restrict the directory</td>
+<td><strong>passed</strong> 2026-10-16 (job 237451): release 2026AA</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>load verbatim into a separate restricted SPARQL store, one named graph per source restriction level</td>
+<td>next; not built</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>entitlement registry, enforcement in the SPARQL client, audit log</td>
+<td>designed</td>
+</tr>
+<tr>
+<td>P4</td>
+<td>internal relations with provenance; promotion of SRL-0-only edges to the public graph</td>
+<td>designed</td>
+</tr>
+<tr>
+<td>P5</td>
+<td>explanations for entitled users, with the licence notice</td>
+<td>designed</td>
+</tr>
+<tr>
+<td>P6</td>
+<td>compliance: acknowledgement with year and version, annual report, notice before distribution</td>
+<td>designed</td>
+</tr>
+</tbody>
+</table>
+<p>The design's metadata, without any restricted content:</p>
+<p><strong>Entitlement registry</strong> (<code>restricted/entitlements.json</code>, private, on the cluster only, never in the public
+repository or on the web host):</p>
+<div class="highlight"><pre><span></span><code>users:     &lt;identity&gt; -&gt; {name, institution, uts_account: yes/no + date checked, grants: [...]}
+projects:  &lt;id&gt;       -&gt; {title, purpose, members: [&lt;identity&gt;], datasets: [urn], allowed_srl: [0,1,2,3], expires}
+datasets:  urn        -&gt; {licence, terms_section_refs, notice_text, max_srl_by_institution, us_only: [SAB...]}
+</code></pre></div>
+<p><strong>Access predicate.</strong> A user may read a restricted graph only if all hold: the user is a member of a project;
+the project lists the dataset; the user's own grant allows that source restriction level; for the most
+restrictive category, the user belongs to the licensee's institution; for the US-only category, the use is in
+the US. The default is deny, and every grant carries dates so it can be audited.</p>
+<p><strong>Per-fact provenance.</strong> Every loaded triple is tagged with its source vocabulary and the source restriction
+level (SRL) read from the release's own source table, not from a hand-made list, and keeps the release's
+concept, atom and relation identifiers so the source of every fact can be traced. Relations panAtlas derives
+go in a separate derived graph and record the identifiers, sources and highest SRL they depend on; only edges
+derived from SRL-0 sources alone may be promoted to the public graph.</p>
+<p><strong>Licensing obligations recorded as metadata:</strong> acknowledgement of the source with year and version on every
+derived record and answer; a notice and source list shown before a user first sees restricted content; an
+annual usage report; notice to the licensor before any application using the data reaches anyone outside the
+licensee.</p>
+<div class="admonition warning">
+<p class="admonition-title">Directory mode differs from the plan</p>
+<p>The plan specifies a group of licensed users with mode 0750. The acquisition (P1) made <code>restricted/</code>
+mode 0700, readable by the licensee's account only, because the licence is held by one individual and
+only that individual holds a licensor account. Wider access waits on each additional user holding their
+own licence.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">What never appears in panAtlas outputs</p>
+<p>No restricted release content (terms, definitions, synonym strings, relation rows) is published,
+committed, logged or placed in the public graph or catalog. <code>PLAN-restricted-data-umls.md</code> §7 calls for a
+regression test asserting that no restricted graph IRI, restricted string or definition text appears in
+the public <code>graph.json</code> or catalog; that test is designed, not built. There is no registry entry for the
+restricted release at HEAD.</p>
+</div>
+<p>The codes panAtlas already shows on concepts (concept identifiers and cross-codes obtained through the
+licensor's lookup service) are covered on <a href="../codesystems/">Code systems</a>.</p>
+<p>Related pages: <a href="../dataset-registry/">Dataset registry</a>, <a href="../manifests/">Manifests</a>,
+<a href="../document-index/">Document index</a>, <a href="../identifiers/">Identifiers</a>, <a href="../codesystems/">Code systems</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

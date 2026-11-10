@@ -1,0 +1,2355 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+      
+      
+      
+        <link rel="canonical" href="https://thepanatlas.github.io/docs/system/build-pipeline/">
+      
+      
+        <link rel="prev" href="../../metadata/codesystems/">
+      
+      
+        <link rel="next" href="../knowledge-store/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Build pipeline - panAtlas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#build-pipeline" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="panAtlas" class="md-header__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            panAtlas
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Build pipeline
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/purpose/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../distributed/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Distributed system
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../metadata/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Metadata
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/repository-map/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="panAtlas" class="md-nav__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    panAtlas
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/purpose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Purpose and principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed system
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Distributed system
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/cresco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cresco for panAtlas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/dataset-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Participating agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wire contract and schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage on GaiaKeep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../metadata/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/identifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/dataset-registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/manifests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manifests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/acquisition-and-licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/document-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/graph-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/evaluation-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/models-and-curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models and curriculum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/rdf-vocabulary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/codesystems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#stage-1-upstream-graph-builders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 1: upstream graph builders
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-2-build_allsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 2: build_all.sh
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-3-register-link-fold-and-the-evaluation-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 3: register, link, fold, and the evaluation index
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-side-builds-webdgx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cluster-side builds (web/dgx/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-deploysh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy: deploy.sh
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy: deploy.sh">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-after-deploying" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify after deploying
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rules-for-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules for the cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../knowledge-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge store (SPARQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acquisition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../public-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../astral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/repository-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#stage-1-upstream-graph-builders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 1: upstream graph builders
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-2-build_allsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 2: build_all.sh
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-3-register-link-fold-and-the-evaluation-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 3: register, link, fold, and the evaluation index
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-side-builds-webdgx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cluster-side builds (web/dgx/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-deploysh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy: deploy.sh
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy: deploy.sh">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-after-deploying" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify after deploying
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rules-for-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules for the cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="build-pipeline">Build pipeline<a class="headerlink" href="#build-pipeline" title="Permanent link">&para;</a></h1>
+<p>The served atlas is a set of JSON files compiled from registries and from analysis outputs. The work happens in
+three places:</p>
+<table>
+<thead>
+<tr>
+<th>Place</th>
+<th>What is built there</th>
+<th>Entry points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HPC cluster</strong>, inside Slurm jobs</td>
+<td>Everything heavy: acquisition, manifests, the document index, concept mapping, embeddings, evaluation ingest, the universe projection, the Wikipedia layer, RDF and SPARQL stores</td>
+<td><code>web/dgx/</code>, <code>web/acquisition/</code>, <code>web/wikipedia_layer/</code>, <code>web/rdf/</code></td>
+</tr>
+<tr>
+<td><strong>A workstation with the repository</strong> (<code>web/</code>)</td>
+<td>The served property graph and catalogs, the curation layers, the evaluation index, verification</td>
+<td>The graph builders, <code>web/build_all.sh</code>, <code>web/deploy.sh</code></td>
+</tr>
+<tr>
+<td><strong>The web host</strong></td>
+<td>The nightly literature feed</td>
+<td><code>web/pipeline/literature/server/</code></td>
+</tr>
+</tbody>
+</table>
+<pre class="mermaid"><code>flowchart TB
+  C["Cluster outputs&lt;br/&gt;(full_eval.json, mm_evals, doc_concept_agg,&lt;br/&gt;record typing, manifests, classification)"] --&gt; U
+  R["Registries&lt;br/&gt;datasets.json · models.json · codesystems.json"] --&gt; U
+  A["atlas/20-concepts/*.md"] --&gt; U
+  U["Stage 1: upstream graph builders&lt;br/&gt;(build_graph … apply_bench_taxonomy)"] --&gt; D["plugin data/&lt;br/&gt;graph.json · datasets.json · benchmarks_llm.json"]
+  D --&gt; B["Stage 2: build_all.sh&lt;br/&gt;curation layers + verification"]
+  B --&gt; P["Stage 3: register / link / fold /&lt;br/&gt;sync_catalog / build_evals_index"]
+  P --&gt; T["Verify: ui_harness.js,&lt;br/&gt;test_public_api.py --stage"]
+  T --&gt; DEP["deploy.sh → web host"]
+  DEP --&gt; L["Verify live:&lt;br/&gt;test_public_api.py --live"]</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">There is no single end-to-end build script</p>
+<p><code>build_all.sh</code> is the ordered entry point for the curation layers only. It <strong>assumes</strong> the upstream graph
+builders have already produced <code>graph.json</code>, <code>datasets.json</code> and <code>benchmarks_llm.json</code> (its header says so), and
+it does <strong>not</strong> run the post-build register, link and fold steps or <code>build_evals_index.py</code>. Those are run by
+hand in the order given below. Most scripts declare themselves idempotent (nodes updated in place, edges
+de-duplicated), so re-running a step is safe.</p>
+</div>
+<h2 id="stage-1-upstream-graph-builders">Stage 1: upstream graph builders<a class="headerlink" href="#stage-1-upstream-graph-builders" title="Permanent link">&para;</a></h2>
+<p>These produce the three files <code>build_all.sh</code> starts from. <code>build_all.sh</code> names them, in this order, as its
+precondition. All write into <code>web/wp-plugin/panatlas-explorer/data/</code> unless noted.</p>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>build_graph.py</code></td>
+<td>Compiles the first-interface inventory graph (<code>web/graph.json</code>) from the curated dataset catalog page in the knowledge vault. An intermediate, not the served graph.</td>
+</tr>
+<tr>
+<td><code>build_layered.py</code></td>
+<td>The core compiler. Builds the layered graph (concept, dataset and ontology layers, with modality as a facet) from the MeSH-grounded concept spine (<code>atlas/20-concepts/*.md</code> plus <code>concept_mesh_grounded.json</code>), code systems, FHIR, NACC, nutrition, FoodAtlas, FNDDS, the imaging registry, domains, measured corpus sources (<code>dgx_sources.json</code>), the document rollup and footprint, and merged federation output. Writes <code>data/graph.json</code>.</td>
+</tr>
+<tr>
+<td><code>build_all_datasets.py</code></td>
+<td>Exhaustive corpus-source accounting: every data source on disk, used or not, tagged with modality, status, location and scale.</td>
+</tr>
+<tr>
+<td><code>build_train_sources.py</code></td>
+<td>Wires the authoritative per-model training manifests (<code>v4_train_sources.json</code>, <code>v5_train_sources.json</code>) as <code>trained_on</code> edges, replacing partial ones.</td>
+</tr>
+<tr>
+<td><code>build_source_topics.py</code></td>
+<td>Propagates each training source's clinical domain onto the catalog entries.</td>
+</tr>
+<tr>
+<td><code>sft_wiring.py</code></td>
+<td>Wires the measured supervised fine-tuning inventory into the graph.</td>
+</tr>
+<tr>
+<td><code>build_corpus_structure.py</code></td>
+<td>Fixes the dataset model: a model has a few datasets (pretraining corpus, SFT set), each composed of sources.</td>
+</tr>
+<tr>
+<td><code>model_wiring.py</code></td>
+<td>Restores full graph stats and wires model to dataset and benchmark edges.</td>
+</tr>
+<tr>
+<td><code>build_benchmark_nodes.py</code></td>
+<td>Promotes benchmarks to first-class nodes: dataset <code>test_set_of</code> benchmark <code>tests</code> concept.</td>
+</tr>
+<tr>
+<td><code>build_concept_remap.py</code></td>
+<td>Wires the judge-gated item-to-concept mapping (<code>pipeline/qconcept2/*.jsonl</code>), including 120 general Wikipedia-grounded concepts.</td>
+</tr>
+<tr>
+<td><code>apply_bench_taxonomy.py</code></td>
+<td>Replaces arm groupings with two axes, testing type and domain, from <code>bench_taxonomy.json</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title"><code>build_layered.py</code> is not portable as written</p>
+<p>It reads vault metadata from a hard-coded absolute path on one workstation, reads benchmark centroids from a
+temporary file, and writes a second copy of <code>graph.json</code> to a temporary preview directory. Running it on another
+machine needs those paths changed. <code>build_graph.py</code> and <code>pipeline/check_curriculum_vault.py</code> also read the
+knowledge vault, which is not part of this repository.</p>
+</div>
+<h2 id="stage-2-build_allsh">Stage 2: <code>build_all.sh</code><a class="headerlink" href="#stage-2-build_allsh" title="Permanent link">&para;</a></h2>
+<p><code>web/build_all.sh</code> runs from <code>web/</code> under <code>set -euo pipefail</code>, so any failing step stops the build, except the one
+step marked below. Graph paths are <code>wp-plugin/panatlas-explorer/data/…</code>.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Command</th>
+<th>Reads</th>
+<th>Writes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>python3 build_artifact_types.py</code></td>
+<td><code>pipeline/artifact_types.json</code> (33-type vocabulary, each grounded to a verified Wikipedia article and, where faithful, a MeSH descriptor), the v4/v5 training manifests, benchmark facets</td>
+<td>Artifact-type nodes; <code>has_artifact_type</code> and <code>covers_topic</code> edges on pretraining sources, SFT sources and benchmarks; stamps <code>graph.json</code>, <code>datasets.json</code>, <code>benchmarks_llm.json</code>; <code>pipeline/corpus_type_profile.json</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>python3 build_curriculum.py</code></td>
+<td><code>pipeline/model_curriculum.json</code> (schema <code>panatlas-model-curriculum/1</code>)</td>
+<td><code>training-stage</code> nodes with data, dates and jobs, system, config and codebase; edges <code>has_training_stage</code>, <code>stage_trained_on</code>, <code>follows</code>, <code>executed_on</code>, <code>built_with</code>; <code>curriculum_disclosed</code> on every model node</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>python3 build_record_level.py</code></td>
+<td><code>pipeline/doc_concept_agg.json</code> (per-document concepts, 89.9M documents across 136 sources), <code>pipeline/record_level/record_typing_results.json</code> (every SFT record typed on the cluster), training manifests</td>
+<td>Corpus-level type × topic matrices with stated coverage; per-record type and register on SFT mix and source nodes; <code>pipeline/record_level/record_level_wired.json</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>python3 pipeline/existing_meta/merge_gap.py \|\| true</code></td>
+<td>Gap-classification worker shards</td>
+<td><code>pipeline/existing_meta/gap_classification.json</code> (26 sampled sources). <strong>Failure is tolerated</strong> (<code>\|\| true</code>): when labels are absent the build continues</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>python3 build_existing_meta.py</code></td>
+<td><code>pipeline/existing_meta/pretrain_classification.json</code>, <code>pretrain_holes_classification.json</code>, <code>gap_classification.json</code>, grounding verdicts</td>
+<td>Per-source domain, data-type and register distributions wired to existing concept nodes; <code>existing_classification_wired.json</code>. Generates nothing new</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>python3 build_native_meta.py</code></td>
+<td><code>pipeline/existing_meta/source_native_meta.json</code> and the classification files</td>
+<td><code>native_fields</code>, <code>has_embeddings</code> and <code>doc_classification_status</code> (<code>full-population</code> or <code>source-level only</code>) on pretraining source nodes</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>python3 build_field_values.py</code></td>
+<td><code>pipeline/existing_meta/native_field_values.json</code></td>
+<td>Categorical counts, numeric summaries and identifier distinct-counts on pretraining source nodes</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>python3 build_patho_evals.py</code></td>
+<td><code>pipeline/patho_evals/*.json</code> (BACH, CRC and neuropathology results)</td>
+<td>Pathology results reconciled into <code>mm_evals.json</code>; pathology benchmarks wired into the concept graph</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>python3 build_eval_map.py</code></td>
+<td><code>benchmark_ontology_facets.json</code>, <code>benchmark_audit.json</code>, <code>benchmark_suite_fit.json</code></td>
+<td>The <code>audit</code> block, including <code>audit.map</code> (a 2-D UMAP projection of each benchmark's facet vector, with a PCA fallback) in <code>data/benchmarks_llm.json</code>. Without it the Benchmarks map view is empty</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>python3 pipeline/check_curriculum_vault.py</code></td>
+<td><code>pipeline/model_curriculum.json</code>, the knowledge vault</td>
+<td>Nothing. Exits 1 if any hard curriculum fact (SLURM job ids, config paths, codebase paths) is missing from the vault</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>node pipeline/ui_harness.js</code></td>
+<td><code>assets/app.js</code>, <code>data/graph.json</code>, <code>data/datasets.json</code>, <code>data/benchmarks_llm.json</code></td>
+<td>Nothing. Loads the front end against a stubbed DOM and drives every render path over the real data; exits 1 on any failure</td>
+</tr>
+</tbody>
+</table>
+<p>The script ends with <code>BUILD+VERIFY COMPLETE. Deploy with: ./deploy.sh</code>. Measured harness runs: 18,941 renders with
+0 failures (2026-09-12) and 19,238 renders with 0 failures (2026-10-16).</p>
+<p><code>web/guard_eval_map.sh</code> is a separate guard for step 9: it detects a live benchmarks endpoint without <code>audit.map</code>, a
+missing coverage grid, or a changed map source, and rebuilds and redeploys that one file.</p>
+<h2 id="stage-3-register-link-fold-and-the-evaluation-index">Stage 3: register, link, fold, and the evaluation index<a class="headerlink" href="#stage-3-register-link-fold-and-the-evaluation-index" title="Permanent link">&para;</a></h2>
+<p>New data enters the served graph through small idempotent scripts, each named for its step:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Scripts</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Register</td>
+<td><code>register_fragment.py</code> (any <code>panatlas.datasets/1</code> fragment), <code>register_okn.py</code>, <code>register_openh.py</code>, <code>register_arxiv.py</code>, <code>register_neuropath.py</code>, <code>register_tcga.py</code>, <code>register_predictors.py</code>, <code>renal_sbir_registry.py</code></td>
+<td>Upsert entries into <code>web/datasets.json</code> (by URN) or <code>web/models.json</code></td>
+</tr>
+<tr>
+<td>Fold</td>
+<td><code>fold_manifests.py</code>, <code>fold_renal_manifests.py</code>, <code>fold_tcga_manifests.py</code>, <code>fold_arxiv_alignment.py</code></td>
+<td>Write cluster-built manifests and completion records into the registry entries</td>
+</tr>
+<tr>
+<td>Link</td>
+<td><code>link_renal.py</code>, <code>link_neuropath.py</code>, <code>link_openh.py</code>, <code>link_arxiv.py</code>, <code>link_predictors.py</code>, <code>link_datasets_to_nodes.py</code></td>
+<td>Add dataset, concept and model nodes and edges to the served <code>graph.json</code></td>
+</tr>
+<tr>
+<td>Catalog</td>
+<td><code>sync_catalog.py</code></td>
+<td>Upsert <code>web/datasets.json</code> into the served catalog <code>data/datasets.json</code>, keyed by URN</td>
+</tr>
+<tr>
+<td>Evaluations</td>
+<td><code>attach_full_eval.py</code>, <code>reconcile_benchmarks.py</code>, <code>build_evals_index.py</code></td>
+<td>Attach model batteries to model nodes; reconcile the benchmark catalog with what was run; build <code>data/evals_index.json</code>, the one index behind the public API</td>
+</tr>
+</tbody>
+</table>
+<p>The order recorded for the predictor-model suite (<code>web/fm_suite/README.md</code>) is a worked example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># from web/</span>
+<span class="nv">FM_SUITE_ROOT</span><span class="o">=</span>&lt;working<span class="w"> </span>copy&gt;<span class="w"> </span>python3<span class="w"> </span>fm_suite/suite/export_panatlas.py<span class="w"> </span>predictor_evals.json
+python3<span class="w"> </span>register_fragment.py<span class="w"> </span>datasets_fm_suite.json
+python3<span class="w"> </span>register_predictors.py
+python3<span class="w"> </span>sync_catalog.py
+python3<span class="w"> </span>link_predictors.py
+python3<span class="w"> </span>build_evals_index.py
+node<span class="w"> </span>pipeline/ui_harness.js
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title"><code>build_evals_index.py</code> is outside <code>build_all.sh</code></p>
+<p><code>deploy.sh</code> ships <code>data/evals_index.json</code>, but <code>build_all.sh</code> never rebuilds it. After any change to
+<code>benchmarks_llm.json</code>, <code>full_eval.json</code>, <code>mm_evals.json</code>, <code>predictor_evals.json</code> or <code>models.json</code>, run
+<code>build_evals_index.py</code> before deploying, or the public API serves stale scores.</p>
+</div>
+<h2 id="cluster-side-builds-webdgx">Cluster-side builds (<code>web/dgx/</code>)<a class="headerlink" href="#cluster-side-builds-webdgx" title="Permanent link">&para;</a></h2>
+<p><code>web/dgx/</code> is a mirror, taken 2026-09-13, of every <code>*.py</code>, <code>*.sh</code> and <code>*.sbatch</code> in the panAtlas directory on the
+cluster: the registry, label, universe and manifest side of the build. Twenty of these files also exist under
+<code>web/</code> or <code>web/pipeline/</code>; where the cluster copy differs, <strong>the cluster copy produced the current artifacts</strong>
+(<code>web/dgx/README.md</code>). The mirror is a snapshot, so check the cluster copy before relying on a detail.</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Scripts</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Registry and manifests</td>
+<td><code>dataset_manifest.py</code>, <code>build_dataset_reports.py</code>, <code>inventory.py</code>, <code>classify_splits.py</code>, <code>count_docs.sh</code></td>
+<td>Manifests (<code>manifest_hash</code>), each dataset manager's structure-only report, corpus inventory, split classification. An hourly user timer re-audits the cluster registry and regenerates the manager reports</td>
+</tr>
+<tr>
+<td>Document index and concepts</td>
+<td><code>build_master_index.py</code>, <code>agg_doc_concept.py</code>, <code>dup.py</code>, <code>uniq.py</code>, <code>verify_uniq.py</code>, <code>map_concepts.py</code>, <code>map_concepts2.py</code>, <code>map_concepts3.py</code>, <code>map_mesh.py</code>, <code>map_mesh2.py</code>, <code>map_final.py</code>, <code>mesh_expand.py</code>, <code>expand_clean.py</code>, <code>llm_label_cells.py</code>, <code>llm_judge_cells.py</code>, <code>validate_build.py</code>, <code>recount.py</code>, <code>validate_footprint*.py</code></td>
+<td>Every embedded document mapped to a MeSH concept through its cell, with duplicate-id checks on the index; MeSH grounding confirmed per descriptor; cell labels and medical/general judgments; the footprint validation</td>
+</tr>
+<tr>
+<td>Anchors and embeddings</td>
+<td><code>assemble_text.py</code>, <code>generate_concept_text.py</code>, <code>normalize_node_text.py</code>, <code>embed_concepts*.py</code>, <code>build_text_anchors.py</code>, <code>build_image_anchors.py</code>, <code>precompute_pooled.py</code>, <code>exp_anchor_study.py</code>, <code>embed_attach.py</code>, <code>pa_local_agent.py</code></td>
+<td>Concept anchors in the registered text space (BioClinical-ModernBERT-large, 1024-d) and image space (RAD-DINO, 768-d); the attach process that relates new embeddings to concepts</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td><code>ingest_full_eval.py</code>, <code>build_mm_evals.py</code>, <code>build_concept_accuracy.py</code>, <code>extract_questions.py</code>, <code>build_question_concept_map.py</code>, <code>remap_general.py</code>, <code>remap_gated.py</code>, <code>precompute_cellmap.py</code></td>
+<td><code>full_eval.json</code> (every model's battery), <code>mm_evals.json</code> (imaging and multi-modal results, with the evaluation type inferred from the result-file structure), per-concept accuracy, question-to-concept maps</td>
+</tr>
+<tr>
+<td>Contamination</td>
+<td><code>decontam_exact.py</code>, <code>ledger_by_source.py</code></td>
+<td>Exact-document contamination check against the training ledgers (<code>blake2b</code>, 16-byte digest over raw text); per-source ledger counts</td>
+</tr>
+<tr>
+<td>Universe</td>
+<td><code>build_universe.py</code>, <code>build_universe_export.py</code>, <code>build_universe_export_full.py</code> (and <code>web/pipeline/universe/build_backbone.py</code>)</td>
+<td>A 2-D coordinate for every document, exported in resolution tiers for the browser, with the graph overlaid as a backbone</td>
+</tr>
+<tr>
+<td>Literature identity</td>
+<td><code>build_pmc_map.py</code></td>
+<td>Per-article PMCID/PMID for the trained PMC corpora, recovered by content anchor</td>
+</tr>
+</tbody>
+</table>
+<p>Other cluster-side chains have their own directories: the Wikipedia world-view layer (<code>web/wikipedia_layer/</code>, steps
+W0 to W9 for the pinned run 20260901), the OKN mirrors and other acquisitions (<a href="../acquisition/">Acquisition</a>),
+document licences (<code>web/licence/</code>), and the RDF export and SPARQL stores (<a href="../knowledge-store/">Knowledge store</a>).</p>
+<p><strong>Getting results to the workstation.</strong> Cluster outputs are copied into <code>web/</code> (for example <code>full_eval.json</code> after
+<code>ingest_full_eval.py</code>) and the workstation steps are re-run. <code>web/finish_v2.sh</code> is a recorded one-shot of this
+pattern for one classifier pass: pull worker shards, merge, rebuild the record-level layer, verify, deploy.</p>
+<h2 id="deploy-deploysh">Deploy: <code>deploy.sh</code><a class="headerlink" href="#deploy-deploysh" title="Permanent link">&para;</a></h2>
+<p><code>web/deploy.sh</code> runs after <code>build_all.sh</code> passes. It copies, from <code>web/wp-plugin/panatlas-explorer/</code> to the plugin
+directory on the web host:</p>
+<table>
+<thead>
+<tr>
+<th>Files</th>
+<th>Destination</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>assets/app.js</code>, <code>assets/style.css</code></td>
+<td><code>assets/</code></td>
+</tr>
+<tr>
+<td><code>data/graph.json</code>, <code>data/datasets.json</code>, <code>data/benchmarks_llm.json</code>, <code>data/mm_evals.json</code>, <code>data/evals_index.json</code></td>
+<td><code>data/</code></td>
+</tr>
+<tr>
+<td><code>includes/public-evals.php</code>, then <code>includes/public-api.php</code></td>
+<td><code>includes/</code> (in that order, because <code>public-api.php</code> requires <code>public-evals.php</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>It then sets ownership of the copied files to the web server user. It <strong>never</strong> touches <code>data/mesh.json</code>, which the
+mesh daemon on the web host rewrites live.</p>
+<div class="admonition warning">
+<p class="admonition-title">What <code>deploy.sh</code> does not deploy</p>
+<p>The main plugin file <code>panatlas-explorer.php</code>, the other includes (<code>federation-admin.php</code>, <code>mesh.php</code>,
+<code>wikimap.php</code>), <code>universe.js</code>, <code>wikimap.js</code>, <code>data/models.json</code> and <code>data/kg_graphs.json</code> are not in the script.
+The universe and world-map assets live outside the web root and have their own install paths
+(<code>web/wikimap/install_wikimap.sh</code> for the map). A change to any of these is deployed separately. Recorded deploys
+take a dated backup of the plugin's data directory first; <code>deploy.sh</code> does not.</p>
+</div>
+<h3 id="verify-after-deploying">Verify after deploying<a class="headerlink" href="#verify-after-deploying" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>tests/test_public_api.py<span class="w"> </span>--stage<span class="w"> </span>DIR<span class="w">   </span><span class="c1"># a staged plugin copy, through tests/public_api_harness.php</span>
+python3<span class="w"> </span>tests/test_public_api.py<span class="w"> </span>--live<span class="w">        </span><span class="c1"># against panatlas.net; exit status = number of failures</span>
+python3<span class="w"> </span>tests/test_explore_e2e.py<span class="w">              </span><span class="c1"># asks a real external LLM client the questions the atlas must answer</span>
+</code></pre></div>
+<p>The public API contract test also fails a response that contains an internal path or host string, or a tool result
+over 24,000 characters (<a href="../public-api/">Public API</a>).</p>
+<h2 id="rules-for-the-cluster">Rules for the cluster<a class="headerlink" href="#rules-for-the-cluster" title="Permanent link">&para;</a></h2>
+<p>These are standing rules for anything that runs on the HPC cluster (owner rule of 2026-10-08, recorded in
+<code>web/rdf/README.md</code> and the acquisition READMEs):</p>
+<ul>
+<li><strong>Compute runs in Slurm jobs, never on the login node.</strong> On the login node only <code>squeue</code>, <code>sacct</code> and <code>sbatch</code>
+  run. Inspect a running job with <code>srun --overlap --jobid &lt;id&gt; -n1 -c1 --mem=1G …</code> (<code>-n1</code>, or the command runs once
+  per task).</li>
+<li><strong>CPU jobs go to a CPU partition</strong> so they never hold a GPU node. The serving job for the SPARQL store, the OpenH
+  download and the UMLS fetch all follow this.</li>
+<li><strong>Third-party services use their own tools and settings.</strong> Never raise a provider's concurrency (the OpenH-RF
+  download uses the official <code>hf download</code> with its own adaptive concurrency).</li>
+<li><strong>Large walks are parallel jobs.</strong> A single-threaded walk of the CT corpus on the login node did not finish in
+  25 minutes; <code>dataset_manifest_parallel.py</code> shards the tree and produces a byte-identical canonical hash.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Known exceptions in the current code</p>
+<p>Several components predate the rule or still run on the login node. They are listed so nobody copies the
+pattern:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it does on the login node</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>web/acquisition/renal/run_renal.sh</code>, <code>launch_d.sh</code>, <code>finalize_renal.sh</code></td>
+<td>Launched the renal download streams in <code>tmux</code> and the finalizer with <code>nohup</code> (finished 2026-09-06, before the rule)</td>
+</tr>
+<tr>
+<td><code>web/acquisition/okn/deploy/panatlas-okn-tick.timer</code></td>
+<td>Runs the OKN tick as a user systemd timer every 6 hours; the tick submits the real work as Slurm jobs</td>
+</tr>
+<tr>
+<td><code>web/coverage/w10_coverage_service.py</code></td>
+<td>The coverage service for Astral runs as a user service on the login node, loopback only</td>
+</tr>
+<tr>
+<td><code>web/rdf/sparql_client.py</code></td>
+<td>Astral's SPARQL tool runs this client on the login node over its forced-command key. Whether it should move into a Slurm job is an open owner decision (2026-10-17)</td>
+</tr>
+<tr>
+<td>Hourly registry refresh and agent supervision timers</td>
+<td>User systemd timers on the login node (<a href="../../distributed/operations/">Operations</a>)</td>
+</tr>
+<tr>
+<td><code>web/pipeline/wiki_prep.py</code>; <code>precompute_cellmap.py</code> and <code>extract_questions.py</code></td>
+<td>The first's docstring and <code>web/BENCHMARK-QUESTION-MAPPING.md</code> for the other two say they run on the login node</td>
+</tr>
+</tbody>
+</table>
+<p>The 2026-10-17 restore record says the panAtlas user services on the login node (agent, watchdog, coverage,
+refresh, CT re-walk, OKN tick) were disabled on 2026-10-08 and not re-enabled in that session.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

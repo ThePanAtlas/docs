@@ -1,0 +1,2989 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+      
+      
+      
+        <link rel="canonical" href="https://thepanatlas.github.io/docs/metadata/rdf-vocabulary/">
+      
+      
+        <link rel="prev" href="../models-and-curriculum/">
+      
+      
+        <link rel="next" href="../codesystems/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>RDF vocabulary - panAtlas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rdf-vocabulary-and-sparql-stores" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="panAtlas" class="md-header__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            panAtlas
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RDF vocabulary
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/purpose/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../distributed/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Distributed system
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Metadata
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../system/build-pipeline/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/repository-map/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="panAtlas" class="md-nav__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    panAtlas
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/purpose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Purpose and principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed system
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Distributed system
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/cresco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cresco for panAtlas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/dataset-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Participating agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wire contract and schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage on GaiaKeep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../identifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manifests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manifests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acquisition-and-licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../document-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluation-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models-and-curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models and curriculum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#namespaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Namespaces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapping-rules-build_rdfpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mapping rules (build_rdf.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mapping rules (build_rdf.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset registry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#named-graph-descriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Named-graph descriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#export-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export statistics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Export statistics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#classes-in-the-head-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes in the HEAD export
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-pa-properties-for-node-and-edge-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All pa: properties for node and edge attributes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparql-stores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPARQL stores
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SPARQL stores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panatlas-okn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        panatlas-okn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wikidata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        wikidata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panatlas-restricted-designed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        panatlas-restricted (designed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versioning-and-exactness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Versioning and exactness
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Versioning and exactness">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mirrors-one-agent-per-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mirrors: one agent per graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proof-levels-okn_provepy-proofjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proof levels (okn_prove.py, PROOF.json)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-store-round-trip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The store round trip
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#joins-the-store-enables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Joins the store enables
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../codesystems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/build-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/knowledge-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge store (SPARQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/acquisition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/web-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/public-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/astral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/repository-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#namespaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Namespaces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapping-rules-build_rdfpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mapping rules (build_rdf.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mapping rules (build_rdf.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset registry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#named-graph-descriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Named-graph descriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#export-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export statistics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Export statistics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#classes-in-the-head-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes in the HEAD export
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-pa-properties-for-node-and-edge-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All pa: properties for node and edge attributes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparql-stores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPARQL stores
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SPARQL stores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panatlas-okn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        panatlas-okn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wikidata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        wikidata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panatlas-restricted-designed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        panatlas-restricted (designed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versioning-and-exactness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Versioning and exactness
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Versioning and exactness">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mirrors-one-agent-per-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mirrors: one agent per graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proof-levels-okn_provepy-proofjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proof levels (okn_prove.py, PROOF.json)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-store-round-trip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The store round trip
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#joins-the-store-enables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Joins the store enables
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="rdf-vocabulary-and-sparql-stores">RDF vocabulary and SPARQL stores<a class="headerlink" href="#rdf-vocabulary-and-sparql-stores" title="Permanent link">&para;</a></h1>
+<p>RDF is panAtlas's canonical graph form (owner decision 2026-09-26, recorded in
+<code>GRAPH_STANDARDS.md</code>). This page documents how the served property graph becomes RDF: the
+namespaces, classes and predicates, the named graph, the mapping rules, and the SPARQL stores that
+serve panAtlas together with mirrored external graphs. Code: <code>web/rdf/build_rdf.py</code> (export),
+<code>web/rdf/qlever_build.py</code>, <code>qlever_serve.py</code>, <code>qlever_fold.py</code>, <code>qlever_export.py</code>, <code>nt_canon.py</code>,
+<code>sparql_client.py</code> (stores), and <code>web/acquisition/okn/</code> (mirrors).</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Export of the served graph to N-Quads</td>
+<td><strong>Built</strong> (<code>build_rdf.py</code>)</td>
+</tr>
+<tr>
+<td>SPARQL store <code>panatlas-okn</code> (panAtlas + NSF OKN mirrors)</td>
+<td><strong>Built and served</strong> inside the HPC cluster (vault, 2026-10-16)</td>
+</tr>
+<tr>
+<td>SPARQL store <code>wikidata</code></td>
+<td><strong>Built</strong>, held back in verification (vault, 2026-10-16)</td>
+</tr>
+<tr>
+<td>SPARQL store <code>panatlas-restricted</code> (licensed vocabularies, per-project access)</td>
+<td><strong>Designed</strong> only (<code>PLAN-restricted-data-umls.md</code>)</td>
+</tr>
+<tr>
+<td>Public SPARQL endpoint</td>
+<td>None. The stores answer only inside the cluster network</td>
+</tr>
+</tbody>
+</table>
+<h2 id="namespaces">Namespaces<a class="headerlink" href="#namespaces" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Prefix</th>
+<th>IRI</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pa:</code></td>
+<td><code>https://panatlas.net/ontology#</code></td>
+<td>panAtlas classes and properties</td>
+</tr>
+<tr>
+<td>(nodes)</td>
+<td><code>https://panatlas.net/id/{id}</code></td>
+<td>One IRI per graph node; <code>{id}</code> is the node id, percent-encoded with no safe characters</td>
+</tr>
+<tr>
+<td>(statements)</td>
+<td><code>https://panatlas.net/id/edge%2F{edge id}</code></td>
+<td>Reified edges; the <code>/</code> after <code>edge</code> is percent-encoded because the whole string goes through the same encoder</td>
+</tr>
+<tr>
+<td>(graph)</td>
+<td><code>https://panatlas.net/graph/panatlas</code></td>
+<td>The named graph panAtlas curates</td>
+</tr>
+<tr>
+<td>(graph)</td>
+<td><code>https://purl.org/okn/frink/kg/{shortname}</code></td>
+<td>A mirrored NSF OKN graph</td>
+</tr>
+<tr>
+<td>(graph)</td>
+<td><code>http://www.wikidata.org/</code></td>
+<td>The Wikidata mirror (source of record: Wikimedia)</td>
+</tr>
+<tr>
+<td><code>rdf:</code></td>
+<td><code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code></td>
+<td><code>rdf:type</code>, reification, <code>rdf:JSON</code> literals</td>
+</tr>
+<tr>
+<td><code>rdfs:</code></td>
+<td><code>http://www.w3.org/2000/01/rdf-schema#</code></td>
+<td><code>rdfs:label</code>, <code>rdfs:Class</code>, <code>rdfs:subPropertyOf</code></td>
+</tr>
+<tr>
+<td><code>skos:</code></td>
+<td><code>http://www.w3.org/2004/02/skos/core#</code></td>
+<td><code>skos:Concept</code>, <code>skos:prefLabel</code>, <code>skos:exactMatch</code>, <code>skos:broader</code>, <code>skos:related</code></td>
+</tr>
+<tr>
+<td><code>dct:</code></td>
+<td><code>http://purl.org/dc/terms/</code></td>
+<td><code>dct:description</code>, <code>dct:identifier</code>, <code>dct:title</code>, <code>dct:license</code>, <code>dct:publisher</code></td>
+</tr>
+<tr>
+<td><code>dcat:</code></td>
+<td><code>http://www.w3.org/ns/dcat#</code></td>
+<td><code>dcat:Dataset</code></td>
+</tr>
+<tr>
+<td><code>foaf:</code></td>
+<td><code>http://xmlns.com/foaf/0.1/</code></td>
+<td><code>foaf:isPrimaryTopicOf</code> (Wikipedia pages)</td>
+</tr>
+<tr>
+<td><code>void:</code></td>
+<td><code>http://rdfs.org/ns/void#</code></td>
+<td>Named-graph descriptions</td>
+</tr>
+<tr>
+<td><code>prov:</code></td>
+<td><code>http://www.w3.org/ns/prov#</code></td>
+<td><code>prov:Entity</code>, <code>prov:generatedAtTime</code></td>
+</tr>
+<tr>
+<td><code>pav:</code></td>
+<td><code>http://purl.org/pav/</code></td>
+<td><code>pav:version</code> (upstream version of a mirrored graph)</td>
+</tr>
+<tr>
+<td><code>xsd:</code></td>
+<td><code>http://www.w3.org/2001/XMLSchema#</code></td>
+<td>Literal datatypes</td>
+</tr>
+</tbody>
+</table>
+<p>Code IRIs are built from the <code>rdf_iri_stem</code> of each system in <code>web/codesystems.json</code> (see
+<a href="../codesystems/">Controlled vocabularies</a>):</p>
+<table>
+<thead>
+<tr>
+<th>Node field</th>
+<th>Stem</th>
+<th>Predicate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mesh_dui</code></td>
+<td><code>http://id.nlm.nih.gov/mesh/</code></td>
+<td><code>skos:exactMatch</code></td>
+</tr>
+<tr>
+<td><code>snomed</code></td>
+<td><code>http://snomed.info/id/</code></td>
+<td><code>skos:exactMatch</code></td>
+</tr>
+<tr>
+<td><code>loinc</code></td>
+<td><code>http://loinc.org/rdf/</code></td>
+<td><code>skos:exactMatch</code></td>
+</tr>
+<tr>
+<td><code>rxnorm</code></td>
+<td><code>http://purl.bioontology.org/ontology/RXNORM/</code></td>
+<td><code>skos:exactMatch</code></td>
+</tr>
+<tr>
+<td><code>cui</code></td>
+<td>the UMLS identifier stem registered in <code>codesystems.json</code></td>
+<td><code>skos:exactMatch</code></td>
+</tr>
+<tr>
+<td><code>icd11</code></td>
+<td><code>http://id.who.int/icd/entity/</code></td>
+<td><code>skos:exactMatch</code></td>
+</tr>
+<tr>
+<td><code>go</code></td>
+<td><code>http://purl.obolibrary.org/obo/GO_</code> (the <code>GO:</code> prefix is stripped)</td>
+<td><code>skos:exactMatch</code></td>
+</tr>
+<tr>
+<td><code>icd10cm</code></td>
+<td>none registered</td>
+<td>literal <code>pa:icd10cmCode</code></td>
+</tr>
+<tr>
+<td><code>wiki_title</code></td>
+<td><code>https://en.wikipedia.org/wiki/</code></td>
+<td><code>foaf:isPrimaryTopicOf</code></td>
+</tr>
+<tr>
+<td><code>wp_url</code></td>
+<td>(the URL itself)</td>
+<td><code>foaf:isPrimaryTopicOf</code></td>
+</tr>
+<tr>
+<td><code>mesh_url</code></td>
+<td>(the URL itself)</td>
+<td><code>pa:meshUrl</code></td>
+</tr>
+</tbody>
+</table>
+<p>The MeSH stem is <code>http</code>, not <code>https</code>, because NLM mints <code>http</code> IRIs and only redirects <code>https</code>
+(vault <code>project-panatlas</code>, 2026-09-26). Site browser links in <code>mesh_url</code> stay <code>https</code>.</p>
+<h2 id="mapping-rules-build_rdfpy">Mapping rules (<code>build_rdf.py</code>)<a class="headerlink" href="#mapping-rules-build_rdfpy" title="Permanent link">&para;</a></h2>
+<p>Inputs: the served graph (<code>web/wp-plugin/panatlas-explorer/data/graph.json</code>), the dataset registry
+(<code>web/datasets.json</code>) and <code>web/codesystems.json</code>. Optional: <code>--okn-agents &lt;dir&gt;</code> with each mirror
+agent's <code>state.json</code>, <code>sor.json</code> and <code>provenance.json</code>. Output: <code>rdf/panatlas.nq</code> and
+<code>rdf/panatlas.stats.json</code>. Every quad is in the named graph <code>https://panatlas.net/graph/panatlas</code>
+and is written once; repeats (for example <code>wp_url</code> and <code>wiki_title</code> naming the same page) are counted
+as <code>duplicates_suppressed</code>.</p>
+<h3 id="nodes">Nodes<a class="headerlink" href="#nodes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Graph content</th>
+<th>RDF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Every node</td>
+<td><code>&lt;id&gt; rdf:type pa:{Kind}</code>, where <code>{Kind}</code> is the <code>kind</code> in upper camel case (<code>llm-benchmark</code> → <code>pa:LlmBenchmark</code>, <code>fhir</code> → <code>pa:Fhir</code>)</td>
+</tr>
+<tr>
+<td>Concept-like kinds: <code>concept</code>, <code>disease</code>, <code>specialty</code>, <code>food</code>, <code>food-category</code>, <code>domain</code>, <code>capability</code>, <code>capability-group</code>, <code>eval-domain</code>, <code>gen-category</code>, <code>artifact-type</code>, <code>testing-type</code>, <code>register</code>, <code>training-stage</code>, <code>group</code>, <code>root</code>, <code>atlas-root</code></td>
+<td>Also <code>rdf:type skos:Concept</code>; <code>label</code> also as <code>skos:prefLabel</code></td>
+</tr>
+<tr>
+<td><code>dataset</code></td>
+<td>Also <code>rdf:type dcat:Dataset</code></td>
+</tr>
+<tr>
+<td><code>benchmark</code>, <code>llm-benchmark</code></td>
+<td>Also <code>rdf:type dcat:Dataset</code> and <code>rdf:type pa:Benchmark</code></td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td><code>rdf:type pa:Model</code></td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td><code>rdfs:label</code></td>
+</tr>
+<tr>
+<td><code>desc</code></td>
+<td><code>dct:description</code></td>
+</tr>
+<tr>
+<td>Codes and links</td>
+<td>The table above</td>
+</tr>
+<tr>
+<td>Code-system nodes (<code>onto-*</code>)</td>
+<td><code>iri_stem</code>, <code>rdf_iri_basis</code> and <code>fhir_system</code> are taken from <code>codesystems.json</code>, not from the graph, because the graph copy may predate an edit</td>
+</tr>
+<tr>
+<td>Any other field</td>
+<td><code>pa:{camelCase(field)}</code>; a list of scalars repeats the predicate once per value</td>
+</tr>
+</tbody>
+</table>
+<p>Literal typing: booleans are <code>xsd:boolean</code>, integers <code>xsd:integer</code>, floats <code>xsd:double</code>; objects and
+lists of objects are serialised as sorted JSON with datatype <code>rdf:JSON</code>; strings are plain literals.
+Empty values (<code>null</code>, <code>""</code>, <code>[]</code>, <code>{}</code>) are skipped, as are <code>id</code>, <code>kind</code> and <code>label</code> (already
+expressed).</p>
+<div class="admonition note">
+<p class="admonition-title">Kinds typed as <code>skos:Concept</code></p>
+<p><code>training-stage</code>, <code>capability</code>, <code>testing-type</code> and <code>register</code> nodes are typed <code>skos:Concept</code>
+because they are in the script's <code>CONCEPT_KINDS</code>. <code>model</code>, <code>dataset</code>, <code>fhir</code>, <code>authority</code>,
+<code>codebase</code>, <code>system</code>, <code>guideline</code>, <code>kg</code>, <code>eval-suite</code>, <code>modality</code>, <code>measurement</code> and <code>method</code>
+nodes are not. The last three are MeSH-grounded concepts whose kind is not in the list.</p>
+</div>
+<h3 id="edges">Edges<a class="headerlink" href="#edges" title="Permanent link">&para;</a></h3>
+<p>Every edge whose two ends exist becomes <code>&lt;from&gt; pa:{camelCase(rel)} &lt;to&gt;</code>. An edge with attributes is
+also reified:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">&lt;https://panatlas.net/id/edge%2Fe-ca547f136f6d8d89b80f&gt;</span>
+    <span class="kt">a</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">Statement</span> <span class="p">;</span>
+    <span class="nn">rdf</span><span class="p">:</span><span class="nt">subject</span>   <span class="nv">&lt;https://panatlas.net/id/mesh-D000089323&gt;</span> <span class="p">;</span>
+    <span class="nn">rdf</span><span class="p">:</span><span class="nt">predicate</span> <span class="nn">pa</span><span class="p">:</span><span class="nt">partOf</span> <span class="p">;</span>
+    <span class="nn">rdf</span><span class="p">:</span><span class="nt">object</span>    <span class="nv">&lt;https://panatlas.net/id/concept-geriatrics&gt;</span> <span class="p">;</span>
+    <span class="nn">pa</span><span class="p">:</span><span class="nt">src</span>        <span class="s">"mesh_tree"</span> <span class="p">.</span>
+</code></pre></div>
+<p>The 36 relation predicates, with the number of triples at HEAD:
+<code>pa:binds</code> 15, <code>pa:builtWith</code> 14, <code>pa:classifiedAs</code> 1,756, <code>pa:covers</code> 3,607, <code>pa:coversTopic</code> 2,209,
+<code>pa:defines</code> 1, <code>pa:derivedFrom</code> 3, <code>pa:evaluatedBy</code> 2, <code>pa:evaluatedOn</code> 8, <code>pa:executedOn</code> 14,
+<code>pa:follows</code> 9, <code>pa:groundedIn</code> 239, <code>pa:grounds</code> 13, <code>pa:groups</code> 35, <code>pa:hasArtifactType</code> 816,
+<code>pa:hasRegister</code> 162, <code>pa:hasResource</code> 18, <code>pa:hasTrainingStage</code> 14, <code>pa:hasType</code> 21,
+<code>pa:inCollection</code> 83, <code>pa:inDomain</code> 97, <code>pa:instantiates</code> 36, <code>pa:isType</code> 106, <code>pa:measuredOn</code> 104,
+<code>pa:partOf</code> 5,430, <code>pa:prereq</code> 6, <code>pa:related</code> 44, <code>pa:resolvesTo</code> 251, <code>pa:scored</code> 85,
+<code>pa:sftTrainedOn</code> 2, <code>pa:stageTrainedOn</code> 45, <code>pa:structuredAs</code> 1,592, <code>pa:testSetOf</code> 14,
+<code>pa:tests</code> 247, <code>pa:trainedOn</code> 20, <code>pa:uses</code> 1. Their meaning is on <a href="../graph-schema/">Graph schema</a>.</p>
+<p>The only alignment axioms asserted are:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">pa</span><span class="p">:</span><span class="nt">partOf</span>  <span class="nn">rdfs</span><span class="p">:</span><span class="nt">subPropertyOf</span> <span class="nn">skos</span><span class="p">:</span><span class="nt">broader</span> <span class="p">.</span>
+<span class="nn">pa</span><span class="p">:</span><span class="nt">related</span> <span class="nn">rdfs</span><span class="p">:</span><span class="nt">subPropertyOf</span> <span class="nn">skos</span><span class="p">:</span><span class="nt">related</span> <span class="p">.</span>
+</code></pre></div>
+<p>Nothing else is asserted about the vocabulary. In particular there is no <code>skos:narrower</code>, no
+domain or range, and no class hierarchy.</p>
+<h3 id="dataset-registry">Dataset registry<a class="headerlink" href="#dataset-registry" title="Permanent link">&para;</a></h3>
+<p>Each entry of <code>datasets.json</code> is written to <code>&lt;https://panatlas.net/id/dataset-{slug}&gt;</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Registry field</th>
+<th>RDF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(entry)</td>
+<td><code>rdf:type dcat:Dataset</code></td>
+</tr>
+<tr>
+<td><code>urn</code></td>
+<td><code>dct:identifier</code></td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>dct:title</code></td>
+</tr>
+<tr>
+<td><code>modality[]</code></td>
+<td><code>pa:modality</code></td>
+</tr>
+<tr>
+<td><code>license</code></td>
+<td><code>dct:license &lt;IRI&gt;</code> when it is a URL, else <code>pa:licenseStatement</code></td>
+</tr>
+<tr>
+<td><code>license_status</code>, <code>license_scope</code>, <code>status</code>, <code>role</code>, <code>host</code>, <code>access</code>, <code>used_in_training</code></td>
+<td><code>pa:licenseStatus</code>, <code>pa:licenseScope</code>, <code>pa:status</code>, <code>pa:role</code>, <code>pa:host</code>, <code>pa:access</code>, <code>pa:usedInTraining</code></td>
+</tr>
+<tr>
+<td><code>manifest.manifest_hash</code>, <code>manifest.file_count</code>, <code>manifest.total_bytes</code></td>
+<td><code>pa:manifestHash</code>, <code>pa:fileCount</code>, <code>pa:totalBytes</code></td>
+</tr>
+<tr>
+<td><code>maintained_externally</code></td>
+<td><code>pa:maintainedExternally true</code></td>
+</tr>
+<tr>
+<td><code>source_of_record.graph</code></td>
+<td><code>pa:sourceOfRecord &lt;external graph IRI&gt;</code>, plus <code>pa:agent</code>, <code>pa:upstreamVersion</code>, <code>pa:heldVersion</code>, <code>pa:upstreamLastUpdatedOn</code>, <code>pa:registryCommit</code></td>
+</tr>
+<tr>
+<td>(no external source of record)</td>
+<td><code>pa:sourceOfRecord &lt;https://panatlas.net/graph/panatlas&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>Registry fields are documented on <a href="../dataset-registry/">Dataset registry</a> and
+<a href="../manifests/">Manifests</a>.</p>
+<h3 id="named-graph-descriptions">Named-graph descriptions<a class="headerlink" href="#named-graph-descriptions" title="Permanent link">&para;</a></h3>
+<p>With <code>--okn-agents</code>, each mirrored graph is described (not copied) inside the panAtlas graph:</p>
+<table>
+<thead>
+<tr>
+<th>Triple</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;graph&gt; rdf:type void:Dataset, prov:Entity</code></td>
+<td>always</td>
+</tr>
+<tr>
+<td><code>&lt;graph&gt; pa:mirroredBy &lt;…/id/dataset-okn-{sn}&gt;</code></td>
+<td>always</td>
+</tr>
+<tr>
+<td><code>&lt;graph&gt; pa:agent "okn-agent:{sn}"</code></td>
+<td><code>sor.json</code></td>
+</tr>
+<tr>
+<td><code>&lt;graph&gt; pav:version</code></td>
+<td>upstream version, <code>provenance.json</code></td>
+</tr>
+<tr>
+<td><code>&lt;graph&gt; pa:heldVersion</code></td>
+<td>held version, <code>state.json</code></td>
+</tr>
+<tr>
+<td><code>&lt;graph&gt; prov:generatedAtTime</code></td>
+<td>fetch time, <code>state.json</code></td>
+</tr>
+<tr>
+<td><code>&lt;graph&gt; void:triples</code></td>
+<td>endpoint count, <code>state.json</code></td>
+</tr>
+<tr>
+<td><code>&lt;graph&gt; void:sparqlEndpoint</code></td>
+<td>upstream endpoint, <code>provenance.json</code></td>
+</tr>
+<tr>
+<td><code>&lt;graph&gt; dct:license</code>, <code>dct:publisher</code></td>
+<td><code>provenance.json</code></td>
+</tr>
+<tr>
+<td><code>&lt;graph&gt; pa:authoritativeNamespace &lt;ns&gt;</code> (repeated)</td>
+<td><code>sor.json</code></td>
+</tr>
+<tr>
+<td><code>&lt;graph&gt; pa:authoritativeDeclared</code></td>
+<td>whether the publisher declared its namespaces or panAtlas inferred them</td>
+</tr>
+</tbody>
+</table>
+<p>The panAtlas graph describes itself as <code>void:Dataset</code> with <code>dct:title</code> "panAtlas (source of record:
+panAtlas)" and <code>prov:generatedAtTime</code> (the export time).</p>
+<p>Every <code>pa:</code> class used is declared <code>rdf:type rdfs:Class</code> with an <code>rdfs:label</code>, and every <code>pa:</code>
+property <code>rdf:type rdf:Property</code> with an <code>rdfs:label</code>.</p>
+<h2 id="export-statistics">Export statistics<a class="headerlink" href="#export-statistics" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th style="text-align: right;">Committed <code>rdf/panatlas.stats.json</code> (2026-09-26)</th>
+<th style="text-align: right;">Export of HEAD <code>57505c6</code> (run for this page, 2026-11-10; not committed)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quads</td>
+<td style="text-align: right;">213,647</td>
+<td style="text-align: right;">216,627</td>
+</tr>
+<tr>
+<td>Duplicates suppressed</td>
+<td style="text-align: right;">361</td>
+<td style="text-align: right;">565</td>
+</tr>
+<tr>
+<td>Graph nodes</td>
+<td style="text-align: right;">6,088</td>
+<td style="text-align: right;">6,187</td>
+</tr>
+<tr>
+<td>Graph edges</td>
+<td style="text-align: right;">16,891</td>
+<td style="text-align: right;">17,119</td>
+</tr>
+<tr>
+<td>Registry entries</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">200</td>
+</tr>
+<tr>
+<td>External graphs described</td>
+<td style="text-align: right;">46</td>
+<td style="text-align: right;">0 (no agent directory available off-cluster)</td>
+</tr>
+<tr>
+<td><code>pa:</code> classes</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">32</td>
+</tr>
+<tr>
+<td><code>pa:</code> properties</td>
+<td style="text-align: right;">346</td>
+<td style="text-align: right;">349</td>
+</tr>
+</tbody>
+</table>
+<p><code>panatlas.nq</code> itself is not committed; it is regenerated on the cluster.</p>
+<h3 id="classes-in-the-head-export">Classes in the HEAD export<a class="headerlink" href="#classes-in-the-head-export" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th style="text-align: right;">Instances</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rdf:Statement</code></td>
+<td style="text-align: right;">8,453</td>
+</tr>
+<tr>
+<td><code>skos:Concept</code></td>
+<td style="text-align: right;">5,408</td>
+</tr>
+<tr>
+<td><code>pa:Disease</code></td>
+<td style="text-align: right;">3,170</td>
+</tr>
+<tr>
+<td><code>pa:Food</code></td>
+<td style="text-align: right;">1,582</td>
+</tr>
+<tr>
+<td><code>dcat:Dataset</code></td>
+<td style="text-align: right;">734 (513 dataset nodes, 124 benchmark nodes, 96 registry entries with no graph node, and the FoodAtlas <code>kg</code> node, which is also a registry entry)</td>
+</tr>
+<tr>
+<td><code>pa:Dataset</code></td>
+<td style="text-align: right;">513</td>
+</tr>
+<tr>
+<td><code>pa:Concept</code></td>
+<td style="text-align: right;">312</td>
+</tr>
+<tr>
+<td><code>pa:FoodCategory</code></td>
+<td style="text-align: right;">172</td>
+</tr>
+<tr>
+<td><code>pa:Benchmark</code></td>
+<td style="text-align: right;">124 (106 <code>llm-benchmark</code>, 18 <code>benchmark</code>)</td>
+</tr>
+<tr>
+<td><code>pa:LlmBenchmark</code></td>
+<td style="text-align: right;">106</td>
+</tr>
+<tr>
+<td><code>pa:Model</code></td>
+<td style="text-align: right;">90</td>
+</tr>
+<tr>
+<td><code>pa:Capability</code>, <code>pa:ArtifactType</code></td>
+<td style="text-align: right;">35 each</td>
+</tr>
+<tr>
+<td><code>pa:Specialty</code></td>
+<td style="text-align: right;">28</td>
+</tr>
+<tr>
+<td><code>pa:TestingType</code></td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr>
+<td><code>pa:Fhir</code></td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr>
+<td><code>pa:Authority</code></td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr>
+<td><code>pa:TrainingStage</code></td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr>
+<td><code>pa:CapabilityGroup</code></td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr>
+<td><code>pa:EvalDomain</code></td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr>
+<td><code>pa:Domain</code>, <code>pa:Register</code>, <code>pa:Modality</code></td>
+<td style="text-align: right;">5 each</td>
+</tr>
+<tr>
+<td><code>pa:Codebase</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td><code>pa:Guideline</code>, <code>pa:GenCategory</code></td>
+<td style="text-align: right;">3 each</td>
+</tr>
+<tr>
+<td><code>pa:Group</code>, <code>pa:System</code></td>
+<td style="text-align: right;">2 each</td>
+</tr>
+<tr>
+<td><code>pa:Root</code>, <code>pa:Gate</code>, <code>pa:Kg</code>, <code>pa:AtlasRoot</code>, <code>pa:EvalSuite</code>, <code>pa:Measurement</code>, <code>pa:Method</code></td>
+<td style="text-align: right;">1 each</td>
+</tr>
+<tr>
+<td><code>void:Dataset</code></td>
+<td style="text-align: right;">1 (the panAtlas graph)</td>
+</tr>
+</tbody>
+</table>
+<p>Standard predicates in the HEAD export: <code>rdf:type</code> 21,270; <code>rdf:subject</code>, <code>rdf:predicate</code>,
+<code>rdf:object</code> 8,453 each; <code>rdfs:label</code> 6,568; <code>dct:description</code> 5,477; <code>skos:prefLabel</code> 5,408;
+<code>skos:exactMatch</code> 3,821; <code>foaf:isPrimaryTopicOf</code> 230; <code>dct:title</code> 201; <code>dct:identifier</code> 200;
+<code>dct:license</code> 21; <code>rdfs:subPropertyOf</code> 2; <code>prov:generatedAtTime</code> 1.</p>
+<h3 id="all-pa-properties-for-node-and-edge-attributes">All <code>pa:</code> properties for node and edge attributes<a class="headerlink" href="#all-pa-properties-for-node-and-edge-attributes" title="Permanent link">&para;</a></h3>
+<p>Besides the 36 relation predicates, the HEAD export declares these 313 <code>pa:</code> properties, each the
+camel-case form of a node field, an edge attribute or a registry field:</p>
+<p><code>acc</code>, <code>access</code>, <code>agent</code>, <code>architecture</code>, <code>arm</code>, <code>artifactTopicTokens</code>, <code>artifactTopics</code>, <code>artifactTypeLabels</code>, <code>artifactTypePct</code>, <code>artifactTypeRecords</code>, <code>artifactTypeTokens</code>, <code>artifactTypeVia</code>, <code>artifactTypes</code>, <code>arxiv</code>, <code>audit</code>, <code>auditChain</code>, <code>authorityOrg</code>, <code>basis</code>, <code>battery</code>, <code>batteryN</code>, <code>benchmark</code>, <code>blake2b</code>, <code>buildChain</code>, <code>builtBy</code>, <code>canonical</code>, <code>canonicalId</code>, <code>canonicalStandard</code>, <code>catScores</code>, <code>category</code>, <code>caution</code>, <code>cites</code>, <code>clsDataType</code>, <code>clsDifficulty</code>, <code>clsDocs</code>, <code>clsDocsClassified</code>, <code>clsDomain</code>, <code>clsMeanQuality</code>, <code>clsRegister</code>, <code>clsSampled</code>, <code>clsSftGrammar</code>, <code>clsSftOrigFormat</code>, <code>clsSftSource</code>, <code>clsSftStructural</code>, <code>clsSftTopology</code>, <code>clsSource</code>, <code>clsSources</code>, <code>codeExample</code>, <code>codebase</code>, <code>composition</code>, <code>conceptClass</code>, <code>config</code>, <code>contaminatedInMix</code>, <code>contamination</code>, <code>contaminationNote</code>, <code>contaminationPrior</code>, <code>corpus</code>, <code>corpusDocs</code>, <code>corpusDocsCaveat</code>, <code>corpusOverlap</code>, <code>corpusSourceDocs</code>, <code>corpusSources</code>, <code>corpusStatus</code>, <code>curriculumDisclosed</code>, <code>curriculumNote</code>, <code>curriculumStages</code>, <code>curriculumSummary</code>, <code>curriculumVerified</code>, <code>data</code>, <code>dataStage</code>, <code>dataType</code>, <code>decontam</code>, <code>decontamGap</code>, <code>dedupFinding</code>, <code>deployed</code>, <code>discipline</code>, <code>docClassificationStatus</code>, <code>docConcepts</code>, <code>docIdTraceable</code>, <code>docTotal</code>, <code>docs</code>, <code>docsCounted</code>, <code>domain</code>, <code>domainMix</code>, <code>domainsTop</code>, <code>dtype</code>, <code>ece</code>, <code>embedding</code>, <code>embeddingRefs</code>, <code>embeddings</code>, <code>evalAccuracy</code>, <code>evalBenchmarks</code>, <code>evalQuestions</code>, <code>evalStatus</code>, <code>evalcap</code>, <code>expanded</code>, <code>externals</code>, <code>faEntities</code>, <code>faEvidence</code>, <code>faExternalIds</code>, <code>faLicense</code>, <code>faNChem</code>, <code>faNDisease</code>, <code>faNFood</code>, <code>faOverlap</code>, <code>faRelations</code>, <code>faTopChemicals</code>, <code>faTopDiseases</code>, <code>faTopFoods</code>, <code>faTriplets</code>, <code>faVersion</code>, <code>family</code>, <code>fhirGroup</code>, <code>fhirSystem</code>, <code>file</code>, <code>fileCount</code>, <code>fnddsNFoods</code>, <code>fnddsNResolved</code>, <code>fnddsResolved</code>, <code>fnddsSampleFoods</code>, <code>fnddsTotal</code>, <code>fnddsWweiaCode</code>, <code>framework</code>, <code>fullEval</code>, <code>gated</code>, <code>genDocs</code>, <code>gene</code>, <code>generalDomain</code>, <code>granularity</code>, <code>grounding</code>, <code>groundingJudge</code>, <code>groundingMatch</code>, <code>groundingNote</code>, <code>groundingReason</code>, <code>group</code>, <code>hasDocEmbeddings</code>, <code>heldOutTotal</code>, <code>hf</code>, <code>host</code>, <code>humanAnnotationType</code>, <code>icd10cmCode</code>, <code>idNamespace</code>, <code>identityMap</code>, <code>iriStem</code>, <code>isExternal</code>, <code>isSft</code>, <code>isSftMix</code>, <code>kosUsage</code>, <code>layer</code>, <code>leaderboardEligible</code>, <code>ledger</code>, <code>lengthBands</code>, <code>licenceNote</code>, <code>license</code>, <code>licenseNote</code>, <code>licenseScope</code>, <code>licenseStatement</code>, <code>licenseStatus</code>, <code>location</code>, <code>maintainedExternally</code>, <code>manifestHash</code>, <code>meanRank</code>, <code>measured</code>, <code>measures</code>, <code>meshAppropriate</code>, <code>meshCat</code>, <code>meshMappedTo</code>, <code>meshName</code>, <code>meshTree</code>, <code>meshUrl</code>, <code>metric</code>, <code>modalities</code>, <code>modality</code>, <code>modalityDetail</code>, <code>model</code>, <code>n</code>, <code>nCodelists</code>, <code>nCuratedCases</code>, <code>nDiseases</code>, <code>nDocs</code>, <code>nDomains</code>, <code>nFoods</code>, <code>nHumanAnnotated</code>, <code>nModels</code>, <code>nPatientScans</code>, <code>nPatients</code>, <code>nSlices</code>, <code>nSources</code>, <code>nStudies</code>, <code>nSubtopics</code>, <code>nVariables</code>, <code>nVolumes</code>, <code>nativeFieldSampleN</code>, <code>nativeFieldValues</code>, <code>nativeFields</code>, <code>note</code>, <code>openWeights</code>, <code>order</code>, <code>origin</code>, <code>overCutoff24576</code>, <code>overall</code>, <code>owner</code>, <code>pairedText</code>, <code>panelAnalyte</code>, <code>params</code>, <code>paramsB</code>, <code>paramsH</code>, <code>parentMix</code>, <code>partOfCorpus</code>, <code>path</code>, <code>pct</code>, <code>peerNote</code>, <code>perModel</code>, <code>pipeline</code>, <code>predictorEval</code>, <code>pretrainDocs</code>, <code>pretrainJob</code>, <code>pretrainSlots</code>, <code>pretrainSources</code>, <code>pretrainSteps</code>, <code>pretrainTokensManifest</code>, <code>pretrainTokensReal</code>, <code>provenance</code>, <code>quality</code>, <code>ratioToPublished</code>, <code>rdfIriBasis</code>, <code>recordLevelCoverage</code>, <code>recordLevelJudgeAudit</code>, <code>recordLevelMethod</code>, <code>recordLevelRecords</code>, <code>recordLevelTypeRegister</code>, <code>recordLevelTypeTopic</code>, <code>recordRegisterAtypes</code>, <code>recordRegisters</code>, <code>recordTopicConcepts</code>, <code>recordTopics</code>, <code>records</code>, <code>recordsEffective</code>, <code>register</code>, <code>registryCommit</code>, <code>relatedMesh</code>, <code>relatedMeshName</code>, <code>relatedWikipedia</code>, <code>relations</code>, <code>results</code>, <code>rlStage</code>, <code>role</code>, <code>ropeTheta</code>, <code>scale</code>, <code>sft</code>, <code>sftContents</code>, <code>sftMix</code>, <code>sftRecipe</code>, <code>sftRecords</code>, <code>sftSources</code>, <code>sftType</code>, <code>sftTypeTotals</code>, <code>sharePct</code>, <code>sim</code>, <code>source</code>, <code>sourceOfRecord</code>, <code>splitNote</code>, <code>splitType</code>, <code>src</code>, <code>stage</code>, <code>stageType</code>, <code>status</code>, <code>store</code>, <code>strata</code>, <code>subtopics</code>, <code>system</code>, <code>task</code>, <code>template</code>, <code>testSets</code>, <code>testingType</code>, <code>testsConcepts</code>, <code>tier</code>, <code>tokPerDoc</code>, <code>tokens</code>, <code>tokensMeasured</code>, <code>toolRecords</code>, <code>topics</code>, <code>topicsStatus</code>, <code>totalBytes</code>, <code>trainSamples</code>, <code>trainedBy</code>, <code>trainedOnCaveat</code>, <code>trainingAudited</code>, <code>trainingDisclosed</code>, <code>trainingNote</code>, <code>uniqueIdScheme</code>, <code>upstreamLastUpdatedOn</code>, <code>upstreamVersion</code>, <code>urn</code>, <code>usedInTraining</code>, <code>value</code>, <code>variant</code>, <code>vaultDesc</code>, <code>vaultPage</code>, <code>vaultStatus</code>, <code>version</code>, <code>via</code>, <code>vocab</code>, <code>weldToolRecords</code>, <code>when</code>, <code>wikiBands</code>, <code>wikiDistinctPages</code>, <code>wikiLinked</code>, <code>wikiLinkedFraction</code>, <code>wikiOldid</code>, <code>wikiTop</code>, <code>withheldReason</code>, <code>wpTopic</code>, <code>wweiaCategories</code></p>
+<h2 id="sparql-stores">SPARQL stores<a class="headerlink" href="#sparql-stores" title="Permanent link">&para;</a></h2>
+<h3 id="panatlas-okn"><code>panatlas-okn</code><a class="headerlink" href="#panatlas-okn" title="Permanent link">&para;</a></h3>
+<p>A read-only SPARQL 1.1 endpoint (QLever) holding panAtlas's own graph and every deployed NSF Open
+Knowledge Network graph that has been proven exact, each in the named graph of its source of record.</p>
+<table>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Build</td>
+<td><code>panatlas-okn-20261003T0039</code></td>
+<td><code>web/rdf/README.md</code>; vault <code>reference-panatlas-sparql-endpoint</code></td>
+</tr>
+<tr>
+<td>Named graphs</td>
+<td>44: panAtlas plus 43 OKN graphs</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Triples</td>
+<td>6,994,341,217</td>
+<td>same; re-checked 2026-10-16</td>
+</tr>
+<tr>
+<td>Served</td>
+<td>2026-10-03 to 2026-10-08 (Slurm job 226412), and since 2026-10-16 08:06 (job 237423)</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Where</td>
+<td>A CPU-only Slurm job on a cluster compute node; reachable only inside the cluster network</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Every graph</td>
+<td>Passed the exact round trip before the store went live (2026-10-03 07:43)</td>
+<td>vault</td>
+</tr>
+</tbody>
+</table>
+<p>The host and port change whenever a new build is switched live, so clients read them from the
+endpoint record <code>stores/&lt;name&gt;.endpoint</code> (<code>host</code>, <code>port</code>, <code>url</code>, <code>job</code>, <code>started</code>) under the store
+directory in <code>&lt;cluster project storage&gt;/panatlas/qlever/</code>. Queries run inside a Slurm job, never on
+a login node. A served query is stopped after one hour; whole-store scans take minutes.</p>
+<p>Agents query through the <code>query_knowledge_graph</code> tool of the Astral agent, which runs
+<code>sparql_client.py</code> over a forced-command key: parameters <code>query</code>, <code>store</code> (<code>panatlas-okn</code> or
+<code>wikidata</code>), <code>describe=true</code> (the named graphs with versions, sizes and proofs) and <code>max_rows</code>
+(at most 1,000); requests are base64 JSON (<code>{"action": "describe", "store": …}</code> or
+<code>{"query": …, "store": …, "max_rows": …}</code>); SPARQL Update is refused; timeout 120 s.</p>
+<h3 id="wikidata"><code>wikidata</code><a class="headerlink" href="#wikidata" title="Permanent link">&para;</a></h3>
+<p>A separate store from the Wikidata agent's md5-verified Wikimedia dump, in the named graph
+<code>http://www.wikidata.org/</code>. 21,350,107,674 triples, indexed 2026-10-02. It is held back: its first
+smoke test assumed English labels, but Wikidata stores a name shared by every language once under
+the language code <code>mul</code> (vault <code>defect-wikidata-store-test-assumed-english-label</code>). A verification
+rerun was submitted 2026-10-16 (job 237432). For English labels use
+<code>FILTER(LANG(?l) IN ('en', 'mul'))</code> and prefer <code>en</code>. The two stores are joined at query time with
+<code>SERVICE</code>.</p>
+<h3 id="panatlas-restricted-designed"><code>panatlas-restricted</code> (designed)<a class="headerlink" href="#panatlas-restricted-designed" title="Permanent link">&para;</a></h3>
+<p><code>PLAN-restricted-data-umls.md</code> designs a third QLever store for licensed vocabularies, never merged
+into <code>panatlas-okn</code>, with one named graph per source restriction level under
+<code>https://panatlas.net/graph/restricted/…</code>, panAtlas-derived relations in a separate derived graph,
+and per-user, per-project entitlements enforced in <code>sparql_client.py</code> (default deny, every call
+audited). Licensed content is internal and entitlement-gated; none of it enters the public graph
+or this documentation. At HEAD only acquisition (phase P1) has passed; the store is not built.</p>
+<h2 id="versioning-and-exactness">Versioning and exactness<a class="headerlink" href="#versioning-and-exactness" title="Permanent link">&para;</a></h2>
+<h3 id="mirrors-one-agent-per-graph">Mirrors: one agent per graph<a class="headerlink" href="#mirrors-one-agent-per-graph" title="Permanent link">&para;</a></h3>
+<p>Each OKN graph has its own agent (<code>okn-agent:{shortname}</code>, <code>web/acquisition/okn/okn_agent.py</code>) with
+its own state, provenance, source-of-record file, lock and update job. A six-hourly tick snapshots
+the OKN registry and VoID records (<code>pav:version</code>, <code>lastUpdatedOn</code>, <code>void:triples</code> per graph) and
+submits an independent sync job for each changed graph. Held copies live as
+<code>raw/&lt;sn&gt;/&lt;version&gt;/part_*.nt</code> with <code>DONE</code> and <code>PROOF.json</code>, and <code>raw/&lt;sn&gt;/current</code> points at the
+adopted version. A sync proves its new version and falls back to the previous one if any proof
+fails. Mirrored graphs are read-only and replaced wholesale; panAtlas never edits an externally
+maintained node or edge, it only links to it from its own graph.</p>
+<p>The source-of-record rule for nodes: a node IRI is maintained by whichever source's authoritative
+namespace covers it, by longest prefix (<code>sor_index.json</code>). Where a graph declares no namespaces, its
+own base IRI is taken as authoritative and marked inferred. An IRI no source claims belongs to its
+external authority (OBO, Wikidata, identifiers.org, NCBI).</p>
+<h3 id="proof-levels-okn_provepy-proofjson">Proof levels (<code>okn_prove.py</code>, <code>PROOF.json</code>)<a class="headerlink" href="#proof-levels-okn_provepy-proofjson" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fingerprint</td>
+<td>sha256 of the sorted distinct triples; per-predicate counts; blank-node count</td>
+</tr>
+<tr>
+<td>upstream</td>
+<td>Per-predicate counts equal the endpoint's; 20 random slices byte-identical at their offsets; 2,000 random triples byte-identical among the endpoint's objects for their subject and predicate</td>
+</tr>
+<tr>
+<td>reextract</td>
+<td>A second full extraction at page size 999,983 hashes identically</td>
+</tr>
+<tr>
+<td>store</td>
+<td>The triples exported back out of the local store equal the source (<code>qlever_build.py</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>A graph is admitted to a store build only if its extraction verified and <code>PROOF.json</code> shows
+fingerprint, upstream and reextract ok.</p>
+<h3 id="the-store-round-trip">The store round trip<a class="headerlink" href="#the-store-round-trip" title="Permanent link">&para;</a></h3>
+<p>A store is a query view, proven before it is served. <code>qlever_build.py</code> builds into
+<code>stores/&lt;name&gt;-&lt;stamp&gt;/</code>, then requires: every graph's triple count equals its verified count; no
+graph appears that was not admitted; the panAtlas MeSH joins hold; and the exact round trip passes.
+Only then does <code>stores/&lt;name&gt;</code> switch to the new build. A failed build writes
+<code>stores/&lt;name&gt;.last_failure</code> and is not resubmitted until fixed and re-verified.</p>
+<p>The round trip exports every graph back out of the store and requires that the sorted distinct
+non-blank triples of <code>canon(export)</code> hash identically to <code>canon(fold(source))</code>, that blank-node
+triple counts are equal (the store assigns its own labels), and that <code>COUNT(*)</code> equals the source's
+distinct stored values. <code>nt_canon.py</code> writes one spelling per RDF term; <code>qlever_fold.py</code> applies
+QLever's literal folding to the source. QLever cannot keep literals verbatim and has no setting to
+stop it (vault <code>reference-qlever-literal-folding</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>integer</td>
+<td><code>xsd:integer</code> becomes <code>xsd:int</code> (60-bit range)</td>
+</tr>
+<tr>
+<td>decimal / double</td>
+<td>Stored as a double minus its 4 lowest mantissa bits; printed <code>%.1f</code> or <code>%.13g</code> as <code>xsd:decimal</code> (lossy past 13 significant digits)</td>
+</tr>
+<tr>
+<td>point</td>
+<td>WKT POINT quantized to a 30-bit grid per coordinate, printed <code>%f</code> (sub-metre loss)</td>
+</tr>
+<tr>
+<td>dateTime</td>
+<td>A year beyond 4 digits loses its <code>Z</code></td>
+</tr>
+<tr>
+<td>unparseable</td>
+<td>A folded-type literal QLever cannot parse loses its datatype</td>
+</tr>
+<tr>
+<td>spelling</td>
+<td><code>\uXXXX</code> escapes, <code>^^xsd:string</code>, language-tag case (same RDF term)</td>
+</tr>
+</tbody>
+</table>
+<p>Exact recreation therefore always comes from the verified raw files, never from a store.</p>
+<h2 id="joins-the-store-enables">Joins the store enables<a class="headerlink" href="#joins-the-store-enables" title="Permanent link">&para;</a></h2>
+<p>Measured in the store and recorded in the vault (<code>project-panatlas</code>, 2026-09-26):</p>
+<ul>
+<li>3,373 of 3,377 panAtlas MeSH IRIs exist in NLM's MeSH RDF (OKN graph <code>biobricks-mesh</code>).</li>
+<li>3,310 panAtlas concepts reach 3,313 Wikidata entities through the OKN <code>identifier-mappings</code> graph.</li>
+<li>137 MeSH IRIs join the OKN graph <code>spoke-okn</code> only through their <code>https</code> variant.</li>
+<li>panAtlas concepts carry no Wikidata identifiers of their own.</li>
+</ul>
+<p>Example (from <code>web/rdf/README.md</code>, run against the live store 2026-10-08, 1.2 s):</p>
+<div class="highlight"><pre><span></span><code><span class="k">PREFIX</span> <span class="nn">skos</span><span class="p">:</span> <span class="nl">&lt;http://www.w3.org/2004/02/skos/core#&gt;</span>
+<span class="k">PREFIX</span> <span class="nn">rdfs</span><span class="p">:</span> <span class="nl">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span>
+<span class="k">SELECT</span> <span class="nv">?c</span> <span class="nv">?m</span> <span class="nv">?label</span> <span class="k">WHERE</span> <span class="p">{</span>
+  <span class="k">GRAPH</span> <span class="nl">&lt;https://panatlas.net/graph/panatlas&gt;</span>              <span class="p">{</span> <span class="nv">?c</span> <span class="nn">skos</span><span class="p">:</span><span class="nt">exactMatch</span> <span class="nv">?m</span> <span class="p">}</span>
+  <span class="k">GRAPH</span> <span class="nl">&lt;https://purl.org/okn/frink/kg/biobricks-mesh&gt;</span>     <span class="p">{</span> <span class="nv">?m</span> <span class="nn">rdfs</span><span class="p">:</span><span class="nt">label</span> <span class="nv">?label</span> <span class="p">}</span> <span class="p">}</span> <span class="k">LIMIT</span> <span class="mi">3</span>
+<span class="c"># -&gt; panatlas:fa-dis-C531609  mesh:C531609  "Diffuse alopecia"@en</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">PREFIX</span> <span class="nn">skos</span><span class="p">:</span> <span class="nl">&lt;http://www.w3.org/2004/02/skos/core#&gt;</span>
+<span class="k">SELECT</span> <span class="nv">?c</span> <span class="nv">?w</span> <span class="k">WHERE</span> <span class="p">{</span>
+  <span class="k">GRAPH</span> <span class="nl">&lt;https://panatlas.net/graph/panatlas&gt;</span>                 <span class="p">{</span> <span class="nv">?c</span> <span class="nn">skos</span><span class="p">:</span><span class="nt">exactMatch</span> <span class="nv">?m</span> <span class="p">}</span>
+  <span class="k">GRAPH</span> <span class="nl">&lt;https://purl.org/okn/frink/kg/identifier-mappings&gt;</span>   <span class="p">{</span> <span class="nv">?w</span> <span class="nn">skos</span><span class="p">:</span><span class="nt">exactMatch</span> <span class="nv">?m</span> <span class="p">}</span> <span class="p">}</span> <span class="k">LIMIT</span> <span class="mi">3</span>
+<span class="c"># -&gt; panatlas:fa-dis-C531609  wd:Q9394945   (7.2 s)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

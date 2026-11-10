@@ -1,0 +1,2788 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+      
+      
+      
+        <link rel="canonical" href="https://thepanatlas.github.io/docs/system/public-api/">
+      
+      
+        <link rel="prev" href="../web-site/">
+      
+      
+        <link rel="next" href="../astral/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Public API - panAtlas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#public-api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="panAtlas" class="md-header__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            panAtlas
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Public API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/purpose/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../distributed/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Distributed system
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../metadata/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Metadata
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../build-pipeline/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/repository-map/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="panAtlas" class="md-nav__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    panAtlas
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/purpose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Purpose and principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed system
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Distributed system
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/cresco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cresco for panAtlas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/dataset-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Participating agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wire contract and schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage on GaiaKeep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../metadata/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/identifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/dataset-registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/manifests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manifests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/acquisition-and-licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/document-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/graph-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/evaluation-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/models-and-curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models and curriculum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/rdf-vocabulary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/codesystems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../knowledge-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge store (SPARQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acquisition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rules-the-api-keeps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules the API keeps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#response-envelope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response envelope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Routes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evaluations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-best" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /best
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /scores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-benchmarks-and-get-benchmarksid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /benchmarks and GET /benchmarks/{id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-models-and-get-modelsname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /models and GET /models/{name}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-compare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /compare
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graph-datasets-and-literature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graph, datasets and literature
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Graph, datasets and literature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-stats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /stats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-search-get-nodeid-get-neighborhood" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /search, GET /node/{id}, GET /neighborhood
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-datasets-and-get-datasetsslug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /datasets and GET /datasets/{slug}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-literaturenode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /literature/{node}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-kggraphs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /kg/graphs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-teaserpart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /teaser/{part}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-api-from-a-language-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the API from a language model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-the-data-comes-from" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where the data comes from
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changelog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changelog
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../astral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/repository-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rules-the-api-keeps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules the API keeps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#response-envelope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response envelope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Routes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evaluations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-best" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /best
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /scores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-benchmarks-and-get-benchmarksid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /benchmarks and GET /benchmarks/{id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-models-and-get-modelsname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /models and GET /models/{name}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-compare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /compare
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graph-datasets-and-literature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graph, datasets and literature
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Graph, datasets and literature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-stats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /stats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-search-get-nodeid-get-neighborhood" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /search, GET /node/{id}, GET /neighborhood
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-datasets-and-get-datasetsslug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /datasets and GET /datasets/{slug}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-literaturenode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /literature/{node}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-kggraphs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /kg/graphs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-teaserpart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /teaser/{part}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-api-from-a-language-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the API from a language model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-the-data-comes-from" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where the data comes from
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changelog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changelog
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="public-api">Public API<a class="headerlink" href="#public-api" title="Permanent link">&para;</a></h1>
+<p>The public API is a read-only HTTP interface to everything panAtlas indexes: statistics, graph search and lookup,
+the dataset registry, every measured evaluation score for every model type, the literature feed, and the list of
+knowledge graphs in the SPARQL store. It needs no key. It is separate from the gated <code>panatlas/v1</code> routes that the
+explorer uses (<a href="../web-site/#rest-routes-panatlasv1-gated">Web site</a>).</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base URL</td>
+<td><code>https://panatlas.net/wp-json/panatlas/public/v1</code></td>
+</tr>
+<tr>
+<td>Version</td>
+<td>1.1.1 (2026-10-31)</td>
+</tr>
+<tr>
+<td>Methods</td>
+<td><code>GET</code> only</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Rate limit</td>
+<td>240 requests per client address per minute; requests from the web host itself are exempt. Over the limit: HTTP 429, code <code>rate_limited</code></td>
+</tr>
+<tr>
+<td>CORS</td>
+<td><code>Access-Control-Allow-Origin: *</code>, methods <code>GET, OPTIONS</code></td>
+</tr>
+<tr>
+<td>Caching</td>
+<td><code>Cache-Control: public</code> with <code>max-age</code> 300 s by default, 3,600 s for <code>/stats</code>, <code>/literature</code> and <code>/kg/graphs</code>, 86,400 s for <code>/teaser</code></td>
+</tr>
+<tr>
+<td>Description</td>
+<td><code>/openapi.json</code> (OpenAPI 3.1.0) and <code>/tools.json</code> (the same routes as LLM tool definitions); human-readable docs at <code>panatlas.net/api/</code></td>
+</tr>
+<tr>
+<td>Code</td>
+<td><code>web/wp-plugin/panatlas-explorer/includes/public-api.php</code> (statistics, search, node, dataset, literature, spec), <code>includes/public-evals.php</code> (evaluations)</td>
+</tr>
+<tr>
+<td>Contract test</td>
+<td><code>web/tests/test_public_api.py</code> (<code>--stage DIR</code> or <code>--live</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rules-the-api-keeps">Rules the API keeps<a class="headerlink" href="#rules-the-api-keeps" title="Permanent link">&para;</a></h2>
+<p>From <code>docs/public-api.md</code> and the code:</p>
+<ul>
+<li><strong>Additive only.</strong> Existing routes and tools keep their names and shapes; new behaviour is added.</li>
+<li><strong>Nothing internal leaves.</strong> Fields are served from whitelists, and every string passes a scrubber that removes
+  server paths, cluster host names and job numbers. Data itself is never served, only records about it. No raw
+  SPARQL is accepted.</li>
+<li><strong>Fit an LLM's tool budget.</strong> Results stay under 24,000 characters at default limits, because the first external
+  client truncates there.</li>
+<li><strong>Say what is covered.</strong> Every evaluation response carries a <code>coverage</code> block, so a search that misses cannot be
+  read as missing data.</li>
+<li><strong>One metric per benchmark.</strong> Values are compared only within one benchmark; cross-benchmark rankings are mean
+  positions and say so.</li>
+</ul>
+<h2 id="response-envelope">Response envelope<a class="headerlink" href="#response-envelope" title="Permanent link">&para;</a></h2>
+<p>Every data route returns:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"as_of"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;ISO 8601 time or null&gt;"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"snapshot"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><code>as_of</code> is the newest modification time of the snapshot files behind the answer (ISO 8601), or the store's build
+  time for <code>/kg/graphs</code>. It is <code>null</code> when not applicable.</li>
+<li><code>source</code> is <code>snapshot</code> for answers from the served files, <code>nightly PubMed feed</code> for <code>/literature</code>, and
+  <code>SPARQL store manifest</code> for <code>/kg/graphs</code>.</li>
+<li>Errors use the standard WordPress REST error body <code>{"code", "message", "data": {"status"}}</code> with codes
+  <code>not_found</code> (404), <code>bad_request</code> (400) and <code>rate_limited</code> (429). Not-found messages for models suggest the closest
+  names.</li>
+</ul>
+<p>Links into the explorer are returned as <code>https://panatlas.net/#node=&lt;id&gt;</code>.</p>
+<h2 id="routes">Routes<a class="headerlink" href="#routes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Tool name</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /best</code></td>
+<td><code>best_models</code></td>
+<td>Which model is best for a task, data type or domain. Start here</td>
+</tr>
+<tr>
+<td><code>GET /overview</code></td>
+<td><code>atlas_overview</code></td>
+<td>What has been evaluated, by model type, with the leader of every scored benchmark</td>
+</tr>
+<tr>
+<td><code>GET /tasks</code></td>
+<td><code>task_scores</code></td>
+<td>Rank models on one task inside a suite</td>
+</tr>
+<tr>
+<td><code>GET /scores</code></td>
+<td><code>query_scores</code></td>
+<td>Filter every measured score</td>
+</tr>
+<tr>
+<td><code>GET /stats</code></td>
+<td><code>stats</code></td>
+<td>Headline counts of everything indexed</td>
+</tr>
+<tr>
+<td><code>GET /search</code></td>
+<td><code>search_atlas</code></td>
+<td>Search graph nodes by words</td>
+</tr>
+<tr>
+<td><code>GET /node/{id}</code></td>
+<td><code>get_node</code></td>
+<td>One node with public fields and links grouped by relation</td>
+</tr>
+<tr>
+<td><code>GET /neighborhood</code></td>
+<td><code>get_neighborhood</code></td>
+<td>Nodes and links around up to 12 ids</td>
+</tr>
+<tr>
+<td><code>GET /datasets</code></td>
+<td><code>search_datasets</code></td>
+<td>Search the dataset registry</td>
+</tr>
+<tr>
+<td><code>GET /datasets/{slug}</code></td>
+<td><code>get_dataset</code></td>
+<td>One dataset record</td>
+</tr>
+<tr>
+<td><code>GET /benchmarks</code></td>
+<td><code>search_benchmarks</code></td>
+<td>Search benchmarks and suites of every model type</td>
+</tr>
+<tr>
+<td><code>GET /benchmarks/{id}</code></td>
+<td><code>get_benchmark</code></td>
+<td>One benchmark: what it measures, full ranking, baselines, held-out models</td>
+</tr>
+<tr>
+<td><code>GET /models</code></td>
+<td><code>list_models</code></td>
+<td>Every evaluated model of every type</td>
+</tr>
+<tr>
+<td><code>GET /models/{name}</code></td>
+<td><code>get_model_scores</code></td>
+<td>Every score for one model</td>
+</tr>
+<tr>
+<td><code>GET /compare</code></td>
+<td><code>compare_models</code></td>
+<td>One benchmark's ranking, or a head-to-head between named models</td>
+</tr>
+<tr>
+<td><code>GET /literature/{node}</code></td>
+<td><code>get_literature</code></td>
+<td>Recent PubMed articles for a MeSH-grounded node</td>
+</tr>
+<tr>
+<td><code>GET /kg/graphs</code></td>
+<td><code>list_knowledge_graphs</code></td>
+<td>Named graphs in the SPARQL store with triple counts</td>
+</tr>
+<tr>
+<td><code>GET /teaser/{part}</code></td>
+<td>(none)</td>
+<td>Public binary geometry of the document universe</td>
+</tr>
+<tr>
+<td><code>GET /openapi.json</code></td>
+<td>(none)</td>
+<td>The OpenAPI description</td>
+</tr>
+<tr>
+<td><code>GET /tools.json</code></td>
+<td>(none)</td>
+<td><code>{instructions, tools[]}</code> for LLM clients</td>
+</tr>
+</tbody>
+</table>
+<p>The model <strong>types</strong> are <code>language</code>, <code>vision</code>, <code>multimodal</code>, <code>tabular</code> and <code>forecasting</code>. Type and domain
+parameters accept everyday words ("time series", "structured"), which the server maps to a type through a
+vocabulary in <code>evals_index.json</code>.</p>
+<h3 id="evaluations">Evaluations<a class="headerlink" href="#evaluations" title="Permanent link">&para;</a></h3>
+<h4 id="get-best"><code>GET /best</code><a class="headerlink" href="#get-best" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>task</code> (required)</td>
+<td>string</td>
+<td>The task in plain words: "tabular data", "forecasting hospital admissions", "pathology encoders". <code>q</code> and <code>question</code> are accepted as aliases</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td>Optional model type</td>
+</tr>
+<tr>
+<td><code>domain</code></td>
+<td>string</td>
+<td>Optional domain: medical, pathology, radiology, …</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>integer</td>
+<td>Models per benchmark, default 5, at most 25</td>
+</tr>
+</tbody>
+</table>
+<p>Returns <code>question</code>, <code>interpreted_as {type, domain, words}</code>, <code>coverage</code>, <code>matched</code>, <code>count</code>, and <code>results[]</code> (up to
+six benchmarks of one type, or two per type when several match, at most ten). Each result is a suite record: <code>id</code>,
+<code>name</code>, <code>type</code>, <code>domain</code>, <code>metric</code>, <code>how_to_read</code>, <code>headline</code>, <code>ranking[]</code> (<code>rank</code>, <code>name</code>, <code>value</code>, optional
+<code>mean_rank</code>, <code>beats_best_baseline</code>, flags <code>ours</code>, <code>published</code>, <code>verified</code>), <code>best_baseline</code>, <code>held_out[]</code> and <code>url</code>.
+Also, when they apply: <code>answer_from: "matching_tasks"</code> with <code>matching_tasks[]</code> when a single task holds every
+specific word of the question; <code>overall</code> (per type, with three or more matched benchmarks) with <code>overall_method</code>
+explaining <code>avg_position</code>; <code>listed_not_run</code>; <code>listed_not_yet_scored</code>; <code>more_benchmarks</code>; <code>note</code>; and <code>advice</code>, a
+sentence telling an LLM how to state the answer. When nothing matches, <code>matched: false</code> with advice to retry with a
+type or call <code>atlas_overview</code>.</p>
+<h4 id="get-overview"><code>GET /overview</code><a class="headerlink" href="#get-overview" title="Permanent link">&para;</a></h4>
+<p>No parameters. Returns <code>types</code>, keyed by model type, each with <code>label</code>, <code>evaluated_models</code>, <code>evaluated_baselines</code>,
+<code>scored_benchmarks</code>, <code>listed_not_run</code>, <code>benchmarks[]</code> (<code>id</code>, <code>name</code>, <code>domain</code>, <code>metric</code>, <code>n_models</code>, <code>leader</code>,
+<code>leader_value</code>, <code>leader_mean_rank</code>) and <code>not_run[]</code> (<code>name</code>, <code>reason</code>), plus <code>how_to_use</code>. Parts of a benchmark
+(such as one MMLU subject) are not listed as benchmarks of their own.</p>
+<h4 id="get-tasks"><code>GET /tasks</code><a class="headerlink" href="#get-tasks" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>q</code></td>
+<td>string</td>
+<td>Words describing the task ("hospital admission", "diabetes")</td>
+</tr>
+<tr>
+<td><code>benchmark</code></td>
+<td>string</td>
+<td>Suite id or name; alone, lists that suite's tasks with their leaders</td>
+</tr>
+<tr>
+<td><code>task</code></td>
+<td>string</td>
+<td>Exact task name; returns that task's ranking</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td><code>tabular</code> or <code>forecasting</code></td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>integer</td>
+<td>Models per task, default 10, at most 40</td>
+</tr>
+</tbody>
+</table>
+<p>Give at least one of <code>q</code>, <code>benchmark</code> or <code>task</code>, or the route returns 400. A benchmark without per-task tables
+returns 404 listing the suites that have them.</p>
+<h4 id="get-scores"><code>GET /scores</code><a class="headerlink" href="#get-scores" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td>string</td>
+<td>Model name or part of one</td>
+</tr>
+<tr>
+<td><code>type</code>, <code>domain</code></td>
+<td>string</td>
+<td>Model type; domain</td>
+</tr>
+<tr>
+<td><code>benchmark</code></td>
+<td>string</td>
+<td>Benchmark id or name</td>
+</tr>
+<tr>
+<td><code>metric</code></td>
+<td>string</td>
+<td>Part of a metric name: <code>acc</code>, <code>F1</code>, <code>AUC</code>, <code>Elo</code></td>
+</tr>
+<tr>
+<td><code>min</code>, <code>max</code></td>
+<td>number</td>
+<td>Value range</td>
+</tr>
+<tr>
+<td><code>max_rank</code></td>
+<td>integer</td>
+<td>Only rows at this rank or better; <code>1</code> lists benchmark leaders</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>integer</td>
+<td>Default 40, at most 200</td>
+</tr>
+</tbody>
+</table>
+<p>Returns <code>count</code>, a <code>note</code> that values compare only within one benchmark, and <code>results[]</code> rows with <code>rank</code>, <code>of</code>,
+<code>name</code>, <code>value</code>, <code>benchmark</code>, <code>benchmark_id</code>, <code>type</code>, <code>domain</code>, <code>metric</code>, sorted by rank.</p>
+<h4 id="get-benchmarks-and-get-benchmarksid"><code>GET /benchmarks</code> and <code>GET /benchmarks/{id}</code><a class="headerlink" href="#get-benchmarks-and-get-benchmarksid" title="Permanent link">&para;</a></h4>
+<p><code>/benchmarks</code> takes <code>q</code>, <code>type</code>, <code>domain</code>, <code>capability</code> (a capability id such as <code>cap-clinical-knowledge</code>) and <code>limit</code>
+(default 25, at most 150). It returns <code>count</code>, <code>interpreted_as</code>, <code>coverage</code>, <code>capabilities[]</code> and <code>results[]</code> with
+<code>id</code>, <code>name</code>, <code>type</code>, <code>domain</code>, <code>metric</code>, <code>testing_type</code>, <code>measures</code>, <code>run_status</code>, <code>n_models_scored</code> and the
+<code>leader</code> where models were scored.</p>
+<p><code>/benchmarks/{id}</code> accepts an id or a name and <code>limit</code> (default 40, at most 120). It returns the suite record
+(above) merged with the benchmark's public catalog fields (<code>measures</code>, <code>composition</code>, <code>testing_type</code>, <code>arm</code>, <code>tests</code>,
+<code>tier</code>, <code>gated</code>, <code>higher_better</code>, <code>verified_published</code>, <code>provenance</code>, …), <code>project</code> and <code>eval_type</code> for imaging and
+multi-modal benchmarks, and <code>tasks_available</code> when per-task tables exist.</p>
+<h4 id="get-models-and-get-modelsname"><code>GET /models</code> and <code>GET /models/{name}</code><a class="headerlink" href="#get-models-and-get-modelsname" title="Permanent link">&para;</a></h4>
+<p><code>/models</code> takes <code>q</code> (name filter), <code>type</code>, <code>role</code> (<code>foundation-model</code>, <code>baseline</code> or <code>model</code>), <code>include_not_run</code>
+(boolean) and <code>limit</code> (default 60, at most 300). It returns <code>count</code>, <code>evaluated_models</code>, <code>evaluated_baselines</code>,
+<code>how_to_count</code>, <code>coverage</code> and <code>results[]</code> with <code>name</code>, <code>type</code>, <code>role</code>, <code>status</code>, <code>n_benchmarks</code>, <code>modalities</code> and
+<code>best_result {benchmark, rank, of, value}</code>. Baselines sort last.</p>
+<p><code>/models/{name}</code> accepts partial names. It returns <code>name</code>, <code>type</code>, <code>types</code>, <code>role</code>, <code>status</code>, <code>n_benchmarks</code>, where
+present <code>family</code>, <code>source</code>, <code>open_weights</code>, <code>runs</code>, <code>note</code>, <code>not_run_reason</code> and <code>url</code>, then <code>scores[]</code> (each score
+with its rank on that benchmark) and <code>published_leaderboard</code> rows for methods panAtlas did not run itself.</p>
+<h4 id="get-compare"><code>GET /compare</code><a class="headerlink" href="#get-compare" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>benchmark</code></td>
+<td>string</td>
+<td>One benchmark's full ranking</td>
+</tr>
+<tr>
+<td><code>models</code></td>
+<td>string</td>
+<td>Two or more model names, comma-separated, for a head-to-head</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>integer</td>
+<td>Maximum rows (head-to-head default 30, at most 60)</td>
+</tr>
+</tbody>
+</table>
+<p>A head-to-head returns <code>models[]</code>, <code>shared_benchmarks</code>, <code>ahead_on</code> and <code>results[]</code> (<code>benchmark</code>, <code>benchmark_id</code>,
+<code>metric</code>, <code>how_to_read</code>, <code>scores {model: {value, rank}}</code>, <code>ahead</code>). Rows from a published leaderboard are kept apart
+from <code>scores</code> and from every count. Fewer than two distinct models returns 400. Without <code>benchmark</code> or <code>models</code> the
+route returns 400.</p>
+<div class="admonition note">
+<p class="admonition-title">Undocumented parameters</p>
+<p><code>/compare</code> also accepts <code>task</code>: with no <code>benchmark</code>, it answers as <code>/best</code> for that task. This parameter is not
+in <code>openapi.json</code> or <code>tools.json</code>.</p>
+</div>
+<h3 id="graph-datasets-and-literature">Graph, datasets and literature<a class="headerlink" href="#graph-datasets-and-literature" title="Permanent link">&para;</a></h3>
+<h4 id="get-stats"><code>GET /stats</code><a class="headerlink" href="#get-stats" title="Permanent link">&para;</a></h4>
+<p>No parameters. Returns counts grouped as <code>documents</code> (<code>mapped</code>, <code>by_role</code>, <code>sources</code>), <code>imaging</code> (CT volumes and
+slices, MRI and chest X-ray studies), <code>graph</code> (<code>nodes</code>, <code>edges</code>, <code>kinds</code>), <code>concepts</code>, <code>food_atlas</code>, <code>datasets</code>
+(<code>total</code>, <code>by_modality</code>, <code>by_access</code>, <code>by_status</code>), <code>benchmarks</code> (<code>language</code>, <code>language_scored</code>,
+<code>imaging_multimodal</code>, <code>tabular</code>, <code>forecasting</code>, <code>capabilities</code>), <code>models</code> (<code>with_scores</code>, <code>baselines_scored</code>,
+<code>by_type</code>, <code>evaluated</code>, <code>how_to_count</code>), <code>literature</code> (<code>concepts</code>, <code>articles</code>) and <code>knowledge_graphs</code> (<code>graphs</code>,
+<code>triples</code>, <code>subjects</code>, <code>objects</code>, <code>predicates</code>, <code>built</code>). Cached for an hour per snapshot.</p>
+<h4 id="get-search-get-nodeid-get-neighborhood"><code>GET /search</code>, <code>GET /node/{id}</code>, <code>GET /neighborhood</code><a class="headerlink" href="#get-search-get-nodeid-get-neighborhood" title="Permanent link">&para;</a></h4>
+<p><code>/search</code> takes <code>q</code> (required), <code>kind</code> (one of <code>concept</code>, <code>disease</code>, <code>food</code>, <code>dataset</code>, <code>llm-benchmark</code>, <code>model</code>,
+<code>specialty</code>, <code>capability</code>) and <code>limit</code> (default 20, at most 100). Matching scores label hits above description hits;
+terms of three characters or fewer must match a whole word; with several terms, at least half must match. Returns
+<code>query</code>, <code>count</code> and <code>results[]</code> of <code>{id, label, kind, summary, modality, url}</code>.</p>
+<p><code>/node/{id}</code> returns the node's public fields (from a fixed whitelist: grounding, MeSH and Wikipedia identifiers,
+description, modality, domain, metric, origin, stage, tokens, documents, access, contamination, training use, and
+so on), <code>url</code>, <code>links</code> grouped by relation (incoming relations suffixed <code>(in)</code>, at most 25 per relation, numeric edge
+values such as <code>value</code> and <code>metric</code> kept), <code>link_count</code>, and an <code>evaluation</code> block for models and evaluated
+benchmarks. Unknown id: 404.</p>
+<p><code>/neighborhood</code> takes <code>ids</code> (comma-separated, at most 12). It returns <code>nodes[]</code> (each with <code>role: seed</code> or <code>link</code>, up
+to 14 links per seed) and <code>edges[]</code> of <code>{from, to, rel}</code>, at most 400.</p>
+<h4 id="get-datasets-and-get-datasetsslug"><code>GET /datasets</code> and <code>GET /datasets/{slug}</code><a class="headerlink" href="#get-datasets-and-get-datasetsslug" title="Permanent link">&para;</a></h4>
+<p><code>/datasets</code> takes <code>q</code>, <code>modality</code> (for example <code>text</code>, <code>imaging-ct</code>, <code>knowledge-graph</code>, <code>structured</code>), <code>access</code>
+(<code>open</code>, <code>public</code>, <code>internal</code>, <code>restricted</code>, <code>credentialed</code>), <code>status</code> (<code>listed</code>, <code>active</code>, <code>measured</code>, <code>on-disk</code>,
+<code>acquiring</code>, <code>building</code>), <code>limit</code> (default 25, at most 200) and <code>offset</code>. Returns <code>count</code> and <code>results[]</code> with <code>slug</code>,
+<code>name</code>, <code>desc</code> (trimmed), <code>modality</code>, <code>license</code>, <code>access</code>, <code>status</code>, <code>dtype</code>, <code>owner</code>, <code>url</code>.</p>
+<p><code>/datasets/{slug}</code> matches a slug or a URN and returns the public record: <code>urn</code>, <code>slug</code>, <code>name</code>, <code>desc</code>, modality
+fields, licence fields, <code>access</code>, <code>status</code>, <code>citation</code>, <code>owner</code>, <code>scale</code>, <code>documents</code>, <code>split_role</code>, <code>stage</code>,
+<code>domain_mix</code>, <code>corpus_membership</code>, <code>grounding</code>, <code>models_trained</code>, <code>artifact_types</code>, <code>linked_nodes</code>,
+<code>used_in_training</code>, <code>caveats</code>, <code>url</code>, and <code>evaluation</code> when the dataset is a scored benchmark. Field meanings are in
+<a href="../../metadata/dataset-registry/">Dataset registry</a>.</p>
+<h4 id="get-literaturenode"><code>GET /literature/{node}</code><a class="headerlink" href="#get-literaturenode" title="Permanent link">&para;</a></h4>
+<p><code>limit</code> default 10, at most 50. Returns <code>node</code>, <code>count</code> (all stored articles) and <code>articles[]</code> with <code>pmid</code>, <code>title</code>,
+<code>journal</code>, <code>date</code>, <code>pubdate</code>, <code>authors</code>, <code>doi</code>. See <a href="../web-site/#node-detail-and-the-literature-feed">the literature feed</a>.</p>
+<h4 id="get-kggraphs"><code>GET /kg/graphs</code><a class="headerlink" href="#get-kggraphs" title="Permanent link">&para;</a></h4>
+<p>No parameters. Returns the store manifest <code>kg_graphs.json</code>: <code>store</code>, <code>built</code>, <code>totals</code> (<code>triples</code>, <code>subjects</code>,
+<code>objects</code>, <code>predicates</code>), <code>note</code>, and <code>graphs[]</code> (<code>name</code>, <code>graph</code> IRI, <code>triples</code>, <code>version</code>, <code>family</code>). The served
+copy at the repository's HEAD describes 44 graphs and 6,994,341,217 triples, built 2026-10-03. See
+<a href="../knowledge-store/">Knowledge store</a>.</p>
+<h4 id="get-teaserpart"><code>GET /teaser/{part}</code><a class="headerlink" href="#get-teaserpart" title="Permanent link">&para;</a></h4>
+<p><code>part</code> is one of <code>xy</code>, <code>color</code>, <code>nodes</code>, <code>edges</code>. Returns the public low-resolution universe geometry as
+<code>application/octet-stream</code>. This route is registered but not listed in <code>openapi.json</code> or <code>tools.json</code>.</p>
+<h2 id="using-the-api-from-a-language-model">Using the API from a language model<a class="headerlink" href="#using-the-api-from-a-language-model" title="Permanent link">&para;</a></h2>
+<p>A client needs only <code>tools.json</code>. Load the tools, call each tool's <code>path</code> with the model's arguments as query
+parameters (substituting path parameters such as <code>{id}</code>), and return the result to the model. Each tool is
+<code>{"type": "function", "path": "/best", "function": {"name", "description", "parameters"}}</code>. The file also carries
+suggested system text:</p>
+<blockquote>
+<p>PanAtlas has measured scores for language, vision, multimodal, tabular and forecasting models. For "which model is
+best" questions call best_models first. Answer only from tool results. Name the benchmark, the score and the best
+baseline. Compare values only within one benchmark. Before saying PanAtlas has nothing on a topic, check
+atlas_overview.</p>
+</blockquote>
+<p>Because clients load tools from <code>tools.json</code> at run time, a new tool reaches them without a change on their side.
+The first external client works this way, with a one-hour cache (<code>docs/public-api.md</code>).</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span><span class="s1">'https://panatlas.net/wp-json/panatlas/public/v1/best?task=pathology%20encoders&amp;limit=3'</span>
+curl<span class="w"> </span>-s<span class="w"> </span><span class="s1">'https://panatlas.net/wp-json/panatlas/public/v1/search?q=cardiology&amp;kind=specialty'</span>
+curl<span class="w"> </span>-s<span class="w"> </span><span class="s1">'https://panatlas.net/wp-json/panatlas/public/v1/overview'</span>
+</code></pre></div>
+<h2 id="where-the-data-comes-from">Where the data comes from<a class="headerlink" href="#where-the-data-comes-from" title="Permanent link">&para;</a></h2>
+<p>The API reads the snapshot files in the plugin's <code>data/</code> directory, rebuilt by the <a href="../build-pipeline/">build pipeline</a>:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Built by</th>
+<th>Feeds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>evals_index.json</code></td>
+<td><code>web/build_evals_index.py</code> from <code>benchmarks_llm.json</code>, <code>full_eval.json</code>, <code>mm_evals.json</code>, <code>predictor_evals.json</code>, <code>models.json</code></td>
+<td>Every evaluation route, the <code>evaluation</code> blocks on nodes and datasets, <code>/stats</code> model counts</td>
+</tr>
+<tr>
+<td><code>graph.json</code></td>
+<td>Graph builders and <code>build_all.sh</code></td>
+<td><code>/search</code>, <code>/node</code>, <code>/neighborhood</code>, <code>/stats</code></td>
+</tr>
+<tr>
+<td><code>datasets.json</code></td>
+<td><code>sync_catalog.py</code></td>
+<td><code>/datasets</code>, <code>/stats</code></td>
+</tr>
+<tr>
+<td><code>benchmarks_llm.json</code>, <code>mm_evals.json</code></td>
+<td>Benchmark builders, <code>build_patho_evals.py</code>, cluster ingest</td>
+<td><code>/benchmarks/{id}</code> catalog fields, <code>/stats</code></td>
+</tr>
+<tr>
+<td><code>kg_graphs.json</code></td>
+<td>The SPARQL store build</td>
+<td><code>/kg/graphs</code>, <code>/stats</code></td>
+</tr>
+<tr>
+<td>Literature files</td>
+<td>Nightly feed on the web host</td>
+<td><code>/literature</code>, <code>/stats</code></td>
+</tr>
+</tbody>
+</table>
+<p>The evaluation records themselves are described in <a href="../../metadata/evaluation-records/">Evaluation records</a> and
+<a href="../../metadata/benchmarks/">Benchmarks</a>.</p>
+<h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>1.1.1 (2026-10-31).</strong> <code>best_models</code> leads with a task that holds every specific word of the question
+  (<code>answer_from</code>); a word in a task's name outranks one in its description; pathology and radiology foundation models
+  read as image encoders. <code>compare_models</code> covers held-out models, adds <code>head_to_head</code> on tasks both finished, and
+  uses <code>published_leaderboard</code> rows for methods without a run of panAtlas's own, kept apart from scores and counts.
+  <code>/models</code> and <code>/stats</code> explain their counts. <code>/best</code> accepts <code>q</code> or <code>question</code>.</li>
+<li><strong>1.1.0 (2026-10-31).</strong> Every evaluation for every model type through one set of routes. New tools <code>best_models</code>,
+  <code>atlas_overview</code>, <code>task_scores</code>, <code>query_scores</code>. Corrected scores that a substring join had attached to the wrong
+  language benchmarks since 2026-08-05.</li>
+<li><strong>1.0.0 (2026-10-25).</strong> First public release.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2236 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+      
+      
+      
+        <link rel="canonical" href="https://thepanatlas.github.io/docs/distributed/federation/">
+      
+      
+        <link rel="prev" href="../cresco/">
+      
+      
+        <link rel="next" href="../dataset-managers/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Federation model - panAtlas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#federation-model" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="panAtlas" class="md-header__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            panAtlas
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Federation model
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/purpose/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Distributed system
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../metadata/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Metadata
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../system/build-pipeline/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/repository-map/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="panAtlas" class="md-nav__button md-logo" aria-label="panAtlas" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    panAtlas
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThePanAtlas/docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ThePanAtlas/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/purpose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Purpose and principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed system
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Distributed system
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cresco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cresco for panAtlas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federation model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#join-keys-the-ontology-is-the-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Join keys: the ontology is the protocol
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#substrate-and-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Substrate and connectivity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-model-space-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The model-space rule
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-tiers-and-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust tiers and status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-crosses-the-wire" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What crosses the wire
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-hub-merges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the hub merges
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#two-report-shapes-on-the-federation-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two report shapes on the federation path
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#designed-not-built" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Designed, not built
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-this-is-going" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where this is going
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Participating agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wire contract and schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage on GaiaKeep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../metadata/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/identifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/dataset-registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/manifests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manifests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/acquisition-and-licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acquisition and licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/document-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/graph-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/evaluation-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/models-and-curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models and curriculum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/rdf-vocabulary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDF vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metadata/codesystems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/build-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/knowledge-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge store (SPARQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/acquisition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/web-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/public-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/astral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/repository-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#join-keys-the-ontology-is-the-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Join keys: the ontology is the protocol
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#substrate-and-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Substrate and connectivity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-model-space-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The model-space rule
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-tiers-and-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust tiers and status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-crosses-the-wire" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What crosses the wire
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-hub-merges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the hub merges
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#two-report-shapes-on-the-federation-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two report shapes on the federation path
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#designed-not-built" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Designed, not built
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-this-is-going" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where this is going
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="federation-model">Federation model<a class="headerlink" href="#federation-model" title="Permanent link">&para;</a></h1>
+<p>Federation is how independent sites contribute to <strong>one</strong> canonical panAtlas without giving up their data. The
+design decisions were locked on 2026-07-29 (<code>FEDERATION.md</code>):</p>
+<ul>
+<li><strong>Hub-and-spoke</strong> topology: one canonical hub (panatlas.net), many agents.</li>
+<li><strong>Structure and metadata only</strong>: no raw documents, no protected health information.</li>
+<li><strong>Tiered trust</strong>: trusted agents are visible on arrival, provisional agents are queued as claims.</li>
+<li><strong>Cresco</strong> as the base framework, with the reporter written as a native Cresco plugin.</li>
+</ul>
+<h2 id="join-keys-the-ontology-is-the-protocol">Join keys: the ontology is the protocol<a class="headerlink" href="#join-keys-the-ontology-is-the-protocol" title="Permanent link">&para;</a></h2>
+<p>Every grounded panAtlas node carries a <strong>canonical ontology identifier</strong> such as <code>mesh:D051436</code>, a FHIR code, a
+ChEBI or FoodOn identifier. Those identifiers are the <strong>join keys</strong> of federation. Two agents that both emit
+<code>mesh:D051436</code> are provably describing the same concept, so their contributions merge with no reconciliation step.</p>
+<p>A node with no canonical identifier is <strong>ungrounded</strong>. It carries a <code>local_id</code>, is namespaced to its agent, and
+never enters the MeSH medical tree. See <a href="../../metadata/identifiers/">Identifiers</a> and
+<a href="../../metadata/codesystems/">Code systems</a> for the identifier schemes.</p>
+<h2 id="substrate-and-connectivity">Substrate and connectivity<a class="headerlink" href="#substrate-and-connectivity" title="Permanent link">&para;</a></h2>
+<p>Two kinds of contribution are kept apart throughout (<code>LAYERS.md</code>, <code>agent-deployment/CONNECTING.md</code>):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Substrate</th>
+<th>Connectivity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What</td>
+<td>Entity <strong>identity</strong>: grounded nodes keyed by <code>canonical_id</code></td>
+<td><strong>Relationships</strong>: edges between nodes</td>
+</tr>
+<tr>
+<td>How it merges</td>
+<td>By identity. An existing entity is deduplicated and never duplicated</td>
+<td>As <strong>attributed claims</strong> layered on top, each edge carrying <code>reported_by</code></td>
+</tr>
+<tr>
+<td>Conflicts</td>
+<td>Base identity and label win</td>
+<td>Conflicting claims are kept side by side, never overwritten</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-model-space-rule">The model-space rule<a class="headerlink" href="#the-model-space-rule" title="Permanent link">&para;</a></h2>
+<p>Embeddings are comparable <strong>only within one registered <code>(modality, model, version)</code> space</strong>. Dimension equality is
+not enough; the model identifier is the real guard. Relations across models or modalities go through shared
+grounding (<code>canonical_id</code>), <strong>never</strong> through cosine similarity across spaces.</p>
+<ul>
+<li>The hub's model registry (<code>web/models.json</code>) lists the registered model or models per modality, each with its
+  anchors and its cutoff. Fields are in <a href="../contract/#model-registry-modelsjson">Wire contract</a>.</li>
+<li>The attach step (<code>web/embed_attach.py</code>) refuses to attach embeddings whose declared model differs from the
+  anchors' model (<code>MODEL-SPACE MISMATCH</code>), and raises on a dimension mismatch.</li>
+<li>A stream declared with a model the registry does not know for that modality has its edges <strong>quarantined</strong> at the
+  hub. The grounded identifiers still merge.</li>
+<li>Each site uses the <strong>most specific</strong> registered model that applies to a stream (a specialised encoder where one
+  exists, else the modality's general model) and records it.</li>
+</ul>
+<h2 id="trust-tiers-and-status">Trust tiers and status<a class="headerlink" href="#trust-tiers-and-status" title="Permanent link">&para;</a></h2>
+<p>Cresco decides whether a node may join the mesh. panAtlas decides whether its claims may enter the atlas. Two
+independent fields on the agent profile control that:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Values</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tier</code></td>
+<td><code>trusted</code></td>
+<td>Contributions merge into the <strong>visible</strong> graph immediately, attributed to the agent</td>
+</tr>
+<tr>
+<td></td>
+<td><code>provisional</code> (default)</td>
+<td>Contributions land as <code>federation_status: pending</code>: hidden by default, held for a curator. A provisional agent can never add a new node to the MeSH tree without a valid <code>canonical_id</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>pending</code> (on registration)</td>
+<td>Registered but not permitted. Nothing merges</td>
+</tr>
+<tr>
+<td></td>
+<td><code>active</code></td>
+<td>Permitted. <strong>Only active agents contribute</strong></td>
+</tr>
+<tr>
+<td></td>
+<td><code>suspended</code>, <code>revoked</code></td>
+<td>Contributions stop merging at once</td>
+</tr>
+</tbody>
+</table>
+<p>An agent missing from the registry is treated as <strong>provisional and pending</strong>, so nothing it sends merges. Admins set
+tier and status in the <strong>federation admin portal</strong> on the site (see <a href="../agents/#the-admin-portal">Participating agents</a>).</p>
+<h2 id="what-crosses-the-wire">What crosses the wire<a class="headerlink" href="#what-crosses-the-wire" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Crosses</th>
+<th>Never crosses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dataset descriptor (URN, name, modality, item and file counts, <code>manifest_hash</code>, access tier)</td>
+<td>Documents, report text, abstracts</td>
+</tr>
+<tr>
+<td>Grounded canonical identifiers and labels (labels capped at 200 characters)</td>
+<td>Pixels, volumes, signals</td>
+</tr>
+<tr>
+<td>Edges (<code>from</code>, <code>to</code>, <code>rel</code>) and numeric or enumerated <code>claims</code></td>
+<td>Embeddings</td>
+</tr>
+<tr>
+<td>Model stamps (<code>model@version</code>) and similarity scores on attach edges</td>
+<td>Anything under a data use agreement, PHI or licence-restricted content</td>
+</tr>
+<tr>
+<td><code>content_hash</code>, <code>graph_version</code>, <code>agent_id</code></td>
+<td>Credentials (a join secret stays with the site; a token is shown once at minting)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Enforcement, defence in depth.</strong> These field names are rejected <strong>anywhere</strong> in a payload, at any depth:
+<code>text</code>, <code>body</code>, <code>raw</code>, <code>content</code>, <code>document</code>, <code>excerpt</code>, <code>abstract</code>. The check runs in four places:</p>
+<ol>
+<li><code>web/build_dataset_reports.py</code> refuses to write such a report;</li>
+<li>the local agent (<code>pa_local_agent.py</code>) refuses to emit one;</li>
+<li>the <code>cresco-panatlas</code> plugin (<code>GraphReporter.assertStructureOnly</code>) refuses to serve one and reports an error;</li>
+<li>the validator <code>web/federation/pa_agent.py</code> refuses to submit one.</li>
+</ol>
+<p><code>claims</code> values are restricted to numbers, strings and booleans by <code>report.schema.json</code>.</p>
+<h2 id="how-the-hub-merges">How the hub merges<a class="headerlink" href="#how-the-hub-merges" title="Permanent link">&para;</a></h2>
+<p>The hub-side merge is <code>web/federation/merge_reports.py</code>. It reads the current <code>graph.json</code>, a directory of agent
+reports and the agent registry, and writes <code>merged_federation.json</code>: the <strong>new</strong> nodes and edges to add, each
+attributed and tier-gated. <code>web/build_layered.py</code> then folds in the <strong>visible</strong> ones when it compiles the graph.</p>
+<pre class="mermaid"><code>flowchart TD
+  R[agent report] --&gt; S{agent status&lt;br/&gt;== active?}
+  S -- no --&gt; X[rejected_not_active&lt;br/&gt;nothing merges]
+  S -- yes --&gt; T{tier}
+  T -- trusted --&gt; V[federation_status = visible]
+  T -- provisional --&gt; P[federation_status = pending]
+  V &amp; P --&gt; N{node canonical_id&lt;br/&gt;already in graph?}
+  N -- yes --&gt; E[matched_existing:&lt;br/&gt;no new node, edges attach]
+  N -- no, grounded --&gt; F["create fed:&amp;lt;canonical_id&amp;gt;"]
+  N -- no, ungrounded --&gt; L["create fed:&amp;lt;agent&amp;gt;:&amp;lt;local_id&amp;gt;"]</code></pre>
+<p>The rules, as <code>merge_reports.py</code> implements them:</p>
+<ol>
+<li><strong>Gate.</strong> A report from an agent whose <code>status</code> is not <code>active</code> contributes nothing
+   (<code>stats.rejected_not_active</code>).</li>
+<li><strong>Resolve each identifier</strong> in this order: an existing graph node <code>id</code> → that node; an existing <code>canonical_id</code> →
+   the node that carries it; otherwise <code>fed:&lt;agent_id&gt;:&lt;id&gt;</code>, namespaced to the agent.</li>
+<li><strong>Nodes.</strong> A node whose <code>canonical_id</code> is already in the graph is an existing entity (<code>matched_existing</code>): its
+   edges attach and no duplicate is created. A new grounded node becomes <code>fed:&lt;canonical_id&gt;</code>. A new ungrounded node
+   is namespaced to the agent. New nodes carry <code>federation_status</code>, <code>reported_by: [agent]</code> and
+   <code>origin: "federation"</code>. <code>grounding</code> is set to <code>mesh</code> when the identifier starts with <code>mesh:</code>.</li>
+<li><strong>Edge endpoints.</strong> An endpoint that resolves to a <code>fed:</code> identifier with no node gets a minimal node (kind
+   <code>cluster</code> for <code>local:</code> identifiers, else <code>concept</code>).</li>
+<li><strong>Edges</strong> are deduplicated on <code>(from, to, rel)</code>. An edge already in the base graph is dropped (<code>dup_edges</code>). When
+   several agents report the same new edge, the edge keeps one record and <code>reported_by</code> lists every agent. Only
+   <code>cosine</code> and <code>model</code> survive from an edge's <code>claims</code>, as <code>evidence</code>.</li>
+<li><strong>Visibility.</strong> <code>build_layered.py</code> adds only <code>federation_status == "visible"</code> nodes and edges to the served graph
+   and records the counts as <code>federation.visible_nodes</code> and <code>federation.visible_edges</code> in the build stats. Pending
+   claims stay in <code>merged_federation.json</code> for curator review.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Design versus code: <code>claims_by_agent</code></p>
+<p><code>FEDERATION.md</code> §5 says each agent's <code>claims{}</code> attach to the merged node as <code>claims_by_agent[agent_id]</code>. The
+merge code does <strong>not</strong> carry node claims. It records attribution (<code>reported_by</code>) and keeps only <code>cosine</code> and
+<code>model</code> from edge claims. Node-level claims from agents are currently dropped at merge.</p>
+</div>
+<h2 id="two-report-shapes-on-the-federation-path">Two report shapes on the federation path<a class="headerlink" href="#two-report-shapes-on-the-federation-path" title="Permanent link">&para;</a></h2>
+<p>Two producers emit reports in <strong>different shapes</strong>. Both pass through the same plugin.</p>
+<table>
+<thead>
+<tr>
+<th>Producer</th>
+<th>Node keys</th>
+<th>Edge keys</th>
+<th>Validates against <code>report.schema.json</code>?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Participating agents (<code>pa_local_agent.py</code>, own pipelines)</td>
+<td><code>canonical_id</code> or <code>local_id</code>, <code>kind</code>, <code>label</code>, <code>grounding</code>, <code>host</code>, <code>claims</code></td>
+<td><code>from</code>, <code>to</code>, <code>rel</code>, <code>claims</code></td>
+<td>Yes, the intended shape. The local agent omits <code>reported_at</code>, which the schema requires, so the validator adds it at submission</td>
+</tr>
+<tr>
+<td>Dataset managers (<code>build_dataset_reports.py</code>)</td>
+<td><code>id</code>, <code>type</code>, <code>label</code>, <code>modality</code>, <code>host</code>, <code>access</code>, <code>item_count</code>, <code>file_count</code>, <code>manifest_hash</code></td>
+<td><code>source</code>, <code>target</code>, <code>rel</code></td>
+<td><strong>No.</strong> The hub reads these directly (<code>mesh_daemon.py</code> looks for <code>type == "dataset"</code>). They are not passed through <code>merge_reports.py</code></td>
+</tr>
+</tbody>
+</table>
+<p><a href="../contract/">Wire contract</a> documents both shapes field by field.</p>
+<h2 id="designed-not-built">Designed, not built<a class="headerlink" href="#designed-not-built" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Where designed</th>
+<th>State at repo HEAD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST /panatlas/v1/federate</code> (HTTP snapshot submission with a bearer token)</td>
+<td><code>FEDERATION.md</code> §3, §6; <code>pa_agent.py --submit</code></td>
+<td><strong>Not built.</strong> The site registers only <code>/federate/agents</code>, <code>/federate/agents/register</code> and <code>/federate/agents/update</code>. Reports reach the hub by <strong>MsgEvent pull</strong> instead</td>
+</tr>
+<tr>
+<td>Push change notifications on a <code>panatlas.graph</code> data-plane topic</td>
+<td><code>DATASET-MANAGERS.md</code></td>
+<td><strong>Not built.</strong> The plugin has no publisher. The hub polls every manager every 15 s, and <code>since_hash</code> lets a manager skip an unchanged report</td>
+</tr>
+<tr>
+<td><code>filerepo</code> transport for reports</td>
+<td><code>DATASET-MANAGERS.md</code></td>
+<td><strong>Built, then withdrawn</strong> (2026-07-31) after it took the cluster agent down. See <a href="../operations/#a-second-filerepo-bundle">Operations</a></td>
+</tr>
+<tr>
+<td>Curator review queue UI for pending claims</td>
+<td><code>FEDERATION.md</code> Phase 2</td>
+<td>Not built. Pending claims are held in <code>merged_federation.json</code></td>
+</tr>
+<tr>
+<td>Signed reports, delta reports, consume-back, hub-to-hub peering</td>
+<td><code>FEDERATION.md</code> Phase 3</td>
+<td>Not built</td>
+</tr>
+<tr>
+<td>Raw-data transfer between trusted nodes</td>
+<td><code>cresco-panatlas</code> README</td>
+<td>Designed as a separate, explicit path over <code>filerepo</code> and the data plane, gated by tenant and tier. Never part of a report. Not built</td>
+</tr>
+</tbody>
+</table>
+<h2 id="where-this-is-going">Where this is going<a class="headerlink" href="#where-this-is-going" title="Permanent link">&para;</a></h2>
+<p>The direction (owner, 2026-10-08 and 2026-10-25) is that remote panAtlas instances and computational resources are
+<strong>peers on the same mesh</strong>. A dataset registered at any site, through the manager beside it, is known and linked
+everywhere while it stays at the site under its owner's control. The pieces that exist today, a manager per
+dataset, a global rollup and attributed merge by canonical identifier, are what that rests on. Peering between hubs
+is the Phase 3 item above.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
