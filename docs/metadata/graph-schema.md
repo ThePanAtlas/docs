@@ -440,9 +440,10 @@ verb phrases; node ids are lower case, prefixed by kind (`concept-`, `bench-`, `
     a `verified_by` attribute. Provenance is carried instead by `src` (5,715 edges), `via` (437),
     `basis` (216) and, for measured edges, `n_docs`, `n`, `sim` and `acc`. 10,863 edges carry
     none of `src`, `via` or `basis`. On nodes, provenance is the free-text `source` and `built_by`
-    fields. The `origin`/`evidence` contract applies today to edges produced by the attach process
-    (`embed_attach.py`, see [Knowledge layers](../concepts/layers.md)), which are not in the served
-    graph.
+    fields. The closest implementation of the contract is in the attach process (`embed_attach.py`
+    and the local agent report, see [Knowledge layers](../concepts/layers.md)), which writes one
+    nested attribute, `claims: {origin: "embedding", model, version, cosine, canonical_id}`, on its
+    `classified_as` edges. Those edges are federation reports and are not in the served graph.
 
 ## Other graph files in the repository
 
