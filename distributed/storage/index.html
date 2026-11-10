@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -1809,15 +1809,27 @@
 
 
 <h1 id="storage-on-gaiakeep">Storage on GaiaKeep<a class="headerlink" href="#storage-on-gaiakeep" title="Permanent link">&para;</a></h1>
-<p><a href="https://gaiakeep.github.io/docs/">GaiaKeep</a> is the global file system for agents built on the same Cresco mesh:
-versioned, erasure-coded, encrypted storage of raw blocks across memory, NVMe, disk and tape. panAtlas is one of its
-primary intended users. GaiaKeep's documentation has a page on this binding:
-<a href="https://gaiakeep.github.io/docs/concepts/panatlas/">GaiaKeep: panAtlas</a>. This page summarises it from the panAtlas
-side.</p>
+<p><a href="https://gaiakeep.github.io/docs/">GaiaKeep</a> (GaiaKeep GFS) is a global file system built for agents, running over
+the same <a href="https://crescoedge.github.io/docs/">Cresco</a> mesh. Its job is to keep versioned datasets durable and to stream
+any version wherever it is needed. Its durable tier encrypts blocks at the origin and places them across
+independent sites, on memory, NVMe, disk or tape. Durability is chosen per dataset: erasure coding (<code>ec:2+1</code>, the
+default for new collections), full replicas, or a single copy for scratch and cache data
+(<a href="https://gaiakeep.github.io/docs/concepts/durability/">Durability and redundancy</a>). A separate live tier near
+compute holds committed versions as unencrypted native files and never counts toward durability
+(<a href="https://gaiakeep.github.io/docs/concepts/live-tier/">The live tier</a>). Release 1.3 of its storage core shipped on
+2026-10-01 (<a href="https://gaiakeep.github.io/docs/built/status/">Status at a glance</a>).</p>
+<p>GaiaKeep's first real use is as panAtlas's durable backend, with versioned, append-based ingest: add datasets,
+append versions, retrieve (question P1 in GaiaKeep's
+<a href="https://gaiakeep.github.io/docs/roadmap/open-questions/">open questions</a>, answered 2026-10-02). GaiaKeep's
+documentation has a page on this binding, <a href="https://gaiakeep.github.io/docs/concepts/panatlas/">GaiaKeep: panAtlas</a>.
+This page summarises it from the panAtlas side. GaiaKeep is the authority on how GaiaKeep works.</p>
 <div class="admonition note">
 <p class="admonition-title">Status</p>
-<p>The binding is <strong>measured and designed</strong>. The panAtlas index has not been stored in GaiaKeep yet. It is named
-there as a strong first real dataset.</p>
+<p>GaiaKeep's core is <strong>built and tested</strong>; the panAtlas binding is <strong>measured and designed</strong>. The panAtlas index has
+not been stored in GaiaKeep yet. GaiaKeep's answer on its first real data (P2, 2026-10-02) is no single hero
+dataset: several test fixtures of different sizes and shapes, with the panAtlas index among the candidates. It
+is a strong candidate because it is small, its sizes are measured, and it exercises identity, versioning and the
+identifier rules without needing tape.</p>
 </div>
 <h2 id="the-index-is-a-dataset">The index is a dataset<a class="headerlink" href="#the-index-is-a-dataset" title="Permanent link">&para;</a></h2>
 <p>Measured on 2026-09-19 on the HPC cluster:</p>
@@ -1854,18 +1866,31 @@ structures, which would be 254 times larger per cartridge. <a href="../../metada
 schemas.</p>
 <h2 id="identifiers-and-write-once-media">Identifiers and write-once media<a class="headerlink" href="#identifiers-and-write-once-media" title="Permanent link">&para;</a></h2>
 <p>panAtlas identifies documents by <code>doc_uid = blake2b(raw_text, 16 bytes)</code>, an <strong>unkeyed</strong> content hash. That is what
-makes 200 million documents traceable across corpus versions and checkable for training contamination. It also means
-that anyone holding a candidate document can confirm whether it is in the corpus.</p>
-<p>On write-once media that confirmation would last forever. GaiaKeep's rule: a field on unerasable media is allowed
-only if an adversary holding a candidate plaintext, and no key, cannot reproduce it. All three panAtlas identifier
-classes fail that test (<code>doc_uid</code>, <code>manifest_hash</code>, and <code>doc_ids_e8_order.txt</code>, which is 2.54 GB of nothing but
-content hashes). They are therefore <strong>payload only</strong>: allowed inside encrypted objects, never in on-media
-structures. A keyed form, <code>HMAC(K_idx, doc_uid)</code>, passes the rule but gives up cross-version joinability.</p>
+makes the 200,497,968 documents of the pretraining-ledger crosswalk traceable across corpus versions and checkable for
+training contamination (<a href="../../metadata/document-index/">Document index</a>). It also means that anyone holding a
+candidate document can confirm whether it is in the corpus: in GaiaKeep's terms, the hash is a <strong>confirmation oracle</strong>.</p>
+<p>On write-once media that confirmation would last forever. In GaiaKeep's design of record (§19.3 of its
+specification), a field on unerasable media is allowed only if an adversary holding a candidate plaintext, and no
+key, cannot reproduce it. All three panAtlas identifier classes fail that test (<code>doc_uid</code>, <code>manifest_hash</code>, and
+<code>doc_ids_e8_order.txt</code>, which is 2.54 GB of nothing but content hashes). They are therefore <strong>payload only</strong>:
+allowed inside encrypted objects, never in on-media structures. A keyed form, <code>HMAC(K_idx, doc_uid)</code>, passes the rule
+but gives up cross-version joinability.</p>
+<p>That rule is not absolute. Under the deduplication model built in GaiaKeep 1.3 it became <strong>per-mode policy</strong>
+(GaiaKeep decision log, 2026-09-19, "Becomes policy"): it is mandatory in every dedup mode except <code>GLOBAL</code>, where the
+plain content hash is the public block id. Public literature, most of today's text corpus, could therefore sit in the
+<code>GLOBAL</code> mode with plain content hashes; protected clinical data could not
+(<a href="https://gaiakeep.github.io/docs/concepts/tenancy-and-dedup/">Tenants, collections and deduplication</a>,
+<a href="https://gaiakeep.github.io/docs/roadmap/decisions/">Decision log</a>).</p>
+<p>GaiaKeep mints its own identifiers and dataset namespace. A panAtlas URN is not a GaiaKeep dataset name; the
+crosswalk from URN and <code>manifest_hash</code> to a GaiaKeep version is a panAtlas service, not a storage-layer dependency
+(GaiaKeep questions X1 and X6, answered 2026-10-02).</p>
 <div class="admonition danger">
 <p class="admonition-title">Decide before the imaging overlap job runs</p>
 <p>The exact-overlap contamination check has so far run only on text: 16 benchmarks, all text. When the imaging
-version runs, the same unkeyed hash will be computed over protected health information. Whether to key it has
-to be decided first.</p>
+version runs, the same unkeyed hash will be computed over protected health information. GaiaKeep's side is
+settled: its question X1 was answered on 2026-10-02, and GaiaKeep mints its own identifiers and never relies on
+external keys. Whether to key <code>doc_uid</code>, which would break the cross-version crosswalk at every key rotation, is
+panAtlas's decision, and it has to be made before that job runs.</p>
 </div>
 <h2 id="withdrawal">Withdrawal<a class="headerlink" href="#withdrawal" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1876,10 +1901,13 @@ to be decided first.</p>
   lexicon v5.3). The cost of a recompute has <strong>not been measured</strong>; the exhaustive nearest-neighbour search is the
   expensive part.</li>
 </ul>
+<p>What a redaction domain is for panAtlas data, and whether recompute is affordable, are open (GaiaKeep questions X3
+to X5).</p>
 <h2 id="why-the-shared-mesh-matters-here">Why the shared mesh matters here<a class="headerlink" href="#why-the-shared-mesh-matters-here" title="Permanent link">&para;</a></h2>
 <p>The mesh that carries the dataset managers also carries GaiaKeep. A site that joins Cresco can contribute
 compute, storage and datasets through one identity, one trust model and one tenancy boundary. The atlas then
-records where each dataset and each copy lives, by URN and <code>manifest_hash</code>, without moving the data.</p>
+records where each dataset and each copy lives, by URN and <code>manifest_hash</code> (crosswalked to GaiaKeep's own version
+names), without moving the data.</p>
 
 
 
@@ -1913,6 +1941,10 @@ records where each dataset and each copy lives, by URN and <code>manifest_hash</
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

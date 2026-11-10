@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -1674,8 +1674,9 @@
 
 
 <h1 id="glossary">Glossary<a class="headerlink" href="#glossary" title="Permanent link">&para;</a></h1>
-<p><strong>Agent (Cresco).</strong> A leaf node of the Cresco mesh: a JVM running the OSGi host and plugins, attached to its
-region's broker. Its identity is <code>region_agent</code>.</p>
+<p><strong>Agent (Cresco).</strong> A leaf node of the Cresco mesh: a JVM running the OSGi host and plugins, attached as a client to
+its region's broker. Messages address it as <code>region_agent</code>; its identity is its certificate subject
+(<code>CN=&lt;agent&gt;, OU=&lt;region&gt;, O=&lt;tenant&gt;</code>). See <a href="https://crescoedge.github.io/docs/reference/glossary/">Cresco's glossary</a>.</p>
 <p><strong>Agent (panAtlas).</strong> Anything that contributes to the atlas under its own identity: a participating Cresco node, a
 dataset manager, or a knowledge-graph agent that mirrors one external graph.</p>
 <p><strong>Agent profile.</strong> The panAtlas overlay on a Cresco identity: display name, owner, institution, purpose, tier and
@@ -1689,25 +1690,37 @@ federation.</p>
 <p><strong>Connectivity.</strong> Relationships (edges), recorded as attributed claims. Contrast with substrate.</p>
 <p><strong><code>content_hash</code>.</strong> SHA-256 over a report's nodes and edges, used for change detection. Not comparable across
 producers; see <a href="../../distributed/agents/#what-the-reporter-does-on-each-call">Participating agents</a>.</p>
-<p><strong>Cresco.</strong> The hierarchical, secure, multi-tenant agent mesh (<code>global → region → agent</code>) that panAtlas runs on.
-<a href="https://crescoedge.github.io/docs/">Documentation</a>.</p>
+<p><strong>Cresco.</strong> The hierarchical, secure, multi-tenant distributed agent mesh (<code>global → region → agent</code>) that panAtlas
+runs on. Secure by default since its 1.3 hardening. <a href="https://crescoedge.github.io/docs/">Documentation</a>.</p>
 <p><strong>Curriculum.</strong> A model's ordered training stages, each answering: what data, when, which system, which
 configuration, which codebase. See <a href="../../metadata/models-and-curriculum/">Models and curriculum</a>.</p>
 <p><strong>Dataset manager.</strong> The <code>cresco-panatlas</code> plugin instance responsible for one dataset, running on the agent at the
 dataset's site.</p>
 <p><strong><code>doc_uid</code>.</strong> <code>blake2b(raw_text, 16 bytes)</code>: the unkeyed content identity of a document.</p>
+<p><strong>Domain.</strong> A field of knowledge the atlas maps, such as medicine, food and nutrition, or general knowledge. panAtlas
+covers every domain; medicine is where its holdings run deepest today. In the served graph the top-level domains are
+<code>domain</code> nodes under <code>atlas-root</code>. Not the same as an evaluation domain (<code>eval-domain</code>), which classifies benchmarks.
+See <a href="../../concepts/purpose/">Purpose and principles</a>.</p>
 <p><strong>Federation status.</strong> <code>visible</code> (merged and shown) or <code>pending</code> (held for a curator), set by the reporting agent's
 tier.</p>
-<p><strong>GaiaKeep.</strong> The global file system for agents, built on the same mesh. <a href="https://gaiakeep.github.io/docs/">Documentation</a>.</p>
-<p><strong>Global controller.</strong> The root of the panAtlas Cresco region, where inventories roll up and clients connect.</p>
+<p><strong>GaiaKeep.</strong> A global file system built for agents, running on the same Cresco mesh: versioned datasets, kept
+durable and streamed wherever they are needed. The intended durable backend for panAtlas.
+<a href="https://gaiakeep.github.io/docs/">Documentation</a>; see <a href="../../distributed/storage/">Storage on GaiaKeep</a>.</p>
+<p><strong>Global controller.</strong> The root of the panAtlas Cresco region, where inventories roll up and through which the hub's
+calls to managers are routed. In panAtlas's configuration the hub's client connects to the web host agent's wsapi,
+not to the global's.</p>
 <p><strong>Grounding.</strong> Tying a node to a canonical vocabulary identifier. Ungrounded nodes stay private to their agent.</p>
 <p><strong>Hub.</strong> The panatlas.net side of federation: it pulls reports, merges permitted contributions and serves the graph.</p>
+<p><strong>Join secret.</strong> Cresco's per-tier discovery secret (<code>discovery_secret_agent</code>, <code>_region</code>, <code>_global</code>) that admits a
+node to the mesh in the standard security profile; the production profile uses the operator's PKI instead.
+See <a href="https://crescoedge.github.io/docs/architecture/discovery/">Discovery</a>.</p>
 <p><strong><code>manifest_hash</code>.</strong> SHA-256 over a dataset's canonical sorted inventory of <code>(relpath, size, mtime)</code>. It detects
 moves, growth and edits. It does not hash content.</p>
 <p><strong>Mesh view.</strong> The site's live view of Cresco nodes, links and the datasets each node hosts, drawn from <code>mesh.json</code>.</p>
 <p><strong>Model space.</strong> One registered <code>(modality, model, version)</code>. Embeddings compare only within one space.</p>
-<p><strong>MsgEvent.</strong> Cresco's control-plane message. Manager calls (<code>getgraphmanifest</code>, <code>getgraphinventory</code>) are MsgEvent
-<code>EXEC</code> messages.</p>
+<p><strong>MsgEvent.</strong> Cresco's control-plane message. Under Cresco 1.3's secure defaults each one is authenticated end to
+end by its origin and bound to its recipient. Manager calls (<code>getgraphmanifest</code>, <code>getgraphinventory</code>) are MsgEvent <code>EXEC</code> messages.
+See <a href="https://crescoedge.github.io/docs/api/msgevent/">MsgEvent</a>.</p>
 <p><strong>pycrescolib.</strong> Cresco's Python client library, used by the hub to list, deploy and call managers.</p>
 <p><strong>Source of record.</strong> The graph that maintains a node or triple. panAtlas curates only what it is the source of
 record for.</p>
@@ -1751,6 +1764,10 @@ depth.</p>
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

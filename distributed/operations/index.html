@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -2033,7 +2033,9 @@
 <h1 id="operations">Operations<a class="headerlink" href="#operations" title="Permanent link">&para;</a></h1>
 <p>How the two panAtlas Cresco agents are supervised, what has gone wrong, and how to recover. Every guard on this page
 exists because of a specific outage. Sources: <code>web/mesh/deploy/</code> (units, scripts, README) and the dated incident
-records.</p>
+records. This page covers panAtlas's own deployment; Cresco's refusals and their fixes (start-up, message-signature,
+discovery and dataplane problems) are in <a href="https://crescoedge.github.io/docs/operations/troubleshooting/">Cresco troubleshooting</a>,
+and Cresco's deployment guidance in <a href="https://crescoedge.github.io/docs/operations/deployment/">Deployment</a>.</p>
 <h2 id="standing-rules">Standing rules<a class="headerlink" href="#standing-rules" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Nothing heavy runs on the HPC cluster login node.</strong> The cluster agent runs there under the user's own systemd,
@@ -2138,8 +2140,8 @@ the single system bundle. Supervision moved from cron to systemd.</p>
 <p><strong>When:</strong> 2026-09-10 and overnight 2026-09-16/17. <strong>Symptom:</strong> the agent JVM stays alive and its health check
 keeps printing <code>OK</code>, but the controller database will not boot ("Another instance of Derby may have already booted
 the database"). The agent drops off the mesh and its managers are not restored (21 of 33 came back on 2026-09-17).</p>
-<p><strong>Cause:</strong> the controller's Derby database sits on a shared parallel filesystem. After an unclean JVM exit, the next
-start finds <code>db.lck</code> and <code>dbex.lck</code> and refuses to boot.</p>
+<p><strong>Cause:</strong> the controller's Derby database (under <code>cresco-data/</code> in the agent's working directory) sits on a shared
+parallel filesystem. After an unclean JVM exit, the next start finds <code>db.lck</code> and <code>dbex.lck</code> and refuses to boot.</p>
 <p><strong>Guard:</strong> <code>ExecStartPre</code> removes both lock files. systemd runs it only after the previous main process is gone, so
 no live instance can hold them. The 5-minute watchdog restarts the agent once per 30-minute cooldown when Derby
 errors reappear, and logs to <code>cresco/watchdog.log</code>.</p>
@@ -2228,6 +2230,10 @@ daemon, with a one-hour cooldown.</p>
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

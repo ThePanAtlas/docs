@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -794,10 +794,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#version" class="md-nav__link">
+  <a href="#version-and-security-build" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Version
+        Version and security build
       
     </span>
   </a>
@@ -1847,10 +1847,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#version" class="md-nav__link">
+  <a href="#version-and-security-build" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Version
+        Version and security build
       
     </span>
   </a>
@@ -1876,14 +1876,19 @@
 
 <h1 id="cresco-for-panatlas">Cresco for panAtlas<a class="headerlink" href="#cresco-for-panatlas" title="Permanent link">&para;</a></h1>
 <p>This page covers only the parts of Cresco that panAtlas depends on, and how panAtlas uses each one. The canonical
-reference is the <a href="https://crescoedge.github.io/docs/">Cresco documentation</a>.</p>
+reference is the <a href="https://crescoedge.github.io/docs/">Cresco documentation</a>; where a statement here and that site
+differ on how Cresco works, the Cresco site is right. Where panAtlas's own deployment is configured differently from
+Cresco's defaults, this page says so. Cresco's own summary of panAtlas is on its
+<a href="https://crescoedge.github.io/docs/reference/projects/#panatlas">Projects built on Cresco</a> page.</p>
 <h2 id="the-hierarchy">The hierarchy<a class="headerlink" href="#the-hierarchy" title="Permanent link">&para;</a></h2>
 <p>A Cresco node is a JVM running an OSGi (Apache Felix) host that loads the controller and a set of plugins. Each
-node runs in one controller mode: <code>AGENT</code> (a leaf), <code>REGION</code> (runs an embedded ActiveMQ broker and federates up),
-<code>GLOBAL</code> (federates regions), <code>REGION_GLOBAL</code>, or <code>STANDALONE</code>. Agents are JMS clients of their region's broker.
+node runs in one controller mode: <code>AGENT</code> (a leaf), <code>REGION</code> (a regional controller running an embedded ActiveMQ
+broker, not yet federated to a global), <code>REGION_GLOBAL</code> (a regional controller federated up to a global), <code>GLOBAL</code>
+(federates regions, and is also its own region and agent), or <code>STANDALONE</code>. Agents are JMS clients of their region's broker.
 Regions bridge to the global, and globals can bridge to each other
 (<a href="https://crescoedge.github.io/docs/architecture/overview/">Architecture overview</a>).</p>
-<p><strong>The panAtlas fabric</strong> is one region, <code>panatlas-global</code>, with a global controller and two agents:</p>
+<p><strong>The panAtlas fabric</strong> is one region, <code>panatlas-global</code>, with a global controller and two agents. Both agents
+start with <code>is_agent=true</code> and a fixed <code>regional_controller_host</code> pointing at the controller node:</p>
 <table>
 <thead>
 <tr>
@@ -1896,7 +1901,7 @@ Regions bridge to the global, and globals can bridge to each other
 <tr>
 <td>global controller</td>
 <td><code>GLOBAL</code> / region root</td>
-<td>The rollup point. The hub's clients connect to its wsapi</td>
+<td>The rollup point. Inventories roll up here, and the hub's calls to managers on other agents are routed through it</td>
 </tr>
 <tr>
 <td>HPC cluster agent</td>
@@ -1930,7 +1935,7 @@ Regions bridge to the global, and globals can bridge to each other
 <tr>
 <td><strong>Data plane</strong></td>
 <td>ActiveMQ topics (pub/sub)</td>
-<td>The live Mesh view subscribes to <code>route_lsa</code> link-state gossip. The designed <code>panatlas.graph</code> change topic is <strong>not built</strong> (see <a href="../federation/#designed-not-built">Federation</a>)</td>
+<td>The live Mesh view subscribes to the <code>route_lsa</code> link-state advertisements that every controller publishes on the <code>GLOBAL</code> topic (<a href="https://crescoedge.github.io/docs/architecture/dataplane/">Data plane</a>). The designed <code>panatlas.graph</code> change topic is <strong>not built</strong> (see <a href="../federation/#designed-not-built">Federation</a>)</td>
 </tr>
 </tbody>
 </table>
@@ -1939,13 +1944,19 @@ as a <strong>compressed MsgEvent parameter</strong>. The data plane and <code>fi
 deliberate and was learned the hard way: see <a href="../operations/#a-second-filerepo-bundle">Operations</a>.</p>
 <h2 id="plugins-and-self-describing-actions">Plugins and self-describing actions<a class="headerlink" href="#plugins-and-self-describing-actions" title="Permanent link">&para;</a></h2>
 <p>A Cresco plugin is an OSGi bundle. <code>cresco-panatlas</code> (<code>io.cresco.panatlas</code>) is built from the Cresco skeleton
-plugin. Its actions carry <code>@CrescoAction</code> annotations, so they appear in the mesh-wide capability inventory
+plugin. Its executor carries <code>@CrescoCapabilities</code> and its actions <code>@CrescoAction</code> annotations, so they appear in the
+mesh-wide capability inventory
 (<code>getcapabilityinventory</code>) with their parameters and return types. That makes every dataset manager callable as a
 tool by any Cresco client, including an AI agent using Cresco's tool interface
 (<a href="https://crescoedge.github.io/docs/api/plugin-actions/">Plugin actions</a>).</p>
 <p>A plugin can run as <strong>many instances</strong> on one agent, each with its own configuration. panAtlas relies on that: one
 bundle, one instance per dataset, each configured with a different <code>panatlas_dataset_id</code> and <code>panatlas_source</code>.</p>
 <h2 id="identity-trust-and-tenancy">Identity, trust and tenancy<a class="headerlink" href="#identity-trust-and-tenancy" title="Permanent link">&para;</a></h2>
+<p>Cresco 1.3 is <strong>secure by default</strong>: a node started with no security setting runs with mutual TLS, broker
+authorization, tenant namespacing, end-to-end message authentication and signed plugin installs
+(<a href="https://crescoedge.github.io/docs/security/">Security in Cresco 1.3</a>, <a href="https://crescoedge.github.io/docs/security/secure-defaults/">Secure defaults</a>).
+The table maps each panAtlas need to the Cresco mechanism that meets it. What a panAtlas node needs to run under
+those defaults is in <a href="#version-and-security-build">Version and security build</a>.</p>
 <table>
 <thead>
 <tr>
@@ -1956,19 +1967,27 @@ bundle, one instance per dataset, each configured with a different <code>panatla
 <tbody>
 <tr>
 <td>A node's identity</td>
-<td><code>region_agent</code>, stable across restarts. The plugin stamps reports <code>agent-&lt;region&gt;_&lt;agent&gt;</code></td>
+<td>Messages address a node as <code>region_agent</code>. The identity itself is the node's X.509 certificate subject, <code>CN=&lt;agent&gt;, OU=&lt;region&gt;, O=&lt;tenant&gt;</code>, verified at every TLS handshake. The plugin stamps reports <code>agent-&lt;region&gt;_&lt;agent&gt;</code></td>
 </tr>
 <tr>
 <td>Admission to the mesh</td>
-<td>Discovery with a per-tier join secret (<code>discovery_secret_global</code>, <code>_region</code>, <code>_agent</code>), or the operator's PKI (<a href="https://crescoedge.github.io/docs/architecture/discovery/">Discovery</a>)</td>
+<td>An authenticated discovery exchange. In the <code>standard</code> security profile it is keyed by the per-tier join secret (<code>discovery_secret_global</code>, <code>_region</code>, <code>_agent</code>); in the <code>production</code> profile it is signed under the operator's PKI and no join secret is used (<a href="https://crescoedge.github.io/docs/architecture/discovery/">Discovery</a>, <a href="https://crescoedge.github.io/docs/security/profiles/">Security profiles</a>, <a href="https://crescoedge.github.io/docs/security/pki/">Operator PKI</a>). panAtlas's agents join with join secrets</td>
 </tr>
 <tr>
 <td>Authenticated transport</td>
-<td>X.509 identities, mutual TLS, regional-CA trust (<a href="https://crescoedge.github.io/docs/architecture/security/">Security</a>)</td>
+<td>Mutual TLS on every broker connection, with the connection bound to the identity its certificate names; optional regional-CA enrollment (<code>security_regional_ca</code>, standard profile only) (<a href="https://crescoedge.github.io/docs/architecture/security/">Security &amp; Identity</a>)</td>
 </tr>
 <tr>
-<td>Keeping institutions apart</td>
-<td>Tenant namespacing in the broker, with the tenant bound into the certificate (<a href="https://crescoedge.github.io/docs/architecture/tenancy/">Multi-tenancy</a>)</td>
+<td>Authenticated messages</td>
+<td>Every MsgEvent a node originates is authenticated end to end and bound to its recipient (<code>cresco_sig_to</code>), so a manager's reply or a call to a manager is accepted only by the node it names (<a href="https://crescoedge.github.io/docs/security/message-auth/">Message authentication</a>)</td>
+</tr>
+<tr>
+<td>Trusted plugin code</td>
+<td>A plugin jar installed over the network must be signed by a signer that chains to <code>plugin_signing_truststore</code> (<a href="https://crescoedge.github.io/docs/security/signed-plugins/">Signed plugins</a>). See <a href="#version-and-security-build">Version and security build</a></td>
+</tr>
+<tr>
+<td>Keeping tenants apart</td>
+<td>Tenant namespacing in the broker (<code>T.&lt;tenant&gt;.*</code>), with the tenant bound into the certificate as <code>O=&lt;tenant&gt;</code> (<a href="https://crescoedge.github.io/docs/architecture/tenancy/">Multi-tenancy</a>)</td>
 </tr>
 <tr>
 <td>Who may contribute to the graph</td>
@@ -1979,9 +1998,12 @@ bundle, one instance per dataset, each configured with a different <code>panatla
 <p>Cresco answers "is this really node X, and may it talk to me?" panAtlas answers "may node X's claims enter the
 atlas, and are they shown at once or held for a curator?"</p>
 <h2 id="clients-the-wsapi-and-pycrescolib">Clients: the wsapi and pycrescolib<a class="headerlink" href="#clients-the-wsapi-and-pycrescolib" title="Permanent link">&para;</a></h2>
-<p>The global controller (and any agent started with <code>enable_wsapi=true</code>) serves a WebSocket API. The hub's Python
-code uses <a href="https://crescoedge.github.io/docs/clients/python/">pycrescolib</a> against the web host agent's wsapi with a
-service key:</p>
+<p>Cresco's external clients connect to the <a href="https://crescoedge.github.io/docs/plugins/wsapi/">wsapi</a> plugin, a
+secure WebSocket API on port 8282 (<code>wss://</code>). In Cresco's reference topology the global serves clients; <strong>panAtlas's
+configuration</strong> also runs wsapi on the web host agent (<code>enable_wsapi=true</code>), so the hub's Python code connects
+locally (<code>localhost:8282</code>). It uses <a href="https://crescoedge.github.io/docs/clients/python/">pycrescolib</a> with the wsapi
+<strong>service key</strong>, the legacy credential that Cresco's standard profile still accepts and its production profile refuses
+(<a href="https://crescoedge.github.io/docs/security/api-auth/">API authentication</a>):</p>
 <table>
 <thead>
 <tr>
@@ -2009,7 +2031,7 @@ service key:</p>
 <tr>
 <td><code>get_dataplane("cresco_msg_type='route_lsa'", cb)</code></td>
 <td><code>mesh_daemon.py</code></td>
-<td>Subscribe to pushed link-state gossip (live path)</td>
+<td>Subscribe to pushed link-state advertisements (live path)</td>
 </tr>
 <tr>
 <td><code>agents.upload_plugin_agent</code>, <code>add_plugin_agent</code>, <code>remove_plugin_agent</code></td>
@@ -2024,14 +2046,26 @@ service key:</p>
 </tbody>
 </table>
 <h2 id="state-the-embedded-derby-database">State: the embedded Derby database<a class="headerlink" href="#state-the-embedded-derby-database" title="Permanent link">&para;</a></h2>
-<p>Each controller keeps nodes, plugins, edges and health in an embedded <strong>Derby</strong> database. That database sits behind
-three of the six recorded federation outages: stale lock files after an unclean JVM exit, duplicated persisted plugin
-records, and a second Derby engine started by a second <code>filerepo</code> bundle. <a href="../operations/">Operations</a> covers each
-one and the guard now in place.</p>
-<h2 id="version">Version<a class="headerlink" href="#version" title="Permanent link">&para;</a></h2>
-<p>Both panAtlas agents run Cresco <strong>1.3-SNAPSHOT</strong> on a Java 21 runtime. The plugin builds against
-<code>io.cresco:library:1.3-SNAPSHOT</code> with JDK 21 and Maven (<code>mvn package bundle:bundle</code> →
+<p>Each controller keeps nodes, plugins, edges and health in an embedded <strong>Derby</strong> database
+(<a href="https://crescoedge.github.io/docs/plugins/controller/">controller</a>), under <code>cresco-data/</code> in the node's working
+directory; Cresco's <a href="https://crescoedge.github.io/docs/operations/deployment/#one-node-one-directory">Deployment</a> page
+says two nodes must never share that directory. That database sits behind three of the six recorded federation
+outages: stale lock files after an unclean JVM exit (the cluster agent's working directory is on a shared parallel
+filesystem), duplicated persisted plugin records, and a second Derby engine started by a second <code>filerepo</code> bundle.
+<a href="../operations/">Operations</a> covers each one and the guard now in place.</p>
+<h2 id="version-and-security-build">Version and security build<a class="headerlink" href="#version-and-security-build" title="Permanent link">&para;</a></h2>
+<p>Both panAtlas agents run a Cresco <strong>1.3-SNAPSHOT</strong> agent jar (<code>agent-1.3-SNAPSHOT.jar</code>) on a Java 21 runtime. The
+plugin builds against <code>io.cresco:library:1.3-SNAPSHOT</code> with JDK 21 and Maven (<code>mvn package bundle:bundle</code> →
 <code>target/panatlas-0.1-SNAPSHOT.jar</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Running panAtlas under Cresco 1.3 secure defaults</p>
+<p>Under the secure defaults a node refuses an unsigned plugin upload, so the <code>cresco-panatlas</code> bundle must be
+signed and each agent given a <code>plugin_signing_truststore</code>. Keep every secret in an owner-only file or a
+<code>CRESCO_&lt;NAME&gt;</code> environment variable rather than a <code>-D</code> property, and give the hub's pycrescolib client the wsapi
+certificate fingerprint, because current pycrescolib releases verify the wsapi certificate by default. The full
+procedure is Cresco's <a href="https://crescoedge.github.io/docs/security/upgrade/">Upgrading to 1.3</a> and
+<a href="https://crescoedge.github.io/docs/security/api-auth/">API authentication</a>.</p>
+</div>
 
 
 
@@ -2065,6 +2099,10 @@ one and the guard now in place.</p>
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

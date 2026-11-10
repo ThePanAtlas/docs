@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -3382,12 +3382,18 @@ for the evaluation, model and vocabulary kinds are on <a href="../benchmarks/">B
 <p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>desc</code>.</p>
 <p>On some nodes (count): <code>modality</code> (1), <code>origin</code> (1), <code>access</code> (1), <code>license_note</code> (1), <code>measured</code> (1), <code>source</code> (1), <code>built_by</code> (1).</p>
 <h4 id="root-1"><code>root</code> (1)<a class="headerlink" href="#root-1" title="Permanent link">&para;</a></h4>
+<p><code>concept-medicine</code>, the root of the medical concept curriculum (the 51 atlas concept pages), not of
+the atlas. It is <code>part_of</code> <code>domain-health</code> (Health &amp; Medicine), one of the five <code>domain</code> nodes that
+are <code>part_of</code> <code>atlas-root</code>.</p>
 <p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>canonical_id</code>, <code>grounding</code>, <code>mesh_dui</code>, <code>mesh_name</code>, <code>mesh_tree</code>, <code>mesh_url</code>, <code>cui</code>, <code>snomed</code>, <code>rxnorm</code>, <code>loinc</code>, <code>icd10cm</code>, <code>desc</code>, <code>wiki_oldid</code>, <code>corpus_docs</code>, <code>n_subtopics</code>, <code>subtopics</code>, <code>wp_url</code>, <code>source</code>, <code>built_by</code>, <code>n_diseases</code>, <code>n_foods</code>, <code>corpus_sources</code>, <code>eval_questions</code>, <code>eval_benchmarks</code>, <code>corpus_docs_caveat</code>, <code>corpus_source_docs</code>, <code>eval_accuracy</code>.</p>
 <h4 id="gate-1"><code>gate</code> (1)<a class="headerlink" href="#gate-1" title="Permanent link">&para;</a></h4>
 <p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>canonical_id</code>, <code>grounding</code>, <code>mesh_dui</code>, <code>mesh_name</code>, <code>mesh_tree</code>, <code>mesh_url</code>, <code>cui</code>, <code>snomed</code>, <code>rxnorm</code>, <code>loinc</code>, <code>icd10cm</code>, <code>desc</code>, <code>wiki_oldid</code>, <code>corpus_docs</code>, <code>n_subtopics</code>, <code>subtopics</code>, <code>wp_url</code>, <code>source</code>, <code>built_by</code>, <code>corpus_sources</code>, <code>eval_questions</code>, <code>eval_benchmarks</code>, <code>corpus_docs_caveat</code>, <code>corpus_source_docs</code>, <code>eval_accuracy</code>.</p>
 <h4 id="kg-1"><code>kg</code> (1)<a class="headerlink" href="#kg-1" title="Permanent link">&para;</a></h4>
 <p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>modality</code>, <code>origin</code>, <code>desc</code>, <code>measured</code>, <code>relations</code>, <code>source</code>, <code>built_by</code>, <code>fa_entities</code>, <code>fa_triplets</code>, <code>fa_evidence</code>, <code>fa_relations</code>, <code>fa_license</code>, <code>fa_version</code>, <code>fa_external_ids</code>, <code>fa_top_diseases</code>, <code>fa_overlap</code>, <code>docs</code>, <code>access</code>.</p>
 <h4 id="atlas-root-1"><code>atlas-root</code> (1)<a class="headerlink" href="#atlas-root-1" title="Permanent link">&para;</a></h4>
+<p>The top of the atlas (label "PanAtlas"). The five <code>domain</code> nodes (<code>domain-health</code>, <code>domain-food</code>,
+<code>domain-lifesci</code>, <code>domain-standards</code>, <code>domain-general</code>) are <code>part_of</code> it; medicine's curriculum
+root, <code>concept-medicine</code>, sits under <code>domain-health</code>.</p>
 <p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>desc</code>, <code>source</code>, <code>built_by</code>, <code>n_diseases</code>, <code>n_foods</code>, <code>modality</code>.</p>
 <h4 id="eval-suite-1"><code>eval-suite</code> (1)<a class="headerlink" href="#eval-suite-1" title="Permanent link">&para;</a></h4>
 <p>On every node: <code>id</code>, <code>label</code>, <code>kind</code>, <code>layer</code>, <code>desc</code>, <code>canonical_standard</code>, <code>externals</code>, <code>peer_note</code>, <code>discipline</code>, <code>audit_chain</code>, <code>battery</code>, <code>decontam_gap</code>, <code>concept_class</code>.</p>
@@ -3739,6 +3745,10 @@ attributes that occur, and the scripts that write the relation.</p>
 <p><code>GRAPH_STANDARDS.md</code> is the decision record, adopted 2026-07-26 and extended 2026-09-26. Its binding
 rules are summarised here with what the served graph does.</p>
 <h3 id="identity-and-grounding">Identity and grounding<a class="headerlink" href="#identity-and-grounding" title="Permanent link">&para;</a></h3>
+<p><code>GRAPH_STANDARDS.md</code> was written for medicine, the domain the atlas started with, so its grounding
+rules name medical vocabularies. The served graph applies the same idea to other domains with their
+own vocabularies (FoodOn and FoodData Central for foods, Wikipedia for general concepts; see
+<a href="../codesystems/">Code systems</a>). As written:</p>
 <ul>
 <li>Every node must be tied to a real MeSH descriptor or another core concept (SNOMED CT or a UMLS
   concept). There are to be no orphan nodes.</li>
@@ -3765,7 +3775,7 @@ OMIM, flagged with <code>grounding: none</code> and a <code>grounding_note</code
 </div>
 <h3 id="hierarchy-and-edge-direction">Hierarchy and edge direction<a class="headerlink" href="#hierarchy-and-edge-direction" title="Permanent link">&para;</a></h3>
 <ul>
-<li>The concept hierarchy comes from MeSH tree numbers. A descriptor's parent is the descriptor whose
+<li>The medical concept hierarchy comes from MeSH tree numbers. A descriptor's parent is the descriptor whose
   tree number is the immediate prefix. Specialties live in the MeSH H02 tree, diseases in C,
   techniques in E. In the served graph this hierarchy is the <code>part_of</code> relation with
   <code>src: mesh_tree</code> (3,360 edges); hand-curated links carry <code>src: curated</code> (1,845).</li>
@@ -3898,6 +3908,10 @@ in which these were last run determines the file.</p>
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

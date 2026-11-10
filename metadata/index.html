@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -1702,7 +1702,7 @@ This section documents <strong>every metadata family, field by field</strong>: i
 reads it, and what values it holds at the repository commit each page names.</p>
 <h2 id="the-families-and-how-they-connect">The families and how they connect<a class="headerlink" href="#the-families-and-how-they-connect" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>flowchart LR
-  DOC["document&lt;br/&gt;doc_uid"] -. "MeSH labels and weighted edges&lt;br/&gt;(document index, outside the graph)" .-&gt; CON["concept / specialty&lt;br/&gt;canonical_id mesh:D…"]
+  DOC["document&lt;br/&gt;doc_uid"] -. "MeSH labels and weighted edges&lt;br/&gt;(document index, outside the graph)" .-&gt; CON["concept / specialty&lt;br/&gt;canonical_id (mesh:D…, foodon:…, wikipedia:…)"]
   DS["dataset&lt;br/&gt;panatlas:dataset:&amp;lt;slug&amp;gt;&lt;br/&gt;manifest_hash"] -. "ledger rows" .-&gt; DOC
   DS -- "classified_as, covers_topic" --&gt; CON
   DS -- test_set_of --&gt; BEN["benchmark /&lt;br/&gt;llm-benchmark"]
@@ -1837,6 +1837,10 @@ links held outside the graph: in the document index, or on the mesh.</p>
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

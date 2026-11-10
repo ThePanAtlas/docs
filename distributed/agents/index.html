@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -2054,7 +2054,10 @@ mvn<span class="w"> </span>package<span class="w"> </span>bundle:bundle<span cla
 </code></pre></div>
 <p>Deploy the bundle to a running agent through the Cresco controller (plugin upload, then add an instance with its
 configuration). The hub does this with <code>pycrescolib</code> in <code>web/mesh/deploy_managers.py</code>; see
-<a href="../dataset-managers/#3-deployment-and-self-healing-every-15-min-web-host">Dataset managers</a>.</p>
+<a href="../dataset-managers/#3-deployment-and-self-healing-every-15-min-web-host">Dataset managers</a>. On a Cresco build with
+the 1.3 secure defaults, an uploaded jar is installed only if it is signed and verifies against the agent's
+<code>plugin_signing_truststore</code> (<a href="https://crescoedge.github.io/docs/security/signed-plugins/">Signed plugins</a>). The
+bundle is not signed today; see <a href="../cresco/#version-and-security-build">Cresco for panAtlas</a>.</p>
 <h2 id="the-local-agent-kit">The local agent kit<a class="headerlink" href="#the-local-agent-kit" title="Permanent link">&para;</a></h2>
 <p>A site that is not the hub builds its report with the <strong>local agent</strong>: <code>pa_local_agent.py</code>, pure NumPy and the
 standard library. It keeps the site's graph index and embedding cache <strong>on the site</strong>, and only the structure-only
@@ -2124,7 +2127,10 @@ copies (<code>web/dgx/pa_local_agent.py</code>, <code>web/embed_attach.py</code>
 anchors' model. The kit's <code>attach</code> checks only the dimension, although <code>CONNECTING.md</code> already describes the
 guard. The kit's <code>models.json</code> also lists an older imaging model. Sync the kit from the hub before onboarding a
 site. The kit's Cresco links (<code>crescoedge.github.io/quickstart/…</code>) also return 404; the documentation is now at
-<code>crescoedge.github.io/docs/</code>.</p>
+<code>crescoedge.github.io/docs/</code>. Its <code>examples/cresco.env</code> names the identity keys <code>regionName</code> and <code>agentName</code>;
+Cresco's parameters are <code>regionname</code> and <code>agentname</code>
+(<a href="https://crescoedge.github.io/docs/getting-started/configuration/">Configuration</a>), which is how the panAtlas unit
+files set them.</p>
 </div>
 <h2 id="connecting-a-new-site">Connecting a new site<a class="headerlink" href="#connecting-a-new-site" title="Permanent link">&para;</a></h2>
 <p>The end-to-end path from <code>agent-deployment/CONNECTING.md</code>:</p>
@@ -2142,10 +2148,15 @@ site. The kit's Cresco links (<code>crescoedge.github.io/quickstart/…</code>) 
    identifiers use, approximate node and edge counts, and the dataset, modalities and registered model per
    modality. You receive your <code>region</code> and <code>agent</code> names (identity <code>agent-&lt;region&gt;_&lt;agent&gt;</code>), your tenant, your
    starting tier, your status (<code>pending</code> until an admin permits you) and the discovery join secret for your tier.</li>
-<li><strong>Join the mesh.</strong> Configure and start a Cresco agent (<code>examples/cresco.env</code>): <code>regionName</code>, <code>agentName</code>,
-   <code>regional_controller_host</code>, <code>is_global=false</code>, <code>discovery_secret_agent</code>, and for a medical federation
-   <code>broker_security_enabled</code>, <code>security_regional_ca</code>, <code>broker_require_client_auth</code> and <code>tenant_namespacing</code> all
-   set to <code>true</code>.</li>
+<li><strong>Join the mesh.</strong> Configure and start a Cresco agent (<code>examples/cresco.env</code>): its region and agent names,
+   <code>regional_controller_host</code>, <code>is_global=false</code> and the join secret for your tier (<code>discovery_secret_agent</code>). Keep
+   the secret in an owner-only file or a <code>CRESCO_&lt;NAME&gt;</code> environment variable, not on the command line
+   (<a href="https://crescoedge.github.io/docs/operations/deployment/#securing-a-fabric">Deployment</a>). The kit also sets
+   <code>broker_security_enabled</code>, <code>broker_require_client_auth</code> and <code>tenant_namespacing</code> to <code>true</code>, with the comment "turn
+   ON for a real medical federation". In Cresco 1.3 those three are already the defaults
+   (<a href="https://crescoedge.github.io/docs/security/secure-defaults/">Secure defaults</a>) and apply to every federation,
+   whatever its domain. The kit's fourth setting, <code>security_regional_ca=true</code>, is opt-in regional-CA enrollment,
+   available in the standard profile only (<a href="https://crescoedge.github.io/docs/security/profiles/">Security profiles</a>).</li>
 <li><strong>Bind your dataset and models.</strong> One plugin instance is one dataset. Declare <code>panatlas_dataset_id</code>,
    <code>panatlas_modalities</code> and <code>panatlas_model.&lt;modality&gt;</code> for each stream, choosing the most specific registered
    model that applies.</li>
@@ -2178,7 +2189,7 @@ site. The kit's Cresco links (<code>crescoedge.github.io/quickstart/…</code>) 
 </tr>
 <tr>
 <td>Nothing merges</td>
-<td><code>status</code> is not <code>active</code>, or the join or mTLS enrollment failed</td>
+<td><code>status</code> is not <code>active</code>, or the join or mTLS enrollment failed. Cresco's own refusals and their fixes are in <a href="https://crescoedge.github.io/docs/operations/troubleshooting/">Cresco troubleshooting</a></td>
 </tr>
 <tr>
 <td><code>MODEL-SPACE MISMATCH</code></td>
@@ -2225,7 +2236,8 @@ written to the site audit log (<code>panatlas_audit</code>, events <code>fed_reg
 <div class="admonition note">
 <p class="admonition-title">What the token is for</p>
 <p>Tokens were designed for the HTTP submission route (<code>POST /federate</code>), which is not built. On the Cresco path,
-identity comes from the mesh (join secret and mTLS), and the registry's <code>tier</code> and <code>status</code> gate the merge.</p>
+identity comes from the mesh (the node's certificate, admitted with its join secret and checked by mutual TLS),
+and the registry's <code>tier</code> and <code>status</code> gate the merge.</p>
 </div>
 
 
@@ -2260,6 +2272,10 @@ identity comes from the mesh (join secret and mTLS), and the registry's <code>ti
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

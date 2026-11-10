@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -1912,7 +1912,7 @@
 <p>Every dataset in the registry is managed by its <strong>own <code>cresco-panatlas</code> plugin instance</strong>, running on the Cresco
 agent at the site that hosts the dataset. A manager owns exactly one dataset. It serves that dataset's grounded,
 structure-only report, stamped with the dataset's URN and <code>manifest_hash</code>, and the hub reaches it over Cresco
-messaging: no cron scrape and no raw HTTP.</p>
+messaging (<a href="https://crescoedge.github.io/docs/">Cresco</a> MsgEvents): no cron scrape and no raw HTTP.</p>
 <p>This is what "a dataset joins the atlas where it sits" means in practice: the data stays on the cluster, the
 manager sits next to it, and the atlas knows the dataset through the manager.</p>
 <h2 id="the-life-of-a-manager">The life of a manager<a class="headerlink" href="#the-life-of-a-manager" title="Permanent link">&para;</a></h2>
@@ -2039,11 +2039,11 @@ site's <strong>Mesh view</strong>:</p>
 <tbody>
 <tr>
 <td>continuously</td>
-<td>Subscribes to <code>route_lsa</code> link-state gossip on the data plane (the live path). Gossip older than 60 s is dropped</td>
+<td>Subscribes to <code>route_lsa</code> link-state advertisements on the data plane (the live path). Advertisements older than 60 s are dropped</td>
 </tr>
 <tr>
 <td>3 s</td>
-<td>Polls the global controller's <code>getnetworkstate</code> (fallback when there is no fresh gossip)</td>
+<td>Polls the global controller's <code>getnetworkstate</code> (fallback when there are no fresh advertisements)</td>
 </tr>
 <tr>
 <td>15 s</td>
@@ -2147,6 +2147,10 @@ owner order 2026-09-26). Each connected graph is <strong>its own panAtlas agent<
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

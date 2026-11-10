@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -2176,8 +2176,11 @@ and how a grounding is verified. Counts were computed with <code>python3</code> 
 </tr>
 </tbody>
 </table>
-<p><code>GRAPH_STANDARDS.md</code> names MeSH, SNOMED CT, LOINC, RxNorm, UMLS and ICD as the terminology backbone,
-with MeSH canonical. <code>web/domains.json</code> lists the full <code>ontology_backbone</code>: <code>onto-mesh</code>,
+<p>Each domain is grounded in its own field's vocabularies. Medicine has the most today, because it is where the
+atlas's holdings run deepest; foods are grounded in FoodOn and FoodData Central, and general knowledge in
+Wikipedia. A new domain registers its own vocabularies the same way.
+<code>GRAPH_STANDARDS.md</code>, written for the medical holdings, names MeSH, SNOMED CT, LOINC, RxNorm, UMLS and ICD as the
+terminology backbone, with MeSH canonical. <code>web/domains.json</code> lists the full <code>ontology_backbone</code>: <code>onto-mesh</code>,
 <code>onto-fhir</code>, <code>onto-snomed</code>, <code>onto-loinc</code>, <code>onto-rxnorm</code>, <code>onto-icd11</code>, <code>onto-icd10cm</code>, <code>onto-umls</code>,
 <code>onto-go</code>, <code>onto-foodon</code>, <code>onto-chebi</code>, <code>onto-fdc</code>, <code>onto-wikidata</code>, <code>onto-nacc</code>, <code>onto-wikipedia</code>.</p>
 <h2 id="webcodesystemsjson"><code>web/codesystems.json</code><a class="headerlink" href="#webcodesystemsjson" title="Permanent link">&para;</a></h2>
@@ -2668,8 +2671,9 @@ holds no FHIR instance records. Layer 2 of <code>GRAPH_STANDARDS.md</code> (FHIR
 join the backbone) is designed, not built.</p>
 </div>
 <h2 id="domains-webdomainsjson">Domains: <code>web/domains.json</code><a class="headerlink" href="#domains-webdomainsjson" title="Permanent link">&para;</a></h2>
-<p>The navigational spine, broad to granular, grounded to Wikipedia main-topic categories and, where
-medical, to a MeSH tree category.</p>
+<p>The navigational spine, broad to granular: the top-level fields of knowledge under <code>atlas-root</code>,
+grounded to Wikipedia main-topic categories and, where medical, to a MeSH tree category. Medicine
+(<code>domain-health</code>) is one of five domains today.</p>
 <table>
 <thead>
 <tr>
@@ -2830,6 +2834,10 @@ top related concepts by anchor cosine, written as <code>related</code> edges at 
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -1985,7 +1985,7 @@ site, and where each part runs.</p>
 <td><strong>Built</strong> (2026-09-16)</td>
 </tr>
 <tr>
-<td><strong>Cresco mesh</strong></td>
+<td><strong><a href="https://crescoedge.github.io/docs/">Cresco</a> mesh</strong></td>
 <td>HPC cluster, web host, and a controller node</td>
 <td>Dataset managers report structure-only subgraphs; the hub shows them and folds permitted contributions</td>
 <td><strong>Built, running</strong>; see <a href="../../distributed/">Distributed</a></td>
@@ -2126,7 +2126,7 @@ diffed, merged, or split by community, so community-scoped facts cannot federate
 </tr>
 </tbody>
 </table>
-<p>The domain model survives unchanged: the curriculum graph, the jurisdiction-parameterised education ladder, the six
+<p>The conceptual model survives unchanged: the curriculum graph, the jurisdiction-parameterised education ladder, the six
 stratification axes, the assessment framework, the provenance ethos, ORCID identity and Wikipedia seeding. <code>PLAN.md</code>
 (the current plan) builds on this decision and adds the two-layer design: a human-readable layer of concept and
 document pages and a machine-readable layer of atomic <code>fact-</code> and <code>entity-</code> pages
@@ -2153,8 +2153,10 @@ exports the served graph as N-Quads, and the SPARQL store holds it.</p>
 </div>
 <h2 id="layers-of-the-graph">Layers of the graph<a class="headerlink" href="#layers-of-the-graph" title="Permanent link">&para;</a></h2>
 <p><code>GRAPH_STANDARDS.md</code> binds the representation to one RDF graph in three layers joined by concept IRIs: a terminology
-backbone (MeSH canonical, with SNOMED CT, LOINC, RxNorm, UMLS and ICD cross-codes), a clinical and multi-modal
-instance layer (FHIR R4), and a working property graph (what the explorer renders). <code>LAYERS.md</code> separates the same
+backbone, a multi-modal instance layer, and a working property graph (what the explorer renders). The standard was
+written for medicine, the domain built first, so it names the medical vocabularies (MeSH canonical, with SNOMED CT,
+LOINC, RxNorm, UMLS and ICD cross-codes) and FHIR R4 for clinical records; the served graph already grounds other
+domains in their own vocabularies, such as FoodOn for foods and Wikipedia for general concepts. <code>LAYERS.md</code> separates the same
 system differently, into substrate (identity), connectivity (claims) and embeddings (one registered model per
 modality). Both are explained in <a href="../layers/">Layers</a>; the vocabulary is in <a href="../../metadata/rdf-vocabulary/">RDF vocabulary</a>
 and the code systems in <a href="../../metadata/codesystems/">Code systems</a>.</p>
@@ -2190,7 +2192,7 @@ and the code systems in <a href="../../metadata/codesystems/">Code systems</a>.<
 </tbody>
 </table>
 <h2 id="distributed-by-design">Distributed by design<a class="headerlink" href="#distributed-by-design" title="Permanent link">&para;</a></h2>
-<p>panAtlas is built as a distributed system on the Cresco agent mesh. Datasets join the atlas where they sit, each
+<p>panAtlas is built as a distributed system on the <a href="https://crescoedge.github.io/docs/">Cresco</a> agent mesh. Datasets join the atlas where they sit, each
 managed by its own <code>cresco-panatlas</code> plugin instance at the hosting site, and only structure crosses the mesh. The
 hub on the web host pulls every manager's report, shows them in the Mesh view, and folds permitted contributions
 into the graph. Remote panAtlas instances and computational resources are treated the same way, as peers on the
@@ -2230,6 +2232,10 @@ section, starting at <a href="../../distributed/">Distributed</a>.</p>
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

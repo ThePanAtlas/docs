@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -2270,8 +2270,11 @@ merge automatically; registering with <code>-</code> in place of <code>_</code> 
 </tbody>
 </table>
 <h2 id="msgevent-actions">MsgEvent actions<a class="headerlink" href="#msgevent-actions" title="Permanent link">&para;</a></h2>
-<p>Both actions are <code>EXEC</code> messages addressed to <code>panatlas-global / &lt;agent&gt; / &lt;plugin_id&gt;</code> with parameter
-<code>action</code>.</p>
+<p>Both actions are <code>EXEC</code> <a href="https://crescoedge.github.io/docs/api/msgevent/">MsgEvents</a> addressed to
+<code>panatlas-global / &lt;agent&gt; / &lt;plugin_id&gt;</code> with parameter <code>action</code>. Neither action declares <code>roles</code> in its
+<code>@CrescoAction</code> annotation, so on a Cresco build with the 1.3 secure defaults, which callers may run them is Cresco's
+default for an action without roles
+(<a href="https://crescoedge.github.io/docs/security/">Security in Cresco 1.3</a>).</p>
 <table>
 <thead>
 <tr>
@@ -2469,7 +2472,7 @@ describing the public fields and the portal as authoritative for stored values.<
 </tr>
 <tr>
 <td><code>source</code></td>
-<td><code>push</code> (fresh <code>route_lsa</code> gossip) or <code>poll</code> (<code>getnetworkstate</code> fallback)</td>
+<td><code>push</code> (fresh <code>route_lsa</code> link-state advertisements) or <code>poll</code> (<code>getnetworkstate</code> fallback)</td>
 </tr>
 <tr>
 <td><code>ok</code></td>
@@ -2637,6 +2640,10 @@ listed in <a href="../agents/#the-local-agent-kit">Participating agents</a>.</p>
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

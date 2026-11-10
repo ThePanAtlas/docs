@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -1743,7 +1743,8 @@ is known, linked and findable by every participant and every agent on the mesh. 
     HUB[mesh daemon +&lt;br/&gt;hub merge] --&gt; GJ[graph.json / mesh.json] --&gt; SITE[panatlas.net]
   end</code></pre>
 <p>Only <strong>structure</strong> crosses the mesh: identifiers, counts, edges, model stamps and hashes. Documents, pixels,
-embeddings and anything carrying protected health information or licensed text never do. That rule is enforced
+embeddings and anything carrying protected data (protected health information, for example) or licensed text never
+do. That rule is enforced
 in code at three points (the report builder, the Cresco plugin and the hub merge), so a misconfigured source can
 not leak.</p>
 <h2 id="what-is-distributed">What is distributed<a class="headerlink" href="#what-is-distributed" title="Permanent link">&para;</a></h2>
@@ -1784,14 +1785,14 @@ not leak.</p>
 <tr>
 <td><strong>Supervision</strong></td>
 <td>systemd units on the HPC cluster login node and the web host</td>
-<td>Restarts wedged agents, re-adds missing managers, re-audits manifests hourly</td>
-<td><strong>Built</strong>, after three outages; see <a href="operations/">Operations</a></td>
+<td>Restarts wedged agents, re-adds missing managers, rebuilds manifests hourly</td>
+<td><strong>Built</strong>, with a guard for each of the six recorded outages; see <a href="operations/">Operations</a></td>
 </tr>
 <tr>
 <td><strong>Storage</strong></td>
-<td>GaiaKeep, the global file system built on the same mesh</td>
-<td>Is being built to hold the panAtlas index estate as a versioned dataset</td>
-<td><strong>Measured and designed</strong>; see <a href="storage/">Storage on GaiaKeep</a></td>
+<td><a href="https://gaiakeep.github.io/docs/">GaiaKeep</a>, the global file system for agents, on the same mesh (storage core release 1.3, 2026-10-01)</td>
+<td>The intended durable, versioned backend for panAtlas datasets; the panAtlas index estate is among the candidates for GaiaKeep's first real data</td>
+<td><strong>GaiaKeep built; the panAtlas binding measured and designed, nothing stored yet</strong>; see <a href="storage/">Storage on GaiaKeep</a></td>
 </tr>
 </tbody>
 </table>
@@ -1806,7 +1807,10 @@ change-notifications on the data plane, signed reports and hub-to-hub peering ar
 <p>panAtlas does not build its own transport, identity or trust. Cresco already provides:</p>
 <ul>
 <li>a <code>global → region → agent</code> hierarchy that rolls inventories up the tree;</li>
-<li>authenticated enrollment (join secrets, or a regional CA with mutual TLS) and a stable <code>region_agent</code> identity;</li>
+<li>a certificate-bound identity for every node, admitted by an authenticated discovery exchange (a join secret in the
+  standard profile, the operator's PKI in production), with mutual TLS on every broker connection;</li>
+<li>end-to-end, recipient-bound message authentication and signed plugin installs, on by default since the Cresco 1.3
+  hardening;</li>
 <li>per-tenant isolation in the broker;</li>
 <li>a control plane (MsgEvent RPC) and a data plane (pub/sub topics);</li>
 <li>self-describing plugin actions that any client, or any AI agent, can call as tools.</li>
@@ -1857,6 +1861,10 @@ no new infrastructure. <a href="cresco/">Cresco for panAtlas</a> explains the pa
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with

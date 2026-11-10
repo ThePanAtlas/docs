@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
+        <meta name="description" content="How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.">
       
       
       
@@ -1925,14 +1925,16 @@ design decisions were locked on 2026-07-29 (<code>FEDERATION.md</code>):</p>
 <li><strong>Hub-and-spoke</strong> topology: one canonical hub (panatlas.net), many agents.</li>
 <li><strong>Structure and metadata only</strong>: no raw documents, no protected health information.</li>
 <li><strong>Tiered trust</strong>: trusted agents are visible on arrival, provisional agents are queued as claims.</li>
-<li><strong>Cresco</strong> as the base framework, with the reporter written as a native Cresco plugin.</li>
+<li><strong><a href="https://crescoedge.github.io/docs/">Cresco</a></strong> as the base framework, with the reporter written as a native
+  Cresco plugin.</li>
 </ul>
 <h2 id="join-keys-the-ontology-is-the-protocol">Join keys: the ontology is the protocol<a class="headerlink" href="#join-keys-the-ontology-is-the-protocol" title="Permanent link">&para;</a></h2>
-<p>Every grounded panAtlas node carries a <strong>canonical ontology identifier</strong> such as <code>mesh:D051436</code>, a FHIR code, a
-ChEBI or FoodOn identifier. Those identifiers are the <strong>join keys</strong> of federation. Two agents that both emit
+<p>Every grounded panAtlas node carries a <strong>canonical identifier</strong> from its field's own vocabulary: <code>mesh:D051436</code> for
+a medical concept, a FHIR code, a ChEBI or FoodOn identifier for a chemical or a food, a Wikipedia identity for a
+general concept. Those identifiers are the <strong>join keys</strong> of federation, in every domain. Two agents that both emit
 <code>mesh:D051436</code> are provably describing the same concept, so their contributions merge with no reconciliation step.</p>
 <p>A node with no canonical identifier is <strong>ungrounded</strong>. It carries a <code>local_id</code>, is namespaced to its agent, and
-never enters the MeSH medical tree. See <a href="../../metadata/identifiers/">Identifiers</a> and
+never enters the shared concept hierarchy (for medical concepts, the MeSH tree). See <a href="../../metadata/identifiers/">Identifiers</a> and
 <a href="../../metadata/codesystems/">Code systems</a> for the identifier schemes.</p>
 <h2 id="substrate-and-connectivity">Substrate and connectivity<a class="headerlink" href="#substrate-and-connectivity" title="Permanent link">&para;</a></h2>
 <p>Two kinds of contribution are kept apart throughout (<code>LAYERS.md</code>, <code>agent-deployment/CONNECTING.md</code>):</p>
@@ -1996,7 +1998,7 @@ independent fields on the agent profile control that:</p>
 <tr>
 <td></td>
 <td><code>provisional</code> (default)</td>
-<td>Contributions land as <code>federation_status: pending</code>: hidden by default, held for a curator. A provisional agent can never add a new node to the MeSH tree without a valid <code>canonical_id</code></td>
+<td>Contributions land as <code>federation_status: pending</code>: hidden by default, held for a curator. A provisional agent can never add a new node to the concept hierarchy (<code>FEDERATION.md</code> names the MeSH tree) without a valid <code>canonical_id</code></td>
 </tr>
 <tr>
 <td><code>status</code></td>
@@ -2204,6 +2206,10 @@ is the Phase 3 item above.</p>
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
+    </div>
   
   
     Made with
