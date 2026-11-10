@@ -132,8 +132,11 @@ An optional `<slug>/grounded.json` (`{nodes: [], edges: []}`) layers grounded co
 
 ## MsgEvent actions
 
-Both actions are `EXEC` messages addressed to `panatlas-global / <agent> / <plugin_id>` with parameter
-`action`.
+Both actions are `EXEC` [MsgEvents](https://crescoedge.github.io/docs/api/msgevent/) addressed to
+`panatlas-global / <agent> / <plugin_id>` with parameter `action`. Neither action declares `roles` in its
+`@CrescoAction` annotation, so on a Cresco build with the 1.3 secure defaults, which callers may run them is Cresco's
+default for an action without roles
+([Security in Cresco 1.3](https://crescoedge.github.io/docs/security/)).
 
 | Action | Request params | Reply params |
 |---|---|---|
@@ -201,7 +204,7 @@ Written every 1.5 s by `mesh_daemon.py` into the explorer plugin's `data/` direc
 | `nodes[].datasets[]` | One per manager answering on that agent: `urn`, `name`, `modality`, `item_count`, `manifest_hash` (first 19 characters) |
 | `edges[]` | `from`, `to`, `rtt` (ms), `cost`, `conns`. A `…_parent` target is rewritten to the global node |
 | `routes` | Reserved, always empty |
-| `source` | `push` (fresh `route_lsa` gossip) or `poll` (`getnetworkstate` fallback) |
+| `source` | `push` (fresh `route_lsa` link-state advertisements) or `poll` (`getnetworkstate` fallback) |
 | `ok` | Always `true` when written |
 | `counts` | `nodes`, `agents`, `globals`, `links`, `datasets` |
 | `updated_epoch` | Unix seconds of the write |

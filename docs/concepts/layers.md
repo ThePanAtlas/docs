@@ -25,8 +25,8 @@ type, and identity versus claim). The atlas is where curated, verifiable facts a
 ```mermaid
 flowchart TB
     subgraph SUB["Substrate (identity): canonical_id"]
-      T["Layer 1: terminology backbone<br/>MeSH · SNOMED CT · LOINC · RxNorm · ICD · Wikipedia"]
-      I["Layer 2: clinical instance layer<br/>FHIR R4 (designed)"]
+      T["Layer 1: terminology backbone<br/>each field's vocabularies: MeSH · SNOMED CT ·<br/>LOINC · RxNorm · ICD · FoodOn · Wikipedia"]
+      I["Layer 2: instance layer<br/>FHIR R4 for clinical records (designed)"]
     end
     subgraph CON["Connectivity (claims): edges with provenance"]
       OT["ontology-tree<br/>part_of src: mesh_tree"]
@@ -46,10 +46,16 @@ flowchart TB
 
 The decision: one RDF graph, three layers, joined by concept IRIs.
 
+The decision record was written for medicine, the domain the atlas started with, and its wording is medical: layer 1
+is "the medical concepts and entities" and layer 2 is the "clinical / multi-modal instance layer". The pattern itself
+is domain-agnostic. Each domain's concepts come from that field's own vocabularies and join the same graph by
+canonical identifier; the served graph already does this for foods (FoodOn, FoodData Central) and for general
+concepts (Wikipedia). Backbones and instance models for other domains are not yet written into the standard.
+
 | Layer | What it is | What lives in it today | Status |
 |---|---|---|---|
-| 1. Terminology / ontology backbone | Medical concepts and entities with stable identifiers from real vocabularies, SKOS-shaped. MeSH is canonical; hierarchy from MeSH tree numbers | 3,390 nodes with a `mesh:` canonical id (among them 51 curated concepts, 142 MeSH tree expansions and 3,160 FoodAtlas diseases); 3,360 `part_of` edges from tree numbers; cross-codes; 15 code-system `authority` nodes; Wikipedia-grounded general concepts. See [Controlled vocabularies](../metadata/codesystems.md) | **Built** |
-| 2. Clinical / multi-modal instance layer | Actual records as FHIR RDF R4 (`ImagingStudy`, `Observation`, `Condition`, …) whose codings carry concept IRIs that join layer 1 | The 13 FHIR resource types and 5 NACC record types as nodes; 36 `instantiates` edges saying which datasets would hold which resource. No instance records | **Designed** |
+| 1. Terminology / ontology backbone | Concepts and entities with stable identifiers from real vocabularies, SKOS-shaped. For medical concepts MeSH is canonical and the hierarchy comes from MeSH tree numbers | 3,390 nodes with a `mesh:` canonical id (among them 51 curated concepts, 142 MeSH tree expansions and 3,160 FoodAtlas diseases); 3,360 `part_of` edges from tree numbers; cross-codes; 15 code-system `authority` nodes; Wikipedia-grounded general concepts. See [Controlled vocabularies](../metadata/codesystems.md) | **Built** |
+| 2. Clinical / multi-modal instance layer | Actual records whose codings carry concept IRIs that join layer 1. For medicine, FHIR RDF R4 (`ImagingStudy`, `Observation`, `Condition`, …) | The 13 FHIR resource types and 5 NACC record types as nodes; 36 `instantiates` edges saying which datasets would hold which resource. No instance records | **Designed** |
 | 3. Working / evidence property graph | What the explorer renders: datasets, measured metadata, modality, embeddings, evaluation items and results. A projection of layers 1 and 2, not a separate source of truth | The served `graph.json` (6,187 nodes, 17,119 edges) and its RDF export in the named graph `https://panatlas.net/graph/panatlas` | **Built** |
 
 The join is the reason this is one graph: a FHIR coding `a sct:…` or `a loinc:…` lands on the same
@@ -164,7 +170,7 @@ Three kinds of content therefore sit side by side, and the data marks which is w
 
 | Content | How it is derived | Marker |
 |---|---|---|
-| Concept hierarchy | MeSH tree-number prefixes | `part_of` with `src: mesh_tree` |
+| Concept hierarchy (medical concepts) | MeSH tree-number prefixes | `part_of` with `src: mesh_tree` |
 | Disease specialty | MeSH tree number of the disease | `built_by: "…specialty by tree number"` |
 | Corpus → concept | Corpus document classification (embedding cells + LLM-judged cell labels) | `classified_as` with `n_docs` |
 | Concept relatedness | Cosine between concept anchors, kept at 0.72 or above | `related` with `sim` |
@@ -247,6 +253,9 @@ never hand-edited.
 layer of the served graph: the page's `concept_kind` sets the node kind (`map` becomes `specialty`,
 the Medicine page becomes `root`, a `gate` page becomes `gate`), and its `prerequisites` become
 `prereq` edges. The verified MeSH mapping then supplies the canonical identity and the hierarchy.
+The 51 concept pages at HEAD are the medical curriculum, so `root` is the root of that curriculum,
+not of the atlas: the atlas itself sits under `atlas-root`, with one `domain` node per top-level
+field ([Graph schema](../metadata/graph-schema.md)).
 
 ```mermaid
 stateDiagram-v2

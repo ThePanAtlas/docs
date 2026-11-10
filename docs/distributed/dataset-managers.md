@@ -3,7 +3,7 @@
 Every dataset in the registry is managed by its **own `cresco-panatlas` plugin instance**, running on the Cresco
 agent at the site that hosts the dataset. A manager owns exactly one dataset. It serves that dataset's grounded,
 structure-only report, stamped with the dataset's URN and `manifest_hash`, and the hub reaches it over Cresco
-messaging: no cron scrape and no raw HTTP.
+messaging ([Cresco](https://crescoedge.github.io/docs/) MsgEvents): no cron scrape and no raw HTTP.
 
 This is what "a dataset joins the atlas where it sits" means in practice: the data stays on the cluster, the
 manager sits next to it, and the atlas knows the dataset through the manager.
@@ -122,8 +122,8 @@ site's **Mesh view**:
 
 | Every | It does |
 |---|---|
-| continuously | Subscribes to `route_lsa` link-state gossip on the data plane (the live path). Gossip older than 60 s is dropped |
-| 3 s | Polls the global controller's `getnetworkstate` (fallback when there is no fresh gossip) |
+| continuously | Subscribes to `route_lsa` link-state advertisements on the data plane (the live path). Advertisements older than 60 s are dropped |
+| 3 s | Polls the global controller's `getnetworkstate` (fallback when there are no fresh advertisements) |
 | 15 s | Lists `io.cresco.panatlas` instances on each manager-hosting agent, pulls `getgraphinventory` from each, takes the `type == "dataset"` node, deduplicates by URN and groups datasets by agent |
 | 1.5 s | Writes `mesh.json` atomically (temp file, then rename) |
 

@@ -40,7 +40,7 @@ precondition. All write into `web/wp-plugin/panatlas-explorer/data/` unless note
 | `build_layered.py` | The core compiler. Builds the layered graph (concept, dataset and ontology layers, with modality as a facet) from the MeSH-grounded concept spine (`atlas/20-concepts/*.md` plus `concept_mesh_grounded.json`), code systems, FHIR, NACC, nutrition, FoodAtlas, FNDDS, the imaging registry, domains, measured corpus sources (`dgx_sources.json`), the document rollup and footprint, and merged federation output. Writes `data/graph.json`. |
 | `build_all_datasets.py` | Exhaustive corpus-source accounting: every data source on disk, used or not, tagged with modality, status, location and scale. |
 | `build_train_sources.py` | Wires the authoritative per-model training manifests (`v4_train_sources.json`, `v5_train_sources.json`) as `trained_on` edges, replacing partial ones. |
-| `build_source_topics.py` | Propagates each training source's clinical domain onto the catalog entries. |
+| `build_source_topics.py` | Propagates each training source's content domain (a clinical specialty or other content area, from the V4/V5 source manifests) onto the catalog entries. |
 | `sft_wiring.py` | Wires the measured supervised fine-tuning inventory into the graph. |
 | `build_corpus_structure.py` | Fixes the dataset model: a model has a few datasets (pretraining corpus, SFT set), each composed of sources. |
 | `model_wiring.py` | Restores full graph stats and wires model to dataset and benchmark edges. |

@@ -4,7 +4,7 @@ A map of the panAtlas repository at commit 57505c6. The repository has three dir
 and a set of design and operations documents at the root. Almost all code is under `web/`. Paths are relative to the
 repository root.
 
-The Cresco plugin (`cresco-panatlas`) and the operator kit for connecting a site (`agent-deployment`) are separate
+The [Cresco](https://crescoedge.github.io/docs/) plugin (`cresco-panatlas`) and the operator kit for connecting a site (`agent-deployment`) are separate
 repositories; see [Distributed](../distributed/index.md).
 
 ## Top level

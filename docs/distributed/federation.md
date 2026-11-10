@@ -6,16 +6,18 @@ design decisions were locked on 2026-07-29 (`FEDERATION.md`):
 - **Hub-and-spoke** topology: one canonical hub (panatlas.net), many agents.
 - **Structure and metadata only**: no raw documents, no protected health information.
 - **Tiered trust**: trusted agents are visible on arrival, provisional agents are queued as claims.
-- **Cresco** as the base framework, with the reporter written as a native Cresco plugin.
+- **[Cresco](https://crescoedge.github.io/docs/)** as the base framework, with the reporter written as a native
+  Cresco plugin.
 
 ## Join keys: the ontology is the protocol
 
-Every grounded panAtlas node carries a **canonical ontology identifier** such as `mesh:D051436`, a FHIR code, a
-ChEBI or FoodOn identifier. Those identifiers are the **join keys** of federation. Two agents that both emit
+Every grounded panAtlas node carries a **canonical identifier** from its field's own vocabulary: `mesh:D051436` for
+a medical concept, a FHIR code, a ChEBI or FoodOn identifier for a chemical or a food, a Wikipedia identity for a
+general concept. Those identifiers are the **join keys** of federation, in every domain. Two agents that both emit
 `mesh:D051436` are provably describing the same concept, so their contributions merge with no reconciliation step.
 
 A node with no canonical identifier is **ungrounded**. It carries a `local_id`, is namespaced to its agent, and
-never enters the MeSH medical tree. See [Identifiers](../metadata/identifiers.md) and
+never enters the shared concept hierarchy (for medical concepts, the MeSH tree). See [Identifiers](../metadata/identifiers.md) and
 [Code systems](../metadata/codesystems.md) for the identifier schemes.
 
 ## Substrate and connectivity
@@ -51,7 +53,7 @@ independent fields on the agent profile control that:
 | Field | Values | Effect |
 |---|---|---|
 | `tier` | `trusted` | Contributions merge into the **visible** graph immediately, attributed to the agent |
-| | `provisional` (default) | Contributions land as `federation_status: pending`: hidden by default, held for a curator. A provisional agent can never add a new node to the MeSH tree without a valid `canonical_id` |
+| | `provisional` (default) | Contributions land as `federation_status: pending`: hidden by default, held for a curator. A provisional agent can never add a new node to the concept hierarchy (`FEDERATION.md` names the MeSH tree) without a valid `canonical_id` |
 | `status` | `pending` (on registration) | Registered but not permitted. Nothing merges |
 | | `active` | Permitted. **Only active agents contribute** |
 | | `suspended`, `revoked` | Contributions stop merging at once |

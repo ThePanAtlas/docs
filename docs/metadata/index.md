@@ -9,7 +9,7 @@ reads it, and what values it holds at the repository commit each page names.
 
 ```mermaid
 flowchart LR
-  DOC["document<br/>doc_uid"] -. "MeSH labels and weighted edges<br/>(document index, outside the graph)" .-> CON["concept / specialty<br/>canonical_id mesh:D…"]
+  DOC["document<br/>doc_uid"] -. "MeSH labels and weighted edges<br/>(document index, outside the graph)" .-> CON["concept / specialty<br/>canonical_id (mesh:D…, foodon:…, wikipedia:…)"]
   DS["dataset<br/>panatlas:dataset:&lt;slug&gt;<br/>manifest_hash"] -. "ledger rows" .-> DOC
   DS -- "classified_as, covers_topic" --> CON
   DS -- test_set_of --> BEN["benchmark /<br/>llm-benchmark"]

@@ -46,6 +46,7 @@ flowchart TB
 | Document index | Content-hash identity (`doc_uid`) and MeSH labels for every document in the training estate | [Document index](metadata/document-index.md) |
 | Evaluation layer | Benchmarks, results and model curricula: what each model was trained on, when, where and with what | [Benchmarks](metadata/benchmarks.md), [Evaluation records](metadata/evaluation-records.md), [Models and curriculum](metadata/models-and-curriculum.md) |
 | Distributed layer | Cresco mesh, dataset managers, federation, supervision | [Distributed system](distributed/index.md) |
+| Storage | [GaiaKeep](https://gaiakeep.github.io/docs/), the global file system for agents on the same mesh, as the durable, versioned backend (designed; nothing stored yet) | [Storage on GaiaKeep](distributed/storage.md) |
 | Knowledge store | The panAtlas graph plus mirrored NSF Open Knowledge Network graphs, served over SPARQL | [Knowledge store](system/knowledge-store.md), [RDF vocabulary](metadata/rdf-vocabulary.md) |
 | Site and API | panatlas.net: explorer views, ORCID sign-in, a public API and an agent interface | [The site](system/web-site.md), [Public API](system/public-api.md), [Astral](system/astral.md) |
 

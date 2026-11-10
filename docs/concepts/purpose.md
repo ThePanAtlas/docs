@@ -39,7 +39,7 @@ a model graded through a controlled interface. That assessment surface is design
 |---|---|
 | Researchers choosing or comparing models | The explorer at panatlas.net, the [public API](../system/public-api.md), and the [Astral agent](../system/astral.md) |
 | Engineers extending the atlas | The [build pipeline](../system/build-pipeline.md), the registries, the [repository map](../reference/repository-map.md) |
-| Sites that hold data | The Cresco federation: a dataset joins where it sits ([Distributed](../distributed/index.md)) |
+| Sites that hold data | The [Cresco](https://crescoedge.github.io/docs/) federation: a dataset joins where it sits ([Distributed](../distributed/index.md)) |
 | Curators | The markdown fact-graph and its verification rules ([Architecture](architecture.md)) |
 | Other agents and language-model clients | `tools.json` from the public API, and the SPARQL store through Astral |
 

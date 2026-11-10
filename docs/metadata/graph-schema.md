@@ -282,6 +282,10 @@ On some nodes (count): `modality` (1), `origin` (1), `access` (1), `license_note
 
 #### `root` (1)
 
+`concept-medicine`, the root of the medical concept curriculum (the 51 atlas concept pages), not of
+the atlas. It is `part_of` `domain-health` (Health & Medicine), one of the five `domain` nodes that
+are `part_of` `atlas-root`.
+
 On every node: `id`, `label`, `kind`, `layer`, `canonical_id`, `grounding`, `mesh_dui`, `mesh_name`, `mesh_tree`, `mesh_url`, `cui`, `snomed`, `rxnorm`, `loinc`, `icd10cm`, `desc`, `wiki_oldid`, `corpus_docs`, `n_subtopics`, `subtopics`, `wp_url`, `source`, `built_by`, `n_diseases`, `n_foods`, `corpus_sources`, `eval_questions`, `eval_benchmarks`, `corpus_docs_caveat`, `corpus_source_docs`, `eval_accuracy`.
 
 #### `gate` (1)
@@ -293,6 +297,10 @@ On every node: `id`, `label`, `kind`, `layer`, `canonical_id`, `grounding`, `mes
 On every node: `id`, `label`, `kind`, `layer`, `modality`, `origin`, `desc`, `measured`, `relations`, `source`, `built_by`, `fa_entities`, `fa_triplets`, `fa_evidence`, `fa_relations`, `fa_license`, `fa_version`, `fa_external_ids`, `fa_top_diseases`, `fa_overlap`, `docs`, `access`.
 
 #### `atlas-root` (1)
+
+The top of the atlas (label "PanAtlas"). The five `domain` nodes (`domain-health`, `domain-food`,
+`domain-lifesci`, `domain-standards`, `domain-general`) are `part_of` it; medicine's curriculum
+root, `concept-medicine`, sits under `domain-health`.
 
 On every node: `id`, `label`, `kind`, `layer`, `desc`, `source`, `built_by`, `n_diseases`, `n_foods`, `modality`.
 
@@ -376,6 +384,11 @@ rules are summarised here with what the served graph does.
 
 ### Identity and grounding
 
+`GRAPH_STANDARDS.md` was written for medicine, the domain the atlas started with, so its grounding
+rules name medical vocabularies. The served graph applies the same idea to other domains with their
+own vocabularies (FoodOn and FoodData Central for foods, Wikipedia for general concepts; see
+[Code systems](codesystems.md)). As written:
+
 - Every node must be tied to a real MeSH descriptor or another core concept (SNOMED CT or a UMLS
   concept). There are to be no orphan nodes.
 - A concept's canonical identity is its MeSH descriptor UI, for example `mesh:D002309` for
@@ -400,7 +413,7 @@ rules are summarised here with what the served graph does.
 
 ### Hierarchy and edge direction
 
-- The concept hierarchy comes from MeSH tree numbers. A descriptor's parent is the descriptor whose
+- The medical concept hierarchy comes from MeSH tree numbers. A descriptor's parent is the descriptor whose
   tree number is the immediate prefix. Specialties live in the MeSH H02 tree, diseases in C,
   techniques in E. In the served graph this hierarchy is the `part_of` relation with
   `src: mesh_tree` (3,360 edges); hand-curated links carry `src: curated` (1,845).

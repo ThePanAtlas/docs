@@ -31,7 +31,8 @@ flowchart LR
 ```
 
 Only **structure** crosses the mesh: identifiers, counts, edges, model stamps and hashes. Documents, pixels,
-embeddings and anything carrying protected health information or licensed text never do. That rule is enforced
+embeddings and anything carrying protected data (protected health information, for example) or licensed text never
+do. That rule is enforced
 in code at three points (the report builder, the Cresco plugin and the hub merge), so a misconfigured source can
 not leak.
 
@@ -43,8 +44,8 @@ not leak.
 | **Knowledge-graph agents** | One agent per mirrored NSF Open Knowledge Network graph (`okn_agent.py`), each also a registered dataset with its own manager | Tracks its upstream graph's version and provenance, syncs it independently, and declares its source of record | **Built.** 42 graphs on 2026-09-26, 43 from 2026-10-02 |
 | **Participating agents** | Any Cresco node that joins the region and runs `cresco-panatlas`, usually with the local agent kit | Contributes its own grounded subgraph; trust tier and admin status decide whether it merges | **Built and documented.** No external site contributes yet |
 | **The hub** | The web host's Cresco agent + `mesh_daemon.py` + the site | Pulls every manager's report over the control plane, shows datasets per node in the Mesh view, folds permitted contributions into the graph | **Built.** Pull runs every 15 s |
-| **Supervision** | systemd units on the HPC cluster login node and the web host | Restarts wedged agents, re-adds missing managers, re-audits manifests hourly | **Built**, after three outages; see [Operations](operations.md) |
-| **Storage** | GaiaKeep, the global file system built on the same mesh | Is being built to hold the panAtlas index estate as a versioned dataset | **Measured and designed**; see [Storage on GaiaKeep](storage.md) |
+| **Supervision** | systemd units on the HPC cluster login node and the web host | Restarts wedged agents, re-adds missing managers, rebuilds manifests hourly | **Built**, with a guard for each of the six recorded outages; see [Operations](operations.md) |
+| **Storage** | [GaiaKeep](https://gaiakeep.github.io/docs/), the global file system for agents, on the same mesh (storage core release 1.3, 2026-10-01) | The intended durable, versioned backend for panAtlas datasets; the panAtlas index estate is among the candidates for GaiaKeep's first real data | **GaiaKeep built; the panAtlas binding measured and designed, nothing stored yet**; see [Storage on GaiaKeep](storage.md) |
 
 !!! note "What is built and what is designed"
     Every claim in this section says which it is. The **pull path** (hub → global controller → manager, over
@@ -57,7 +58,10 @@ not leak.
 panAtlas does not build its own transport, identity or trust. Cresco already provides:
 
 - a `global → region → agent` hierarchy that rolls inventories up the tree;
-- authenticated enrollment (join secrets, or a regional CA with mutual TLS) and a stable `region_agent` identity;
+- a certificate-bound identity for every node, admitted by an authenticated discovery exchange (a join secret in the
+  standard profile, the operator's PKI in production), with mutual TLS on every broker connection;
+- end-to-end, recipient-bound message authentication and signed plugin installs, on by default since the Cresco 1.3
+  hardening;
 - per-tenant isolation in the broker;
 - a control plane (MsgEvent RPC) and a data plane (pub/sub topics);
 - self-describing plugin actions that any client, or any AI agent, can call as tools.

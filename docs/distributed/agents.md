@@ -75,7 +75,10 @@ mvn package bundle:bundle        # -> target/panatlas-0.1-SNAPSHOT.jar
 
 Deploy the bundle to a running agent through the Cresco controller (plugin upload, then add an instance with its
 configuration). The hub does this with `pycrescolib` in `web/mesh/deploy_managers.py`; see
-[Dataset managers](dataset-managers.md#3-deployment-and-self-healing-every-15-min-web-host).
+[Dataset managers](dataset-managers.md#3-deployment-and-self-healing-every-15-min-web-host). On a Cresco build with
+the 1.3 secure defaults, an uploaded jar is installed only if it is signed and verifies against the agent's
+`plugin_signing_truststore` ([Signed plugins](https://crescoedge.github.io/docs/security/signed-plugins/)). The
+bundle is not signed today; see [Cresco for panAtlas](cresco.md#version-and-security-build).
 
 ## The local agent kit
 
@@ -120,7 +123,10 @@ cosine and no edge. `build-anchors` mints a model's anchors as an `.npz` (`vecs`
     anchors' model. The kit's `attach` checks only the dimension, although `CONNECTING.md` already describes the
     guard. The kit's `models.json` also lists an older imaging model. Sync the kit from the hub before onboarding a
     site. The kit's Cresco links (`crescoedge.github.io/quickstart/…`) also return 404; the documentation is now at
-    `crescoedge.github.io/docs/`.
+    `crescoedge.github.io/docs/`. Its `examples/cresco.env` names the identity keys `regionName` and `agentName`;
+    Cresco's parameters are `regionname` and `agentname`
+    ([Configuration](https://crescoedge.github.io/docs/getting-started/configuration/)), which is how the panAtlas unit
+    files set them.
 
 ## Connecting a new site
 
@@ -142,10 +148,15 @@ flowchart LR
    identifiers use, approximate node and edge counts, and the dataset, modalities and registered model per
    modality. You receive your `region` and `agent` names (identity `agent-<region>_<agent>`), your tenant, your
    starting tier, your status (`pending` until an admin permits you) and the discovery join secret for your tier.
-2. **Join the mesh.** Configure and start a Cresco agent (`examples/cresco.env`): `regionName`, `agentName`,
-   `regional_controller_host`, `is_global=false`, `discovery_secret_agent`, and for a medical federation
-   `broker_security_enabled`, `security_regional_ca`, `broker_require_client_auth` and `tenant_namespacing` all
-   set to `true`.
+2. **Join the mesh.** Configure and start a Cresco agent (`examples/cresco.env`): its region and agent names,
+   `regional_controller_host`, `is_global=false` and the join secret for your tier (`discovery_secret_agent`). Keep
+   the secret in an owner-only file or a `CRESCO_<NAME>` environment variable, not on the command line
+   ([Deployment](https://crescoedge.github.io/docs/operations/deployment/#securing-a-fabric)). The kit also sets
+   `broker_security_enabled`, `broker_require_client_auth` and `tenant_namespacing` to `true`, with the comment "turn
+   ON for a real medical federation". In Cresco 1.3 those three are already the defaults
+   ([Secure defaults](https://crescoedge.github.io/docs/security/secure-defaults/)) and apply to every federation,
+   whatever its domain. The kit's fourth setting, `security_regional_ca=true`, is opt-in regional-CA enrollment,
+   available in the standard profile only ([Security profiles](https://crescoedge.github.io/docs/security/profiles/)).
 3. **Bind your dataset and models.** One plugin instance is one dataset. Declare `panatlas_dataset_id`,
    `panatlas_modalities` and `panatlas_model.<modality>` for each stream, choosing the most specific registered
    model that applies.
@@ -165,7 +176,7 @@ flowchart LR
 |---|---|
 | Report has 0 edges | No embeddings attached yet, or `attach` refused a model mismatch |
 | Edges quarantined at the hub | The declared model is not registered for that modality |
-| Nothing merges | `status` is not `active`, or the join or mTLS enrollment failed |
+| Nothing merges | `status` is not `active`, or the join or mTLS enrollment failed. Cresco's own refusals and their fixes are in [Cresco troubleshooting](https://crescoedge.github.io/docs/operations/troubleshooting/) |
 | `MODEL-SPACE MISMATCH` | Embeddings from one model attached to another model's anchors |
 
 ## The admin portal
@@ -185,4 +196,5 @@ written to the site audit log (`panatlas_audit`, events `fed_register` and `fed_
 
 !!! note "What the token is for"
     Tokens were designed for the HTTP submission route (`POST /federate`), which is not built. On the Cresco path,
-    identity comes from the mesh (join secret and mTLS), and the registry's `tier` and `status` gate the merge.
+    identity comes from the mesh (the node's certificate, admitted with its join secret and checked by mutual TLS),
+    and the registry's `tier` and `status` gate the merge.

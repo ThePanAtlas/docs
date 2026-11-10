@@ -19,7 +19,7 @@ site, and where each part runs.
 | **Astral agent** (`web/astral/`) | Web host, loopback service behind the TLS virtual host | Exposes the atlas as read-only tools to the Astral agent platform | **Built, live** |
 | **SPARQL stores** (QLever) | HPC cluster, a CPU-only Slurm job | `panatlas-okn` (panAtlas plus every proven NSF OKN mirror) and `wikidata` | `panatlas-okn` **served** (44 graphs, 6,994,341,217 triples); `wikidata` **in verification** as of 2026-10-17 |
 | **Coverage service** (`web/coverage/`) | HPC cluster, loopback | Answers "how well does the atlas cover this area" against the Wikipedia layer | **Built** (2026-09-16) |
-| **Cresco mesh** | HPC cluster, web host, and a controller node | Dataset managers report structure-only subgraphs; the hub shows them and folds permitted contributions | **Built, running**; see [Distributed](../distributed/index.md) |
+| **[Cresco](https://crescoedge.github.io/docs/) mesh** | HPC cluster, web host, and a controller node | Dataset managers report structure-only subgraphs; the hub shows them and folds permitted contributions | **Built, running**; see [Distributed](../distributed/index.md) |
 | **Hosted LLM endpoint** | External to panAtlas, OpenAI-compatible | Backs the explorer's Navigator and model lens | **Used** at request time |
 
 ## Data flow: from acquisition to the site
@@ -132,7 +132,7 @@ diffed, merged, or split by community, so community-scoped facts cannot federate
 | REST API on WordPress | Static site (read), git pull requests (write), generated JSON (agents) |
 | ORCID via a WordPress plugin | ORCID via OIDC on the git host |
 
-The domain model survives unchanged: the curriculum graph, the jurisdiction-parameterised education ladder, the six
+The conceptual model survives unchanged: the curriculum graph, the jurisdiction-parameterised education ladder, the six
 stratification axes, the assessment framework, the provenance ethos, ORCID identity and Wikipedia seeding. `PLAN.md`
 (the current plan) builds on this decision and adds the two-layer design: a human-readable layer of concept and
 document pages and a machine-readable layer of atomic `fact-` and `entity-` pages
@@ -161,8 +161,10 @@ document pages and a machine-readable layer of atomic `fact-` and `entity-` page
 ## Layers of the graph
 
 `GRAPH_STANDARDS.md` binds the representation to one RDF graph in three layers joined by concept IRIs: a terminology
-backbone (MeSH canonical, with SNOMED CT, LOINC, RxNorm, UMLS and ICD cross-codes), a clinical and multi-modal
-instance layer (FHIR R4), and a working property graph (what the explorer renders). `LAYERS.md` separates the same
+backbone, a multi-modal instance layer, and a working property graph (what the explorer renders). The standard was
+written for medicine, the domain built first, so it names the medical vocabularies (MeSH canonical, with SNOMED CT,
+LOINC, RxNorm, UMLS and ICD cross-codes) and FHIR R4 for clinical records; the served graph already grounds other
+domains in their own vocabularies, such as FoodOn for foods and Wikipedia for general concepts. `LAYERS.md` separates the same
 system differently, into substrate (identity), connectivity (claims) and embeddings (one registered model per
 modality). Both are explained in [Layers](layers.md); the vocabulary is in [RDF vocabulary](../metadata/rdf-vocabulary.md)
 and the code systems in [Code systems](../metadata/codesystems.md).
@@ -179,7 +181,7 @@ and the code systems in [Code systems](../metadata/codesystems.md).
 
 ## Distributed by design
 
-panAtlas is built as a distributed system on the Cresco agent mesh. Datasets join the atlas where they sit, each
+panAtlas is built as a distributed system on the [Cresco](https://crescoedge.github.io/docs/) agent mesh. Datasets join the atlas where they sit, each
 managed by its own `cresco-panatlas` plugin instance at the hosting site, and only structure crosses the mesh. The
 hub on the web host pulls every manager's report, shows them in the Mesh view, and folds permitted contributions
 into the graph. Remote panAtlas instances and computational resources are treated the same way, as peers on the

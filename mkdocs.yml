@@ -1,9 +1,10 @@
 site_name: panAtlas
-site_description: How panAtlas works — a provenance-first, multi-modal evaluation reference atlas that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.
+site_description: How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the Cresco mesh. Architecture, federation, and exhaustive metadata reference.
 site_url: https://thepanatlas.github.io/docs/
 repo_url: https://github.com/ThePanAtlas/docs
 repo_name: ThePanAtlas/docs
 edit_uri: ""
+copyright: Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The panAtlas software is not covered by this licence.
 
 theme:
   name: material

@@ -21,8 +21,11 @@ and how a grounding is verified. Counts were computed with `python3` from the fi
 | FoodOn, ChEBI, FoodData Central, FNDDS | Food and chemical entities | Yes, for food nodes |
 | Internal vocabularies | Artifact types, registers, testing types, capabilities, domains | Internal (`panatlas:` prefix where a canonical id is given) |
 
-`GRAPH_STANDARDS.md` names MeSH, SNOMED CT, LOINC, RxNorm, UMLS and ICD as the terminology backbone,
-with MeSH canonical. `web/domains.json` lists the full `ontology_backbone`: `onto-mesh`,
+Each domain is grounded in its own field's vocabularies. Medicine has the most today, because it is where the
+atlas's holdings run deepest; foods are grounded in FoodOn and FoodData Central, and general knowledge in
+Wikipedia. A new domain registers its own vocabularies the same way.
+`GRAPH_STANDARDS.md`, written for the medical holdings, names MeSH, SNOMED CT, LOINC, RxNorm, UMLS and ICD as the
+terminology backbone, with MeSH canonical. `web/domains.json` lists the full `ontology_backbone`: `onto-mesh`,
 `onto-fhir`, `onto-snomed`, `onto-loinc`, `onto-rxnorm`, `onto-icd11`, `onto-icd10cm`, `onto-umls`,
 `onto-go`, `onto-foodon`, `onto-chebi`, `onto-fdc`, `onto-wikidata`, `onto-nacc`, `onto-wikipedia`.
 
@@ -213,8 +216,9 @@ which are the five non-FHIR `fhir`-kind nodes: `nacc-case-level`, `nacc-slide-le
 
 ## Domains: `web/domains.json`
 
-The navigational spine, broad to granular, grounded to Wikipedia main-topic categories and, where
-medical, to a MeSH tree category.
+The navigational spine, broad to granular: the top-level fields of knowledge under `atlas-root`,
+grounded to Wikipedia main-topic categories and, where medical, to a MeSH tree category. Medicine
+(`domain-health`) is one of five domains today.
 
 | Key | Content |
 |---|---|

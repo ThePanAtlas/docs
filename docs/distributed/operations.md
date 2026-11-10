@@ -2,7 +2,9 @@
 
 How the two panAtlas Cresco agents are supervised, what has gone wrong, and how to recover. Every guard on this page
 exists because of a specific outage. Sources: `web/mesh/deploy/` (units, scripts, README) and the dated incident
-records.
+records. This page covers panAtlas's own deployment; Cresco's refusals and their fixes (start-up, message-signature,
+discovery and dataplane problems) are in [Cresco troubleshooting](https://crescoedge.github.io/docs/operations/troubleshooting/),
+and Cresco's deployment guidance in [Deployment](https://crescoedge.github.io/docs/operations/deployment/).
 
 ## Standing rules
 
@@ -80,8 +82,8 @@ the single system bundle. Supervision moved from cron to systemd.
 keeps printing `OK`, but the controller database will not boot ("Another instance of Derby may have already booted
 the database"). The agent drops off the mesh and its managers are not restored (21 of 33 came back on 2026-09-17).
 
-**Cause:** the controller's Derby database sits on a shared parallel filesystem. After an unclean JVM exit, the next
-start finds `db.lck` and `dbex.lck` and refuses to boot.
+**Cause:** the controller's Derby database (under `cresco-data/` in the agent's working directory) sits on a shared
+parallel filesystem. After an unclean JVM exit, the next start finds `db.lck` and `dbex.lck` and refuses to boot.
 
 **Guard:** `ExecStartPre` removes both lock files. systemd runs it only after the previous main process is gone, so
 no live instance can hold them. The 5-minute watchdog restarts the agent once per 30-minute cooldown when Derby

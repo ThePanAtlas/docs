@@ -1,7 +1,8 @@
 # Glossary
 
-**Agent (Cresco).** A leaf node of the Cresco mesh: a JVM running the OSGi host and plugins, attached to its
-region's broker. Its identity is `region_agent`.
+**Agent (Cresco).** A leaf node of the Cresco mesh: a JVM running the OSGi host and plugins, attached as a client to
+its region's broker. Messages address it as `region_agent`; its identity is its certificate subject
+(`CN=<agent>, OU=<region>, O=<tenant>`). See [Cresco's glossary](https://crescoedge.github.io/docs/reference/glossary/).
 
 **Agent (panAtlas).** Anything that contributes to the atlas under its own identity: a participating Cresco node, a
 dataset manager, or a knowledge-graph agent that mirrors one external graph.
@@ -23,8 +24,8 @@ federation.
 **`content_hash`.** SHA-256 over a report's nodes and edges, used for change detection. Not comparable across
 producers; see [Participating agents](../distributed/agents.md#what-the-reporter-does-on-each-call).
 
-**Cresco.** The hierarchical, secure, multi-tenant agent mesh (`global → region → agent`) that panAtlas runs on.
-[Documentation](https://crescoedge.github.io/docs/).
+**Cresco.** The hierarchical, secure, multi-tenant distributed agent mesh (`global → region → agent`) that panAtlas
+runs on. Secure by default since its 1.3 hardening. [Documentation](https://crescoedge.github.io/docs/).
 
 **Curriculum.** A model's ordered training stages, each answering: what data, when, which system, which
 configuration, which codebase. See [Models and curriculum](../metadata/models-and-curriculum.md).
@@ -34,16 +35,29 @@ dataset's site.
 
 **`doc_uid`.** `blake2b(raw_text, 16 bytes)`: the unkeyed content identity of a document.
 
+**Domain.** A field of knowledge the atlas maps, such as medicine, food and nutrition, or general knowledge. panAtlas
+covers every domain; medicine is where its holdings run deepest today. In the served graph the top-level domains are
+`domain` nodes under `atlas-root`. Not the same as an evaluation domain (`eval-domain`), which classifies benchmarks.
+See [Purpose and principles](../concepts/purpose.md).
+
 **Federation status.** `visible` (merged and shown) or `pending` (held for a curator), set by the reporting agent's
 tier.
 
-**GaiaKeep.** The global file system for agents, built on the same mesh. [Documentation](https://gaiakeep.github.io/docs/).
+**GaiaKeep.** A global file system built for agents, running on the same Cresco mesh: versioned datasets, kept
+durable and streamed wherever they are needed. The intended durable backend for panAtlas.
+[Documentation](https://gaiakeep.github.io/docs/); see [Storage on GaiaKeep](../distributed/storage.md).
 
-**Global controller.** The root of the panAtlas Cresco region, where inventories roll up and clients connect.
+**Global controller.** The root of the panAtlas Cresco region, where inventories roll up and through which the hub's
+calls to managers are routed. In panAtlas's configuration the hub's client connects to the web host agent's wsapi,
+not to the global's.
 
 **Grounding.** Tying a node to a canonical vocabulary identifier. Ungrounded nodes stay private to their agent.
 
 **Hub.** The panatlas.net side of federation: it pulls reports, merges permitted contributions and serves the graph.
+
+**Join secret.** Cresco's per-tier discovery secret (`discovery_secret_agent`, `_region`, `_global`) that admits a
+node to the mesh in the standard security profile; the production profile uses the operator's PKI instead.
+See [Discovery](https://crescoedge.github.io/docs/architecture/discovery/).
 
 **`manifest_hash`.** SHA-256 over a dataset's canonical sorted inventory of `(relpath, size, mtime)`. It detects
 moves, growth and edits. It does not hash content.
@@ -52,8 +66,9 @@ moves, growth and edits. It does not hash content.
 
 **Model space.** One registered `(modality, model, version)`. Embeddings compare only within one space.
 
-**MsgEvent.** Cresco's control-plane message. Manager calls (`getgraphmanifest`, `getgraphinventory`) are MsgEvent
-`EXEC` messages.
+**MsgEvent.** Cresco's control-plane message. Under Cresco 1.3's secure defaults each one is authenticated end to
+end by its origin and bound to its recipient. Manager calls (`getgraphmanifest`, `getgraphinventory`) are MsgEvent `EXEC` messages.
+See [MsgEvent](https://crescoedge.github.io/docs/api/msgevent/).
 
 **pycrescolib.** Cresco's Python client library, used by the hub to list, deploy and call managers.
 
