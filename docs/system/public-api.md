@@ -8,7 +8,7 @@ explorer uses ([Web site](web-site.md#rest-routes-panatlasv1-gated)).
 | Property | Value |
 |---|---|
 | Base URL | `https://panatlas.net/wp-json/panatlas/public/v1` |
-| Version | 1.1.1 (2026-10-31) |
+| Version | 1.2.4 (2026-11-20) |
 | Methods | `GET` only |
 | Auth | None |
 | Rate limit | 240 requests per client address per minute; requests from the web host itself are exempt. Over the limit: HTTP 429, code `rate_limited` |
@@ -63,6 +63,7 @@ Links into the explorer are returned as `https://panatlas.net/#node=<id>`.
 | `GET /overview` | `atlas_overview` | What has been evaluated, by model type, with the leader of every scored benchmark |
 | `GET /tasks` | `task_scores` | Rank models on one task inside a suite |
 | `GET /scores` | `query_scores` | Filter every measured score |
+| `GET /layers` | `layer_scores` | Where inside each pathology image encoder a task is read: every block and token, with a cross-fitted layer choice |
 | `GET /stats` | `stats` | Headline counts of everything indexed |
 | `GET /search` | `search_atlas` | Search graph nodes by words |
 | `GET /node/{id}` | `get_node` | One node with public fields and links grouped by relation |
@@ -92,7 +93,7 @@ vocabulary in `evals_index.json`.
 |---|---|---|
 | `task` (required) | string | The task in plain words: "tabular data", "forecasting hospital admissions", "pathology encoders". `q` and `question` are accepted as aliases |
 | `type` | string | Optional model type |
-| `domain` | string | Optional domain: medical, pathology, radiology, … |
+| `domain` | string | Optional domain: medical, pathology, radiology, remote-sensing, … |
 | `limit` | integer | Models per benchmark, default 5, at most 25 |
 
 Returns `question`, `interpreted_as {type, domain, words}`, `coverage`, `matched`, `count`, and `results[]` (up to
@@ -276,6 +277,27 @@ The evaluation records themselves are described in [Evaluation records](../metad
 
 ## Changelog
 
+- **1.2.4 (2026-11-20).** First remote-sensing data; panAtlas covers every domain. Datasets `bigearthnet-v2`
+  (BigEarthNet v2: 549,488 Sentinel-1 radar / Sentinel-2 optical pairs, 19 land-cover classes, CDLA-Permissive-1.0) and
+  `ssl4eo-s12` (pre-training corpus). The DuoJEPA Sentinel model (arXiv:2611.15968; unreleased, results only) is
+  `model-duojepa-sentinel`, identified by both towers' sha256 (`weights_sha256` is then an object, one hash per tower). Suites
+  `bigearthnet-v2-s1-duojepa-probe` and `bigearthnet-v2-s2-duojepa-probe` are scored by the paper's own probe code: an in-house
+  name, since it follows the Copernicus-Bench recipe but is not the official package. New node field `weight_space_edits`
+  records weight-space edits tried on a model (each named by its weights' sha256, with members, scores beside the right
+  comparator and a verdict); edits are never ranked as models. New domain `remote-sensing`.
+- **1.2.3 (2026-11-20).** Correction: served text no longer names the embargoed in-house encoder. Retraction: the CT-RATE
+  report-generation figure for Ker-VLJEPA-3B is the published figure, not reproduced, and is now `verified: false`.
+- **1.2.2 (2026-11-17).** `weight_census` gains `reading`, a plain statement of what the measurement shows. New
+  `weight_relations` lists every pair of same-shape encoders whose median block weight cosine is at least 0.1; it is
+  descriptive, with no gate and no edge.
+- **1.2.1 (2026-11-17).** Lineage measured from the weights. Encoder nodes in the ancestry census return `weight_census`
+  (ancestor, verdict under a gate fixed before the run, per-block weight cosines, negative controls). A `derived_from` edge
+  is filed only for a CONFIRMED verdict.
+- **1.2.0 (2026-11-17).** Pathology image encoders, layer by layer. New tool `layer_scores` (`/layers`): 25 encoders and 3
+  baselines, every block and token, 76 tasks on PANDA, ATEC23 and HEST data with a cross-fitted layer choice. Three
+  every-layer suites (`found-stack-layers-panda`, `-atec23`, `-hest`) with per-task tables under `task_scores`. Nodes return
+  `hf_repo`, `hf_revision`, `weights_sha256`, `weights_file`, `license`, `architecture` and `init`, so each encoder is
+  identified by the hash of the weights it loads. The embargoed in-house encoder is withheld.
 - **1.1.1 (2026-10-31).** `best_models` leads with a task that holds every specific word of the question
   (`answer_from`); a word in a task's name outranks one in its description; pathology and radiology foundation models
   read as image encoders. `compare_models` covers held-out models, adds `head_to_head` on tasks both finished, and
