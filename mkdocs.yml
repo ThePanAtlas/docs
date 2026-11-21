@@ -1,5 +1,5 @@
 site_name: panAtlas
-site_description: How panAtlas works — a provenance-first, multi-modal evaluation reference atlas for every domain of knowledge that runs as a distributed system on the mesh. Architecture, federation, and exhaustive metadata reference.
+site_description: How panAtlas works. A provenance-first, multi-modal evaluation reference atlas for every domain of knowledge. Architecture, knowledge layers, and an exhaustive metadata reference.
 site_url: https://thepanatlas.github.io/docs/
 repo_url: https://github.com/ThePanAtlas/docs
 repo_name: ThePanAtlas/docs
@@ -55,15 +55,6 @@ nav:
       - Purpose and principles: concepts/purpose.md
       - Architecture: concepts/architecture.md
       - Knowledge layers: concepts/layers.md
-  - Distributed system:
-      - distributed/index.md
-      - The mesh for panAtlas: distributed/mesh.md
-      - Federation model: distributed/federation.md
-      - Dataset managers: distributed/dataset-managers.md
-      - Participating agents: distributed/agents.md
-      - Wire contract and schemas: distributed/contract.md
-      - Operations: distributed/operations.md
-      - Storage on GaiaKeep: distributed/storage.md
   - Metadata:
       - metadata/index.md
       - Identifiers: metadata/identifiers.md

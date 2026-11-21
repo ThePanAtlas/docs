@@ -19,8 +19,8 @@ may see it (access class and, for restricted data, entitlements).
 | Status | Entries | Meaning |
 |---|---:|---|
 | `acquiring` | 46 | registered, data not yet held or not yet verified complete; `manifest` is `null` |
-| `building` | 5 | a derived dataset whose rows do not exist yet; `locations` empty and `host` `null` so no manifest, report or manager is produced |
-| `active` | 149 | data is held; the entry may have a manifest and a manager |
+| `building` | 5 | a derived dataset whose rows do not exist yet; `locations` empty and `host` `null` so no manifest is produced |
+| `active` | 149 | data is held; the entry may have a manifest |
 
 There is no `acquired` or `complete` top-level status. `complete` is a value of `acquisition.status`
 (below). No code path moves an entry out of `active`: there is no retired, removed or superseded state, and

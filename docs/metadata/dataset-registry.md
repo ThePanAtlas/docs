@@ -6,10 +6,8 @@
     `web/datasets*.json` files and enumerating every key path. Nothing here is projected. Field meanings come
     from the scripts that write and read each field; where no script defines a value set, the page says so.
 
-The registry is the authoritative list of datasets in the panAtlas federation. One entry describes one
-dataset, identified by its URN ([Identifiers](identifiers.md#dataset-urn)) and audited by its manifest
-([Manifests](manifests.md)). Each entry is also the configuration source for that dataset's manager plugin
-([Dataset managers](../distributed/dataset-managers.md)).
+The registry is the authoritative list of datasets in panAtlas. One entry describes one dataset, identified by its
+URN ([Identifiers](identifiers.md#dataset-urn)) and audited by its manifest ([Manifests](manifests.md)).
 
 ## Files and how they merge
 
@@ -22,8 +20,8 @@ There are three kinds of registry file. They share one entry schema.
 | `web/wp-plugin/panatlas-explorer/data/datasets.json` | **The served catalog.** The registry plus catalog-only entries and catalog-only fields, read by the site's Datasets view, the public API and the Astral assistant. | 622 |
 
 A cluster-side copy of the registry also exists in `<cluster project storage>/panatlas/datasets.json`. It holds
-only the entries hosted on the HPC cluster that have managers (22 at first registration, 66 on 2026-09-17 per
-the project record). The hourly manifest refresh rewrites that copy, not the repository file; see
+only entries hosted on the HPC cluster (22 at first registration, 66 on 2026-09-17 per the project record). The
+cluster manifest build rewrites that copy, not the repository file; see
 [Manifests](manifests.md#where-manifests-are-computed).
 
 ### Fragments
@@ -68,7 +66,7 @@ The fragment top-level block is `meta` with keys `schema`, `description`, `host_
 | Key | Meaning |
 |---|---|
 | `schema` | `panatlas.datasets/1` |
-| `description` | one entry per dataset = one manager plugin instance; the URN is the global handle; audit = recompute the manifest over `locations[]` and diff `manifest_hash` |
+| `description` | one entry per dataset; the URN is the global handle; audit = recompute the manifest over `locations[]` and diff `manifest_hash` |
 | `host_default` | the HPC cluster host that holds most datasets |
 | `root_default` | the estate root on that host; every relative `locations[]` path resolves against it (`web/dataset_manifest.py` uses it when `--root` is absent) |
 | `measured` | `2026-07-30`, the date of the first inventory |
@@ -110,7 +108,7 @@ whitelist of fields (marked **API**).
 | `urn` | string | 200 (required) | global dataset handle | `panatlas:dataset:ct-rate` | every registering script | every tool; upsert key; **API** |
 | `slug` | string | 200 (required) | URN suffix; file and node stem | `ct-rate` | every registering script | every tool; **API** |
 | `name` | string | 200 (required) | human title, often with scale in it | `KiTS23 kidney tumor segmentation challenge (CT + kidney/tumor/cyst masks)` | registering scripts | reports (`label`), RDF `dct:title`, **API** |
-| `modality` | list of string | 200 (required) | data types the dataset contains; 27 distinct values (table below) | `["imaging-ct", "text", "structured"]` | registering scripts | reports (modality nodes), manager config `panatlas_modalities`, RDF, **API** |
+| `modality` | list of string | 200 (required) | data types the dataset contains; 27 distinct values (table below) | `["imaging-ct", "text", "structured"]` | registering scripts | RDF, **API** |
 | `modality_detail` | string | 176 | free-text description of what the modality holds | `chest CT (3D volumes -> per-slice RAD-DINO)` | registering scripts, `okn_agent.py` (first 600 characters of the upstream description) | catalog `desc` default, **API** |
 | `modalities_detail` | object `{modality: string}` | 1 | per-modality description (CT-RATE only) | keys `imaging-ct`, `text`, `structured` | hand-written | **API** |
 | `kind` | string | 9 | what sort of record the entry is, where it is not plain data | `external-benchmark` 3 · `model-evaluation-output` 2 · `benchmark-task-suite` 2 · `collection` 1 · `model-training-input` 1 | fragments | **API** |
@@ -128,7 +126,7 @@ whitelist of fields (marked **API**).
 | Path | Type | Present | Meaning | Values / example | Writes | Reads |
 |---|---|---:|---|---|---|---|
 | `locations` | list of string | 200 (required; 5 empty) | files or directories that make up the dataset, relative to the estate root (absolute paths are allowed: 8 paths in 2 entries) | `["data/sources_staging/kits23/raw/kits23"]` | registering scripts | `dataset_manifest.py` (the manifest walk), `link_renal.py` |
-| `host` | string or null | 200 (5 null) | host that holds the data; `null` means the data does not exist yet | the cluster host 194 · the web host 1 · `null` 5 | registering scripts | `build_dataset_reports.py --host` filter, RDF, manager deployment |
+| `host` | string or null | 200 (5 null) | host that holds the data; `null` means the data does not exist yet | the cluster host 194 · the web host 1 · `null` 5 | registering scripts | RDF |
 | `host_note` | string | 6 | why the host is what it is (or null) | `rows not produced yet; …` | fragments | none |
 | `disk_owner` | string | 2 | storage project that owns the files, when outside the estate root | | hand-written | none |
 | `id_namespace` | string | 194 | prefix that scopes item ids of this dataset | `ctrate:` | registering scripts | `build_layered.py`; see [Identifiers](identifiers.md#item-namespaces-and-item-ids) |
@@ -136,7 +134,7 @@ whitelist of fields (marked **API**).
 | `plan_docs` | list of string | 1 | planning documents for the dataset | | hand-written | none |
 
 An empty `locations` list together with `host: null` is deliberate. The five `building` JK-Decide entries use
-it to stay out of manifests, manager reports and manager deployment until their rows exist; their
+it to stay out of manifests until their rows exist; their
 `audit_scope` notes that an empty `locations` list on the cluster copy alone would let `fold_manifests.py`
 flip the entry to `active`.
 
@@ -157,7 +155,7 @@ flip the entry to `active`.
 | `benchmark.split_col` | string or null | 11 (10 null) | column in the source manifest that carries the split | `spie_split` | hand-written | none |
 | `benchmark.status` | string | 11 | verification state of the benchmark claim | `verified` 9 · `needs-verification` 2 | hand-written | none |
 | `used_in_training` | boolean | 59 | whether panAtlas models trained on this dataset | `false` 58 · `true` 1 | `okn_agent.py`, `register_arxiv.py`, fragments | RDF, **API** (the catalog's own value wins; see below) |
-| `audit_scope` | string | 46 | what the hourly manifest covers when it is not the whole dataset, and why | `hourly manifest over the partition inventory file; …` | `register_neuropath.py`, `register_arxiv.py`, hand-written | none (documentation for auditors) |
+| `audit_scope` | string | 46 | what the registered manifest covers when it is not the whole dataset, and why | `hourly manifest over the partition inventory file; …` | `register_neuropath.py`, `register_arxiv.py`, hand-written | none (documentation for auditors) |
 
 !!! warning "`benchmark` is documented as a boolean"
     `meta.benchmark_field` describes `benchmark` as an optional boolean. Eleven entries carry an object
@@ -168,7 +166,7 @@ flip the entry to `active`.
 
 | Path | Type | Present | Meaning | Values / example | Writes | Reads |
 |---|---|---:|---|---|---|---|
-| `embedding_models` | object | 166 (12 are `{}`) | the embedding space used for each data stream | `{"imaging-ct": "imaging-rad-dino-ct@raddino", "text": "text-bioclinical-modernbert-large@v3w"}` | registering scripts | `build_dataset_reports.py` (model nodes, `panatlas_model.<modality>`) |
+| `embedding_models` | object | 166 (12 are `{}`) | the embedding space used for each data stream | `{"imaging-ct": "imaging-rad-dino-ct@raddino", "text": "text-bioclinical-modernbert-large@v3w"}` | registering scripts | `build_all_datasets.py`, `build_train_sources.py`, the site (`app.js`) |
 | `embedding_models.<modality>` | string `model@version` or null | 148 entries | one space per modality; `null` = no encoder registered yet | keys: `knowledge-graph` 46 · `imaging-ultrasound-rf` 34 · `imaging-ct` 33 · `text` 31 · `structured` 5 · `imaging-wsi` 2 · `imaging-cxr` 1 · `imaging-mr` 1. Values: `null` 101 · `imaging-rad-dino-ct@raddino` 33 · `text-bioclinical-modernbert-large@v3w` 18 · `text-bioclinical-modernbert-large` 1 | | |
 | `embedding_models.<encoder>` | object | 6 entries | per-encoder record for pathology tile embeddings, keyed by encoder name (an entry may list several encoders) | keys `prov-gigapath` 5 · `phikon-v2` 4 · `virchow2` 4 · `uni2-h` 3 · `h-optimus-0` 3 · `gigapath`, `phikon_v2`, `uni_v2`, `hoptimus0` 1 each | `datasets_stack_embeddings.json` and `datasets_tcga.json` fragments | `build_dataset_reports.py` serialises it as compact JSON |
 | `embedding_models.<encoder>.tile_dim` | integer | | output dimension | `1024`, `1536`, `2560` | | |
@@ -180,7 +178,7 @@ flip the entry to `active`.
 | `embedding_models.<encoder>.eval_transform` | string | | image transform at inference | `Resize(224)/CenterCrop(224)` | | |
 | `embedding_models.<encoder>.input_convention` | string | | tiling pipeline the features were computed under | `trident (refreshed 2026-09-18, job 220280)` | | |
 | `embeddings` | object | 1 | a materialised embedding store that is a retrieval asset, not a grounding path | keys `model`, `cache`, `count`, `materialized`, `shape`, `id_scheme`, `role`, `catalog` | hand-written | none |
-| `grounding` | string | 160 | how the dataset links to the concept substrate, in prose | `mesh+umls (radiology report side); RAD-DINO CT space (volume side); …` | registering scripts | `build_dataset_reports.py` (vocabulary nodes: it searches the text for `mesh`, `umls`, `foodatlas`, `fdc`, `nacc`, `v628`; none found = `ungrounded`), **API** |
+| `grounding` | string | 160 | how the dataset links to the concept substrate, in prose | `mesh+umls (radiology report side); RAD-DINO CT space (volume side); …` | registering scripts | **API** |
 | `node_linkage` | string | 1 | how items link to graph nodes | | hand-written | none |
 | `linked_nodes` | list | 130 | graph nodes this dataset is linked to, as summarised for the catalog card | `[{"id": "concept-radiology", "label": "Radiology", "via": "modality"}]` | `link_datasets_to_nodes.py`, `link_renal.py`, `link_neuropath.py`, `link_openh.py`, `build_artifact_types.py` | catalog card, Astral, **API** |
 | `linked_nodes[].id` | string | 339 items | graph node id | | | |
@@ -203,7 +201,7 @@ exists, so the 62 were valid when written and their targets have since been remo
 
 | Path | Type | Present | Meaning | Writes | Reads |
 |---|---|---:|---|---|---|
-| `scale` | object | 199 | measured or declared counts, one key per measure | registering scripts, fragments | `build_dataset_reports.py` (`item_count`: the first of `volumes`, `studies`, `entities`, `foods`, `worklist_cases`, `axial_cases`, `papers`), Astral, **API** |
+| `scale` | object | 199 | measured or declared counts, one key per measure | registering scripts, fragments | Astral, **API** |
 
 `scale` has no fixed schema: 149 distinct keys occur. The most common are `files` (60), `bytes` (58),
 `distinct_subjects`, `properties`, `triples_held`, `triples_upstream` (46 each, the OKN mirrors), `patients`
@@ -337,7 +335,7 @@ All OKN fields are generated by `okn_agent.py describe` from the upstream regist
 | `status` | string | 200 (required) | lifecycle state: `active` 149 · `acquiring` 46 · `building` 5 |
 | `acquisition` | object | 95 (21 are `{}`) | how the data was fetched and when it finished |
 | `manifest` | object or null | 188 (127 objects, 61 null) | the audit manifest summary |
-| `manifest_full_walk` | object | 33 | a full-walk manifest kept when the hourly manifest covers an inventory file instead |
+| `manifest_full_walk` | object | 33 | a full-walk manifest kept when the registered manifest covers an inventory file instead |
 
 The `acquisition.*` subfields and the status lifecycle are documented on
 [Acquisition and licence](acquisition-and-licence.md#acquisition-records); `manifest.*` and
@@ -470,8 +468,7 @@ flowchart LR
   R -->|sync_catalog.py| C[served catalog]
   R -->|build_rdf.py| Q[RDF export]
   R -->|copied to the cluster| D[cluster registry copy]
-  D -->|hourly dataset_manifest.py build| D
-  D -->|build_dataset_reports.py| P[manager payloads]
+  D -->|dataset_manifest.py build| D
 ```
 
 `register_fragment.py`, `register_tcga.py`, `register_okn.py`, `register_openh.py`, `register_arxiv.py`,
@@ -483,4 +480,4 @@ shows whitespace changes on every line; compare parsed JSON, not text.
 Related pages: [Identifiers](identifiers.md), [Manifests](manifests.md),
 [Acquisition and licence](acquisition-and-licence.md), [Document index](document-index.md),
 [Graph schema](graph-schema.md), [Benchmarks](benchmarks.md),
-[Models and curriculum](models-and-curriculum.md), [Dataset managers](../distributed/dataset-managers.md).
+[Models and curriculum](models-and-curriculum.md).

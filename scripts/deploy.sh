@@ -32,6 +32,9 @@ gitleaks git --redact --no-banner --exit-code 1 .
 echo "== gate 2: public-content filter"
 python3 scripts/public_filter.py check docs --public
 
+echo "== gate 3: private names (hashed list) over the whole repository"
+python3 scripts/public_filter.py deny .
+
 echo "== build (mkdocs --strict)"
 VENV="$ROOT/.venv"
 if [[ ! -x "$VENV/bin/mkdocs" ]]; then
@@ -52,7 +55,9 @@ WT="$(mktemp -d)"
 trap 'git worktree remove --force "$WT" >/dev/null 2>&1 || rm -rf "$WT"' EXIT
 git fetch -q "$REMOTE" gh-pages
 git worktree add -q --detach "$WT" FETCH_HEAD
-rsync -a --delete --exclude .git site/ "$WT"/
+# --checksum: compare contents. rsync's default quick check (size and mtime) can skip a rewritten page of the
+# same size, which leaves the old page on the public site.
+rsync -a --checksum --delete --exclude .git site/ "$WT"/
 cd "$WT"
 git add -A
 if git diff --cached --quiet; then

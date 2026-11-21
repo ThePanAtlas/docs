@@ -14,12 +14,11 @@ site, and where each part runs.
 | **Cluster-side builds** (`web/dgx/`, `web/acquisition/`, `web/rdf/`, `web/wikipedia_layer/`) | HPC cluster, inside Slurm jobs | Acquisition, manifests, document index, concept mapping, embeddings, evaluation ingest, universe projection, RDF export, SPARQL stores | **Built** |
 | **Graph build** (`web/build_*.py`, `web/build_all.sh`) | A workstation with the repository | Compiles registries and cluster outputs into the served property graph and catalogs | **Built** |
 | **Served data** (`web/wp-plugin/panatlas-explorer/data/*.json`) | Web host, inside the plugin | `graph.json`, `datasets.json`, `benchmarks_llm.json`, `mm_evals.json`, `evals_index.json`, `models.json`, `kg_graphs.json` | **Built**. Repo copy at 57505c6: 6,187 nodes, 17,119 edges, 622 catalog entries, 109 language benchmarks |
-| **Site** (WordPress, `panatlas-explorer` plugin, `panatlas` theme) | Web host | panatlas.net: the explorer, universe, world map, mesh panel, gated REST API, public API, ORCID sign-in | **Built, live** |
+| **Site** (WordPress, `panatlas-explorer` plugin, `panatlas` theme) | Web host | panatlas.net: the explorer, universe, world map, gated REST API, public API, ORCID sign-in | **Built, live** |
 | **Literature feed** (`web/pipeline/literature/`) | Web host, nightly cron | PubMed metadata per MeSH-grounded concept | **Built, live** |
 | **Astral agent** (`web/astral/`) | Web host, loopback service behind the TLS virtual host | Exposes the atlas as read-only tools to the Astral agent platform | **Built, live** |
 | **SPARQL stores** (QLever) | HPC cluster, a CPU-only Slurm job | `panatlas-okn` (panAtlas plus every proven NSF OKN mirror) and `wikidata` | `panatlas-okn` **served** (44 graphs, 6,994,341,217 triples); `wikidata` **in verification** as of 2026-10-17 |
 | **Coverage service** (`web/coverage/`) | HPC cluster, loopback | Answers "how well does the atlas cover this area" against the Wikipedia layer | **Built** (2026-09-16) |
-| **mesh** | HPC cluster, web host, and a controller node | Dataset managers report structure-only subgraphs; the hub shows them and folds permitted contributions | **Built, running**; see [Distributed](../distributed/index.md) |
 | **Hosted LLM endpoint** | External to panAtlas, OpenAI-compatible | Backs the explorer's Navigator and model lens | **Used** at request time |
 
 ## Data flow: from acquisition to the site
@@ -173,19 +172,7 @@ and the code systems in [Code systems](../metadata/codesystems.md).
 
 | Place | What runs there |
 |---|---|
-| **The HPC cluster** | Acquisition jobs, manifest walks, document indexing, embeddings, evaluation harnesses and ingest, the universe projection, the Wikipedia layer chain, RDF export, SPARQL store builds and the serving job, the coverage service, an agent with the dataset managers. Compute runs in Slurm jobs; see [Build pipeline](../system/build-pipeline.md#rules-for-the-cluster). |
+| **The HPC cluster** | Acquisition jobs, manifest walks, document indexing, embeddings, evaluation harnesses and ingest, the universe projection, the Wikipedia layer chain, RDF export, SPARQL store builds and the serving job, the coverage service. Compute runs in Slurm jobs; see [Build pipeline](../system/build-pipeline.md#rules-for-the-cluster). |
 | **A workstation with the repository** | The graph builders in `web/`, `build_all.sh`, the render harness, `deploy.sh`. |
-| **The web host** | WordPress and the plugin, the static data files, private assets outside the docroot, the nightly literature cron, the Astral agent service, the mesh daemon and an agent. |
-| **A controller node** | The global controller for the region. |
+| **The web host** | WordPress and the plugin, the static data files, private assets outside the docroot, the nightly literature cron, the Astral agent service. |
 | **External services** | The hosted LLM endpoint (Navigator, model lens), ORCID (sign-in), NCBI E-utilities (literature), upstream data hosts. |
-
-## Distributed by design
-
-panAtlas is built as a distributed system on the agent mesh. Datasets join the atlas where they sit, each
-managed by its own the panAtlas plugin plugin instance at the hosting site, and only structure crosses the mesh. The
-hub on the web host pulls every manager's report, shows them in the Mesh view, and folds permitted contributions
-into the graph. Remote panAtlas instances and computational resources are treated the same way, as peers on the
-mesh.
-
-This documentation covers the mesh, federation contract, dataset managers, agents and operations in its own
-section, starting at [Distributed](../distributed/index.md).

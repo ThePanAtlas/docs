@@ -4,16 +4,13 @@ A map of the panAtlas repository at commit 57505c6. The repository has three dir
 and a set of design and operations documents at the root. Almost all code is under `web/`. Paths are relative to the
 repository root.
 
-The plugin (the panAtlas plugin) and the operator kit for connecting a site (`agent-deployment`) are separate
-repositories; see [Distributed](../distributed/index.md).
-
 ## Top level
 
 | Path | What it is |
 |---|---|
 | `atlas/` | The markdown fact-graph seed: schema, pages, linter, Wikipedia seeder ([below](#atlas)) |
 | `docs/` | Reference documents for the running system ([below](#docs)) |
-| `web/` | Everything that builds, serves and federates the atlas ([below](#web)) |
+| `web/` | Everything that builds and serves the atlas ([below](#web)) |
 | `README.md` | Operations handoff for the site (contains operational detail; not reproduced here) |
 | `CLAUDE.md` | Operating notes for agents working on the site |
 | `PLAN.md` | The current integrated plan: two-layer graph, sources, evaluation, substrate, governance, roadmap |
@@ -23,7 +20,6 @@ repositories; see [Distributed](../distributed/index.md).
 | `GRAPH_STANDARDS.md` | Decision record: one RDF graph, three layers, MeSH-canonical identity, named graphs as source of record, exactness of mirrors |
 | `LAYERS.md` | Substrate, connectivity and embeddings as separate layers; the per-modality model registry; the attach process |
 | `FEDERATION.md` | How agents contribute graph structure to one canonical panAtlas |
-| `DATASET-MANAGERS.md` | One the panAtlas plugin manager per dataset and how it reports |
 | `PLAN-datasets.md` | Dataset inventory, global identity (URN) and audit (manifests) |
 | `PLAN-dataset-plugins.md` | Dataset plugins and one canonical embedding model per modality |
 | `PLAN-restricted-data-umls.md` | Plan for project-restricted data, starting with a licensed terminology release |
@@ -68,7 +64,7 @@ repositories; see [Distributed](../distributed/index.md).
 | Path | What it is |
 |---|---|
 | `wp-plugin/panatlas-explorer/panatlas-explorer.php` | Plugin core: roles, audit, access gate, shortcodes, gated REST routes, Navigator, model lens ([Web site](../system/web-site.md)) |
-| `wp-plugin/panatlas-explorer/includes/` | `public-api.php`, `public-evals.php` (public API), `wikimap.php`, `mesh.php`, `federation-admin.php` |
+| `wp-plugin/panatlas-explorer/includes/` | `public-api.php`, `public-evals.php` (public API), `wikimap.php`, `federation-admin.php` |
 | `wp-plugin/panatlas-explorer/assets/` | `app.js`, `style.css`, `universe.js`, `wikimap.js`, `universe-bg.js`, `cosmos.bundle.mjs`, public `teaser_*.bin` |
 | `wp-plugin/panatlas-explorer/data/` | Served snapshots: `graph.json`, `datasets.json`, `benchmarks_llm.json`, `mm_evals.json`, `evals_index.json`, `models.json`, `kg_graphs.json` |
 | `wp-theme/panatlas/` | The site theme; `front-page.php` renders only the explorer shortcode |
@@ -120,7 +116,6 @@ repositories; see [Distributed](../distributed/index.md).
 | `models.json`, `codesystems.json`, `ID-POLICY.md` | Model and embedding-space registry; code systems; the rule that every entity and relation has a stable id |
 | `dataset_manifest.py`, `dataset_manifest_parallel.py`, `derive_source_manifests.py` | Build and audit manifests ([Acquisition](../system/acquisition.md#manifests-and-folding)) |
 | `manifests/` | Repository copies of dataset manifests (161 files) |
-| `build_dataset_reports.py` | Each dataset manager's structure-only report |
 | `register_*.py`, `renal_sbir_registry.py` | Upsert registry entries |
 | `fold_*.py`, `test_fold_manifests.py` | Fold completion records and manifests into the registry; tests |
 | `link_*.py` | Add dataset, concept and model nodes to the served graph |
@@ -133,7 +128,7 @@ repositories; see [Distributed](../distributed/index.md).
 |---|---|
 | `build_text_anchors.py`, `build_image_anchors.py`, `build_image_anchors_v2.py`, `precompute_pooled.py`, `exp_anchor_study.py`, `anchor_method_workflow.js` | Concept anchors in the text and CT image spaces, and the study that chose the image method |
 | `embed_attach.py` | Relates new embeddings to concepts within one registered model space |
-| `pa_local_agent.py` | The local agent a participating site runs; never ships raw data |
+| `pa_local_agent.py` | The local agent for a site that holds data; it never ships raw data |
 | `precompute_cellmap.py`, `pa_qmap.sbatch`, `pa_qmap_all.sbatch`, `BENCHMARK-QUESTION-MAPPING.md` | Question-to-concept mapping on the cluster: design and jobs |
 
 ### Pipelines and cluster-side code
@@ -155,8 +150,7 @@ repositories; see [Distributed](../distributed/index.md).
 | Path | What it is |
 |---|---|
 | `astral/` | The Astral agent: service, tools, index, deploy files, tests ([Astral](../system/astral.md)) |
-| `federation/` | Report and agent-profile schemas, a minimal agent client, the hub merge ([Federation](../distributed/federation.md)) |
-| `mesh/` | The live mesh daemon, manager and file-repository deployers, and systemd units for supervision ([Operations](../distributed/operations.md)) |
+| `federation/` | Report and agent-profile schemas, a minimal agent client, the hub merge |
 
 ### Reference data
 

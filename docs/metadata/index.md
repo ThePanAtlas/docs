@@ -19,11 +19,10 @@ flowchart LR
   ST -- "executed_on, built_with" --> SYS["system, codebase"]
   MOD -- "scored (value, metric)" --> BEN
   MOD -- "measured_on (acc)" --> CON
-  DS -. "served by" .-> MGR["dataset manager<br/>"]
 ```
 
 Solid arrows are edge relations in the served graph ([Graph schema](graph-schema.md) lists all 36). Dotted arrows are
-links held outside the graph: in the document index, or on the mesh.
+links held outside the graph, in the document index.
 
 | Family | Identity | Page |
 |---|---|---|
@@ -38,7 +37,6 @@ links held outside the graph: in the document index, or on the mesh.
 | Models and training | Model record, curriculum stages | [Models and curriculum](models-and-curriculum.md) |
 | Triples | Prefixes, classes, predicates, named graphs | [RDF vocabulary](rdf-vocabulary.md) |
 | Vocabularies | MeSH, Wikidata, FHIR, LOINC and others | [Code systems](codesystems.md) |
-| Federation messages | Reports, profiles, instance configuration, `mesh.json`, `models.json` | [Wire contract](../distributed/contract.md) |
 
 ## Rules every family follows
 
@@ -55,5 +53,5 @@ links held outside the graph: in the document index, or on the mesh.
    the atlas.
 6. **Source of record.** Every mirrored node and edge names the graph that maintains it. panAtlas curates only
    what it is the source of record for.
-7. **Structure only across sites.** The metadata that crosses the mesh is identifiers, counts, edges, model stamps
-   and hashes, never content. See [Federation](../distributed/federation.md#what-crosses-the-wire).
+7. **Structure only across sites.** The metadata that leaves a site is identifiers, counts, edges, model stamps
+   and hashes, never content.

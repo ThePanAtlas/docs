@@ -10,10 +10,9 @@ in the database.
 | Plugin core: roles, audit, access gate, explorer and universe shortcodes, gated REST routes, Navigator, model lens | `panatlas-explorer.php` |
 | Public read-only API | `includes/public-api.php`, `includes/public-evals.php` |
 | World map | `includes/wikimap.php`, `assets/wikimap.js` |
-| Agent-network panel | `includes/mesh.php` |
 | Federation admin portal | `includes/federation-admin.php` |
 | Front end | `assets/app.js` (Cytoscape.js 3.30.2 from a CDN), `assets/style.css`, `assets/universe.js`, `assets/universe-bg.js` with `assets/cosmos.bundle.mjs` |
-| Served data | `data/graph.json`, `datasets.json`, `benchmarks_llm.json`, `mm_evals.json`, `evals_index.json`, `models.json`, `kg_graphs.json`; `data/mesh.json` is written live on the server |
+| Served data | `data/graph.json`, `datasets.json`, `benchmarks_llm.json`, `mm_evals.json`, `evals_index.json`, `models.json`, `kg_graphs.json` |
 
 ## Pages
 
@@ -22,7 +21,6 @@ in the database.
 | Front page | `[panatlas_explorer]` (the theme's `front-page.php` emits only this) | The explorer, or the teaser for visitors without access |
 | `/universe/` | `[panatlas_universe]` | Every document placed by concept, with the graph overlaid |
 | `/world-map/` | `[panatlas_wikimap]` | The known-world map from the Wikipedia layer |
-| `/agent-network` | `[panatlas_mesh]` | The live mesh (also rendered inside the explorer's Mesh view) |
 | `/api/` | `[panatlas_api_docs]` | Generated documentation of the public API |
 
 ## The explorer
@@ -39,7 +37,6 @@ these views:
 | **Coverage & Gaps** | Per-concept training exposure set against model scores, artifact-type gaps, decontamination status |
 | **Benchmarks** | Every benchmark as an audited list or a similarity map (the `audit.map` projection from [the build](build-pipeline.md#stage-2-build_allsh)) |
 | **Universe** | Opens `/universe/` |
-| **Mesh** | The live agent mesh |
 
 Alongside the views are a search box, a context bar, a detail panel for the selected node, and the **Navigator**
 panel. A deep link of the form `/#node=<id>` opens a node's detail panel; the public API returns links in that form.
@@ -169,8 +166,8 @@ the admin area stay restricted. The server-side rule is kept in the repository a
 archives and `?author=` probes to the home page, so usernames cannot be enumerated.
 
 !!! warning "Older text says viewing is public"
-    `docs/panatlas-system-and-interface.md` (written 2026-08-01) lists `/graph`, `/datasets`, `/benchmarks`,
-    `/navigate` and `/mesh` as public, a comment in the plugin still says "Public read endpoints (viewing is open to
+    `docs/panatlas-system-and-interface.md` (written 2026-08-01) lists `/graph`, `/datasets`, `/benchmarks`
+    and `/navigate` as public, a comment in the plugin still says "Public read endpoints (viewing is open to
     everyone)", and the Navigator's hint text says "Anyone can explore". In the code every one of these routes
     checks `panatlas_may_access`; anonymous requests get 401 (confirmed live on 2026-09-12 for `graph` and
     `datasets`). The open, read-only surface is the [public API](public-api.md).
@@ -212,19 +209,15 @@ All paths are under `https://panatlas.net/wp-json/panatlas/v1`. Responses are ra
 | GET | `/literature?node=<id>` | access gate | The stored feed for that node, or `{articles: []}` |
 | GET | `/universe-asset?f=&tier=` | access gate | Binary or JSON stream |
 | GET | `/wikimap-asset?f=` | access gate | Binary or JSON stream |
-| GET | `/mesh` | access gate (since 2026-10-25, because the snapshot carries internal node addresses) | The mesh snapshot from `data/mesh.json` |
 | GET | `/whoami` | open | `{orcid, name, roles[], rights[]}`; a guest gets `name: "guest"` and empty lists |
 | POST | `/propose` | signed in with `pa_suggest` | Records `{target, change}` (change ≤ 4,000 characters) in the audit log; returns `{ok, status, by, rights}`. Never publishes |
 | GET | `/federate/agents` | open (redacted); full profiles for `pa_admin` | The federation agent directory, never token hashes |
 | POST | `/federate/agents/register` | `pa_admin` | Registers an agent and mints a one-time token |
 | POST | `/federate/agents/update` | `pa_admin` | Changes tier or status, rotates a token |
 
-The federation routes and the admin portal are described in [Federation](../distributed/federation.md) and
-[Contract](../distributed/contract.md).
-
 !!! warning "No agent submission route"
-    `web/federation/pa_agent.py` posts reports to `POST /panatlas/v1/federate`. The plugin registers no such route;
-    contributions arrive over the mesh control plane instead. See [Distributed](../distributed/index.md).
+    `web/federation/pa_agent.py` posts reports to `POST /panatlas/v1/federate`. The plugin registers no such route,
+    so no agent can submit a report to the site.
 
 The Astral identity link has its own entry point on the front controller, `/?panatlas_astral_orcid_link=1`, so it
 works from outside the restricted login paths ([Astral](astral.md#identity-orcid-allowlist-and-the-link-flow)).
@@ -233,5 +226,4 @@ works from outside the restricted login paths ([Astral](astral.md#identity-orcid
 
 The front-end assets, the served data and the public API includes are deployed by `web/deploy.sh`; other plugin
 files, the world map and the universe assets are deployed separately. See [Build pipeline](build-pipeline.md#deploy-deploysh).
-A repository audit on 2026-09-13 found the live plugin identical to the repository for all 28 shared files, with
-`data/mesh.json` the only file that exists only on the server by design.
+A repository audit on 2026-09-13 found the live plugin identical to the repository for all 28 shared files.

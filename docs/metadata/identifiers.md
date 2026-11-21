@@ -32,7 +32,7 @@ panatlas:dataset:<slug>
 ```
 
 The URN is the single global handle for a dataset (`PLAN-datasets.md` §1). It is the key used by every
-registry upsert, by the manager plugin configuration (`panatlas_dataset_id`), by manager reports, and by the
+registry upsert and by the
 cross-references between registry entries (`derived_from`, `part_of`, `partition_of`, `members`, `corpus`).
 
 **Only one URN kind exists.** A search of every JSON, Python, Markdown, Java, JavaScript and PHP file in the
@@ -63,9 +63,8 @@ Rules, computed over all 200 registry entries at HEAD:
 
 - Lowercase ASCII letters, digits and single hyphens: every slug matches `^[a-z0-9]+(-[a-z0-9]+)*$`.
 - Longest slug: 35 characters.
-- `slug` is the URN suffix, the manifest file stem (`web/manifests/<slug>.manifest.json`), the manager payload
-  stem (`<slug>.report.json`, `<slug>.instance.json`), and (for registry entries that have a graph node) the
-  suffix of the node id `dataset-<slug>`.
+- `slug` is the URN suffix, the manifest file stem (`web/manifests/<slug>.manifest.json`), and (for registry
+  entries that have a graph node) the suffix of the node id `dataset-<slug>`.
 
 Slugs are assigned by the script that registers the dataset. The rule differs per script:
 
@@ -264,9 +263,6 @@ The audit fingerprint of a dataset's files. Minted by `web/dataset_manifest.py` 
 `web/dataset_manifest_parallel.py` and `web/derive_source_manifests.py`). It changes whenever a file is added,
 removed, moved, resized, or has its modification time changed. It does not hash file content. Full
 definition, limits and audit procedure: [Manifests](manifests.md).
-
-The hash is also used as a version string: the manager plugin's `panatlas_graph_version` is the dataset's
-current `manifest_hash`, or the literal `unversioned` when the entry has none (`web/build_dataset_reports.py`).
 
 ## Version tags
 

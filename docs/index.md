@@ -6,35 +6,29 @@ provenance-first knowledge graph that links concepts, datasets, models, their tr
 that measure them. With that map, an evaluation can say **where** in the domain it was measured, **on what** and
 **for whom**, instead of reporting one context-blind number.
 
-It is a **distributed system that runs on the mesh**. Every registered dataset
-is managed by its own plugin running beside the data, at the site that holds it. The managers report
-structure, never content, up the mesh to one atlas. Shared infrastructure therefore also means **shared datasets
-and one global understanding of them**, while every dataset stays where it is, under its owner's control.
+Every dataset stays where it is, under its owner's control. panAtlas records its structure, never its
+content, so that shared infrastructure also means **shared datasets and one global understanding of them**.
 
 ## What it is made of
 
 ```mermaid
 flowchart TB
-  subgraph Sites["Sites on the mesh"]
-    DM["dataset managers<br/>(one per dataset)"]
-    KG["knowledge-graph agents<br/>(one per mirrored graph)"]
-    PA["participating agents"]
-  end
   subgraph Build["Build (HPC cluster, Slurm)"]
     REG["dataset registry<br/>+ manifests"]
     IDX["document index<br/>doc_uid, MeSH labels"]
+    KG["knowledge-graph mirrors<br/>(one agent per mirrored graph)"]
     GB["graph builders"]
     QS["SPARQL store"]
   end
   subgraph Hub["Hub (panatlas.net)"]
     G["served graph"]
-    UI["explorer views<br/>graph · universe · models · mesh · map"]
+    UI["explorer views<br/>graph · universe · models · map"]
     API["public API"]
     AS["Astral agent"]
   end
-  DM & KG & PA -- "structure-only reports<br/>(control-message)" --> Hub
   REG --> GB --> G --> UI
   IDX --> GB
+  KG --> QS
   GB --> QS --> AS
   G --> API
 ```
@@ -45,8 +39,6 @@ flowchart TB
 | Dataset registry | Every dataset with a stable URN, location, modality, licence and an auditable `manifest_hash` | [Dataset registry](metadata/dataset-registry.md), [Manifests](metadata/manifests.md) |
 | Document index | Content-hash identity (`doc_uid`) and MeSH labels for every document in the training estate | [Document index](metadata/document-index.md) |
 | Evaluation layer | Benchmarks, results and model curricula: what each model was trained on, when, where and with what | [Benchmarks](metadata/benchmarks.md), [Evaluation records](metadata/evaluation-records.md), [Models and curriculum](metadata/models-and-curriculum.md) |
-| Distributed layer | mesh, dataset managers, federation, supervision | [Distributed system](distributed/index.md) |
-| Storage | [GaiaKeep](https://gaiakeep.github.io/docs/), the global file system for agents on the same mesh, as the durable, versioned backend (designed; nothing stored yet) | [Storage on GaiaKeep](distributed/storage.md) |
 | Knowledge store | The panAtlas graph plus mirrored NSF Open Knowledge Network graphs, served over SPARQL | [Knowledge store](system/knowledge-store.md), [RDF vocabulary](metadata/rdf-vocabulary.md) |
 | Site and API | panatlas.net: explorer views, ORCID sign-in, a public API and an agent interface | [The site](system/web-site.md), [Public API](system/public-api.md), [Astral](system/astral.md) |
 
@@ -57,8 +49,8 @@ flowchart TB
   evaluation refers to that description.
 - **Blanks are tracked as rigorously as facts.** "We do not know what this model was trained on" is a recorded,
   comparable property, not a gap in a table.
-- **Structure crosses the wire, content does not.** Federation carries identifiers, counts, edges and hashes.
-  Documents, images and protected data never leave their site.
+- **Structure is shared, content is not.** What panAtlas shares about a dataset is identifiers, counts, edges and
+  hashes. Documents, images and protected data never leave their site.
 - **Comparable only within one space.** Embeddings are compared only within one registered `(modality, model,
   version)` space. Everything else joins through shared identifiers.
 
@@ -66,14 +58,12 @@ flowchart TB
 
 ## Where to start
 
-- **Understand the system:** [Architecture](concepts/architecture.md), then [Distributed system](distributed/index.md).
-- **Connect a site or a dataset:** [Participating agents](distributed/agents.md) and
-  [Wire contract](distributed/contract.md).
+- **Understand the system:** [Architecture](concepts/architecture.md), then [Knowledge layers](concepts/layers.md).
 - **Use or extend the metadata:** [Metadata overview](metadata/index.md).
-- **Run it:** [Build pipeline](system/build-pipeline.md) and [Operations](distributed/operations.md).
+- **Run it:** [Build pipeline](system/build-pipeline.md).
 
 !!! note "How this documentation is kept honest"
     Each page says whether something is **built**, **measured** or only **designed**, and dates its numbers. Where
     a design document and the code disagree, the page describes what the code does and marks the difference with a
-    warning. The sources are the panAtlas repositories (`ThePanAtlas/panatlas`, the panAtlas plugin,
-    `agent-deployment`) at the commit named in the page, plus the dated project record.
+    warning. The source is the panAtlas repository (`ThePanAtlas/panatlas`) at the commit named in the page, plus the
+    dated project record.

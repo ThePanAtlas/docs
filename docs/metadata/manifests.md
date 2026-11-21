@@ -1,14 +1,13 @@
 # Manifests
 
 !!! info "Status"
-    **Built and running.** The manifest builder and auditor (`web/dataset_manifest.py`), the parallel walker
+    **Built.** The manifest builder and auditor (`web/dataset_manifest.py`), the parallel walker
     (`web/dataset_manifest_parallel.py`), partition derivation (`web/derive_source_manifests.py`) and the fold
-    into the registry (`web/fold_manifests.py` and two older variants) are in the repository and run on the
-    HPC cluster: hourly for every hosted dataset, weekly for the large CT corpus.
+    into the registry (`web/fold_manifests.py` and two older variants) are in the repository. They run on the
+    HPC cluster, in Slurm jobs.
     **Measured:** 127 registry entries carry a manifest at repository HEAD `57505c6` (2026-10-31), covering
     993,790 files and 123.4 TB; the CT corpus full walk of 2026-09-17 is the largest single manifest.
-    **Designed, not built:** content hashing of small or critical files, and hub-side verification of a
-    manager's reported `manifest_hash` against the registry (see the warnings below).
+    **Designed, not built:** content hashing of small or critical files.
 
 A dataset is identified by its URN and **audited by its manifest** (`PLAN-datasets.md` §2). The manifest is a
 canonical, sorted inventory of the files that make up the dataset, reduced to one hash. Recomputing it and
@@ -55,7 +54,7 @@ The inventory files stay on the cluster. The repository keeps copies of the summ
 
 ## Manifest summary fields
 
-The summary is what the registry stores in an entry's `manifest` field and what a manager reports.
+The summary is what the registry stores in an entry's `manifest` field.
 
 | Field | Type | Meaning | Example |
 |---|---|---|---|
@@ -75,7 +74,7 @@ Partition manifests cut from a full-walk inventory (`web/derive_source_manifests
 
 ### `manifest_full_walk` in the registry
 
-33 registry entries also carry `manifest_full_walk`: the manifest of the full data, kept when the hourly
+33 registry entries also carry `manifest_full_walk`: the manifest of the full data, kept when the registered
 `manifest` covers something smaller (an inventory file or index files; see
 [Partitioned and inventory-file manifests](#partitioned-and-inventory-file-manifests)). It has the summary
 fields above (`computed_at` is absent on one entry) plus:
@@ -87,8 +86,8 @@ fields above (`computed_at` is absent on one entry) plus:
 | `derived_from` | 31 | as above, on the 31 CT partitions |
 | `partition` | 31 | as above |
 
-Each of these entries also carries an `audit_scope` string that says, in prose, what the hourly manifest
-covers and why. Read it before relying on an hourly hash.
+Each of these entries also carries an `audit_scope` string that says, in prose, what the registered
+manifest covers and why. Read it before relying on that hash.
 
 ## Commands
 
@@ -108,7 +107,7 @@ registry file (`indent=2`). Without it the registry is not touched.
 
 If a directory sits where a `.files.tsv` or `.manifest.json` should be written, `build` moves it to
 `<out>/_displaced/<slug>.<timestamp>` and continues. This guard was added after six such directories stopped
-every hourly refresh from 2026-09-20 17:01 until 2026-09-23 (comment in `web/dataset_manifest.py`).
+the scheduled refresh from 2026-09-20 17:01 until 2026-09-23 (comment in `web/dataset_manifest.py`).
 
 ### Audit and exit codes
 
@@ -134,38 +133,30 @@ dataset changed and by how many files and bytes. To find *which* files changed, 
 
 ```mermaid
 flowchart TD
-  T1[panatlas-refresh.timer<br/>hourly] --> B[dataset_manifest.py build<br/>--update-registry]
-  B --> CR[cluster registry copy<br/>manifest fields rewritten]
-  CR --> RP[build_dataset_reports.py<br/>manager payloads stamped with manifest_hash]
-  T2[panatlas-ct-rewalk.timer<br/>weekly, Sunday 03:00] --> S[ct_native_manifest.sbatch<br/>compute node]
-  S --> PW[dataset_manifest_parallel.py<br/>corpus + one subset]
+  B[dataset_manifest.py build<br/>--update-registry] --> CR[cluster registry copy<br/>manifest fields rewritten]
+  S[ct_native_manifest.sbatch<br/>compute node] --> PW[dataset_manifest_parallel.py<br/>corpus + one subset]
   PW --> DS[derive_source_manifests.py<br/>31 partitions]
   DS --> FW[fullwalk/*.files.tsv, *.manifest.json]
   FW -. inventory files become partition locations .-> B
   CR -. copied at fold time .-> F[fold_manifests.py] --> RR[web/datasets.json + web/manifests/]
 ```
 
-**Hourly, on the cluster.** `web/mesh/deploy/panatlas-refresh.timer` (15 minutes after boot, then every hour)
-runs `panatlas-refresh.service`: `dataset_manifest.py build --registry datasets.json --root <estate root>
---out manifests --update-registry` against the **cluster copy** of the registry, then
-`build_dataset_reports.py` for the hosted entries. The managers therefore report the hash computed in the last
-hour.
+**On the cluster.** A Slurm job runs `dataset_manifest.py build --registry datasets.json --root <estate root>
+--out manifests --update-registry` against the **cluster copy** of the registry.
 
-!!! warning "The hourly job rebuilds; it does not audit"
-    The refresh runs `build --update-registry`, which overwrites each entry's stored `manifest` with the new
-    one. A changed dataset gets a new hash and nothing fails. No script or timer in the repository calls
-    `dataset_manifest.py audit`. Drift is visible only by comparing hashes over time (for example the
-    repository copy in `web/manifests/` against the cluster's current value, or a manager's reported hash
-    against an earlier report). If you need a gate, run `audit` against a pinned baseline directory with
-    `--manifests` and act on exit code 3.
+!!! warning "`build` rebuilds; it does not audit"
+    `build --update-registry` overwrites each entry's stored `manifest` with the new one. A changed dataset gets
+    a new hash and nothing fails. No script in the repository calls `dataset_manifest.py audit`. Drift is visible
+    only by comparing hashes over time (for example the repository copy in `web/manifests/` against the cluster's
+    current value). If you need a gate, run `audit` against a pinned baseline directory with `--manifests` and
+    act on exit code 3.
 
 !!! warning "Registry rewrites race"
-    `--update-registry` rewrites the whole cluster registry file. An edit to that file made while the hourly
-    build runs is lost when the build finishes. This happened in practice on 2026-09-12 (the project
-    waited out the timer before editing). Stop the timer or edit between runs.
+    `--update-registry` rewrites the whole cluster registry file. An edit to that file made while a build
+    runs is lost when the build finishes. This happened in practice on 2026-09-12. Edit between runs.
 
 **On registration or acquisition, folded into the repository.** The repository's `web/datasets.json` is not
-updated by the hourly job. Manifests reach it when an acquisition finishes and a fold script copies them in:
+updated by the cluster build. Manifests reach it when an acquisition finishes and a fold script copies them in:
 
 | Script | Input | What it writes |
 |---|---|---|
@@ -184,7 +175,7 @@ At HEAD, every one of the 127 registry `manifest` hashes and 32 `manifest_full_w
 `web/manifests/` (159 comparisons, 0 mismatches). One `manifest_full_walk` (a neuropathology tile store) has
 no repository copy. Two files in `web/manifests/` (`heartlens-ct.manifest.json`, `nlst-ct.manifest.json`)
 belong to retired slugs and are not referenced by the registry. The summaries were computed between
-2026-07-31 and 2026-10-15: the repository holds the value at fold time, not the current hourly value.
+2026-07-31 and 2026-10-15: the repository holds the value at fold time, not the current cluster value.
 
 ## Partitioned and inventory-file manifests
 
@@ -219,10 +210,9 @@ from both tools (recorded 2026-09-17).
     (`is_file(follow_symlinks=False)`). The "byte-for-byte compatible" claim in its docstring holds only for
     trees without file symlinks. Check for symlinks before mixing the two on one dataset.
 
-### Weekly full walk and partition derivation
+### Full walk and partition derivation
 
-`web/mesh/deploy/panatlas-ct-rewalk.timer` (Sunday 03:00, persistent) submits
-`web/mesh/deploy/ct_native_manifest.sbatch` to a compute node (96 cores, 200 GB, 8-hour limit). It runs:
+`ct_native_manifest.sbatch` runs on a compute node (96 cores, 200 GB, 8-hour limit). It runs:
 
 | Step | Command | Fails with exit |
 |---|---|---|
@@ -249,19 +239,19 @@ Measured on 2026-09-17 (job 220015, 96 workers, 26 minutes):
 | Proof of equivalence | the derived `ct-cads` hash equals a direct walk's hash |
 | Not registered | `cases/ctrate` (1,711,569 files), the ingested CT-RATE subset already counted under `ct-rate` |
 
-### What the hourly manifest covers for these entries
+### What the registered manifest covers for these entries
 
 For the 31 partitions and the corpus entry, the registry `locations` point at the **inventory file**
-(`panatlas/manifests/fullwalk/<slug>.files.tsv`), not at the data. The hourly manifest of such an entry
+(`panatlas/manifests/fullwalk/<slug>.files.tsv`), not at the data. The registered manifest of such an entry
 therefore has `file_count: 1` (all 31 partitions at HEAD) and hashes the inventory file's path, size and mtime.
 The full manifest of the data is kept in `manifest_full_walk`, and the partition directory in `partition_path`.
 
-The neuropathology tile store uses the same idea differently: its hourly manifest covers six tile-index CSV
+The neuropathology tile store uses the same idea differently: its registered manifest covers six tile-index CSV
 files (6 files, 353,437,544 B), which enumerate every tile; the store itself (1,387,222 files, 93.3 GB) was
-walked once on 2026-09-12 and is kept as `manifest_full_walk`, with no scheduled re-walk.
+walked once on 2026-09-12 and is kept as `manifest_full_walk`.
 
 !!! note "What an inventory-file audit can and cannot detect"
-    It detects that the weekly re-walk produced a different inventory (the inventory file changed). It does
+    It detects that a re-walk produced a different inventory (the inventory file changed). It does
     not detect a change to the data between re-walks, and for the neuropathology store it does not detect a
     change at all unless the index CSVs change. The `audit_scope` field on each entry states this.
 
@@ -269,18 +259,8 @@ walked once on 2026-09-12 and is kept as `manifest_full_walk`, with no scheduled
 
 | Consumer | Uses |
 |---|---|
-| `web/build_dataset_reports.py` | stamps the manager's dataset node with `manifest_hash` and `file_count`; writes `<slug>.manifest.json` (the registry summary, or `{}`) beside the report; sets the plugin's `panatlas_graph_version` to the hash, or `unversioned` |
-| `web/mesh/mesh_daemon.py` | shows the first 19 characters of each reported hash on the mesh view |
 | `web/wp-plugin/panatlas-explorer/assets/app.js` | the "audited" badge and the manifest panel on each dataset card (files, bytes, hash, `computed_at` date, missing locations); "not audited" when there is no hash |
 | `web/rdf/build_rdf.py` | emits `manifest_hash`, `file_count`, `total_bytes` as dataset properties (see [RDF vocabulary](rdf-vocabulary.md)) |
-
-!!! warning "Hub-side verification is designed, not built"
-    `PLAN-datasets.md` §2 and `DATASET-MANAGERS.md` say the hub's `merge_reports.py` verifies each reported
-    `manifest_hash` against `web/datasets.json` and quarantines a mismatch. At HEAD,
-    `web/federation/merge_reports.py` reads an agent registry for tier and status gating only; it does not
-    open `web/datasets.json` and does not compare hashes. The stamp is carried end to end; the comparison is
-    not made. See [Federation contract](../distributed/contract.md) and
-    [Dataset managers](../distributed/dataset-managers.md).
 
 ## Honest limits
 
@@ -296,7 +276,7 @@ walked once on 2026-09-12 and is kept as `manifest_full_walk`, with no scheduled
   permissions change can shrink the inventory.
 - **Overlapping locations double-count.** If one location contains another, files under both appear twice.
 - **Missing locations do not fail the build.** They are listed in `missing_locations`; the fold scripts keep
-  such an entry out of `active`, but the hourly build does not.
+  such an entry out of `active`, but `build` does not.
 - **Symbolic links** differ between the two walkers (above).
 - **The hash is unkeyed.** Anyone who knows a dataset's file list can confirm it. See the storage rule on
   [Identifiers](identifiers.md#document-uid-doc_uid).
@@ -315,4 +295,4 @@ against its Hugging Face tree hash (sha256 for LFS files, git blob sha1 otherwis
 A content column in `<slug>.files.tsv` for selected files would join the two.
 
 Related pages: [Identifiers](identifiers.md), [Dataset registry](dataset-registry.md),
-[Acquisition and licence](acquisition-and-licence.md), [Dataset managers](../distributed/dataset-managers.md).
+[Acquisition and licence](acquisition-and-licence.md).

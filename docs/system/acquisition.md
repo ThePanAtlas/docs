@@ -17,7 +17,6 @@ flowchart LR
   M --> FO["fold<br/>fold_*.py → web/datasets.json"]
   FO --> R["register + link<br/>register_*.py · link_*.py"]
   R --> C["sync_catalog.py →<br/>served catalog"]
-  C --> MG["dataset manager<br/>on the mesh"]
 ```
 
 The tools differ by source, but they share these rules:
@@ -198,6 +197,4 @@ papers), with a licence on every row and 85,128,342 verified.
 ## After acquisition
 
 Once folded and registered, a dataset is linked into the served graph, synced into the catalog, and deployed
-([Build pipeline](build-pipeline.md#stage-3-register-link-fold-and-the-evaluation-index)). If it lives on a mesh
-node, a dataset manager is deployed for it and its manifest is re-audited on a schedule
-([Dataset managers](../distributed/dataset-managers.md)).
+([Build pipeline](build-pipeline.md#stage-3-register-link-fold-and-the-evaluation-index)).

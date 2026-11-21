@@ -32,12 +32,10 @@ flowchart TB
       OT["ontology-tree<br/>part_of src: mesh_tree"]
       CU["curated"]
       ED["embedding-derived<br/>classified_as, related, covers_topic"]
-      AG["agent-contributed<br/>federation reports"]
     end
     EMB["Embeddings: per-modality model registry<br/>web/models.json"]
     W["Layer 3: working property graph<br/>graph.json (served), RDF export"]
     EMB --> ED
-    EMB --> AG
     SUB --> W
     CON --> W
 ```
@@ -98,7 +96,6 @@ without touching the substrate. `LAYERS.md` names four origins:
 | ontology-tree | `part_of` from MeSH tree numbers (3,360); FHIR `binds` (15) | `src: mesh_tree` |
 | curated | `part_of` from curated pages (1,845); `prereq` (6) | `src: curated` |
 | embedding-derived | `classified_as` from the corpus classification (1,749 with `n_docs`); `related` (31 with `sim`); benchmark `covers_topic` from the judge-gated item mapping (300 with `n`); `covers_topic` from arXiv lexical alignment (203) | `n_docs`, `sim`, `n`, `basis` |
-| agent-contributed | Edges reported over the federation by site agents | `claims` (in agent reports) |
 
 Every edge is meant to carry an `origin` and `evidence` (for example `{model, version, cosine}`), so
 that connectivity merges as claims and conflicts surface instead of being overwritten.
@@ -138,14 +135,12 @@ new item + embedding e (in model M's space)
 Its output is connectivity, never substrate. A site's local agent (`web/pa_local_agent.py`) holds the
 graph index and embedding cache, runs attach on local embeddings, and emits a structure-only report:
 grounded nodes (`canonical_id`, `kind`, `label`), edges, and a sha256 content hash, with no
-documents. The report travels the federation, where entities merge by `canonical_id` and connectivity
-accumulates as attributed claims. See [Distributed panAtlas](../distributed/index.md) and
-[The agent contract](../distributed/contract.md).
+documents. When reports are merged (`web/federation/merge_reports.py`), entities merge by `canonical_id` and
+connectivity accumulates as attributed claims.
 
 !!! warning "Imaging model named in `LAYERS.md`"
     `LAYERS.md` says imaging is embedded by the LeJEPA-3D CT encoder. The registry's imaging entry is
-    stock RAD-DINO, with anchors held. `LAYERS.md` also says the local agent's report is served by a
-    separate plugin; the plugin is outside this repository and was not checked here.
+    stock RAD-DINO, with anchors held.
 
 ## Verified, seeded and derived facts
 

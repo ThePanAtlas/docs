@@ -8,9 +8,14 @@ scrub(text)  rewrites internal detail (workstation paths, cluster and web hosts,
              private addresses) into neutral words. Apply it when copying a document from the private repo.
 check(root)  fails on anything that must never be published (credentials, identifiers, private documents) and on
              internal detail that survived. deploy.sh and the pre-push hook run it.
+deny(root)   fails on any word that contains a name on a private list. The list is held here only as SHA-256 digests
+             of the lower-case names, so this public script names none of them. deploy.sh and the pre-push hook run it
+             over the whole repository.
 
     python3 scripts/public_filter.py check [docs]
+    python3 scripts/public_filter.py deny [.]
 """
+import hashlib
 import re
 import sys
 from pathlib import Path
@@ -51,7 +56,7 @@ FORBIDDEN = [
     (re.compile(r"\bpat_[A-Za-z0-9]{40}\b"), "panAtlas federation token"),
     (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"), "private key"),
     (re.compile(r"\bAKIA[0-9A-Z]{16}\b"), "AWS key id"),
-    (re.compile(r"\b(SVC|DSG|DSR|DSA|service_key|discovery_secret_\w+)\s*=\s*['\"]?(?!\$\{|<|CHANGE-ME)[0-9A-Za-z+/_-]{12,}"),
+    (re.compile(r"\b(SVC|DSG|DSR|DSA|\w*_service_key|discovery_secret_\w+)\s*=\s*['\"]?(?!\$\{|<|CHANGE-ME)[0-9A-Za-z+/_-]{12,}"),
      "service key or join secret"),
     (re.compile(r"\b\d{4}-\d{4}-\d{4}-\d{3}[0-9X]\b"), "ORCID iD (none are published; gates are described, not listed)"),
     (re.compile(r"\bUniversity of Kentucky\b", re.IGNORECASE), "institution name"),
@@ -85,6 +90,54 @@ def scrub(text: str) -> str:
     return text
 
 
+# The public documentation names neither the old framework nor its successor, nor their parts (owner, 2026-11-21).
+# The words it must not contain are kept only as SHA-256 digests of their lower-case form, so this public script
+# names none of them. Any word that holds one (a compound identifier included) is refused.
+DENY_SHA256 = {
+    '0d674b294ed4ffe655ccb0854edf8de1bd00cb8ba851ac0bb91d089294069964',
+    '165a0bcdbd95b70e52afb155f2f5430a100c7664066b766d85dcfbf657448d96',
+    '348d6394aba35ca9f566acfe2fd53858d0271dc4de37c8a5c87a63d4b512be7e',
+    '4425af4a256dd8b7f72563e87467b7f8e66de13b911e230065c0382f81eb8b4c',
+    '70cc3f5141676bc2442767a668f2a528fab5845b621ac3cde0725da0a840f11c',
+    '7e3873975beb1bbc29a2ad32b32abfa86c167171aa282062f95befb217b0c334',
+    '83f11be5ee6a5cf41a19c344be3755d8919e9fa3ce1a0d3670d689a661529cf7',
+    'ba28b074d56946088423b0a0935719911ac3fddd37d069116eae76cd246a96cf',
+    'c649ae712de60722742f6346fa1e827fe83d230efd322b461d59943b37fcabbf',
+    'cd5d154f9061ee927ee2f3ad9eb5c04450fad1a0bee94a3f7b3d93dd615b198e',
+    'e0c1bf97b7eb4405fbd0f40e6cf10fea93799c76a5c3cdf7875553ec6de86668',
+}
+_DENY_LENS = (4, 5, 6, 7, 8, 9, 10, 11, 12)
+_WORD = re.compile(r"[A-Za-z][A-Za-z0-9]*")
+
+
+def denied(line: str) -> list:
+    """The words of a line that contain a denied name (by digest)."""
+    hits = []
+    for w in _WORD.findall(line):
+        lw = w.lower()
+        if any(hashlib.sha256(lw[i:i + n].encode()).hexdigest() in DENY_SHA256
+               for n in _DENY_LENS for i in range(0, max(0, len(lw) - n) + 1)):
+            hits.append(w)
+    return hits
+
+
+def deny_check(root: Path) -> int:
+    """Every text file under root (the whole repository: pages, scripts, configuration), except build output."""
+    bad = 0
+    skip = {".git", ".venv", "site", "__pycache__"}
+    for p in sorted(root.rglob("*")):
+        if not p.is_file() or skip.intersection(p.relative_to(root).parts):
+            continue
+        if p.suffix.lower() in (".png", ".jpg", ".jpeg", ".gif", ".ico", ".woff", ".woff2", ".ttf", ".pdf"):
+            continue
+        text = p.read_text(encoding="utf-8", errors="replace")
+        for n, line in enumerate(text.splitlines(), 1):
+            for w in denied(line):
+                print(f"FORBIDDEN a private name ({w}): {p}:{n}")
+                bad += 1
+    return bad
+
+
 def check(root: Path, strict_review: bool = False) -> int:
     bad = 0
     review = 0
@@ -112,6 +165,11 @@ def check(root: Path, strict_review: bool = False) -> int:
 
 
 if __name__ == "__main__":
+    if len(sys.argv) >= 2 and sys.argv[1] == "deny":
+        root = Path(sys.argv[2] if len(sys.argv) > 2 else ".")
+        n = deny_check(root)
+        print(f"public_filter: {n} private name(s) in {root}")
+        sys.exit(1 if n else 0)
     if len(sys.argv) >= 2 and sys.argv[1] == "check":
         args = [a for a in sys.argv[2:] if not a.startswith("--")]
         root = Path(args[0] if args else "docs")

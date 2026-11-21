@@ -23,7 +23,7 @@ panAtlas is that map. It is a provenance-first knowledge graph that links the pa
 
 **panAtlas covers every domain, not one field.** Medicine holds the most data today: most of the registered
 datasets, the MeSH grounding and the specialty curriculum are medical, because that is where the work started. The
-graph, the identifiers, the dataset managers and the federation are domain-agnostic, and other domains are built the
+graph, the identifiers and the registries are domain-agnostic, and other domains are built the
 same way medicine was: ground the field's concepts in its own vocabularies, register its datasets, models and
 benchmarks, and attach them to the same graph. Parts of the metadata layer (competency frameworks, the education
 ladder, stratification standards) are medicine-shaped today, and each new domain gets its own parallels
@@ -39,7 +39,6 @@ a model graded through a controlled interface. That assessment surface is design
 |---|---|
 | Researchers choosing or comparing models | The explorer at panatlas.net, the [public API](../system/public-api.md), and the [Astral agent](../system/astral.md) |
 | Engineers extending the atlas | The [build pipeline](../system/build-pipeline.md), the registries, the [repository map](../reference/repository-map.md) |
-| Sites that hold data | The the mesh federation: a dataset joins where it sits ([Distributed](../distributed/index.md)) |
 | Curators | The markdown fact-graph and its verification rules ([Architecture](architecture.md)) |
 | Other agents and language-model clients | `tools.json` from the public API, and the SPARQL store through Astral |
 
@@ -72,7 +71,7 @@ The project names this as its evaluation policy: describe once, evaluate many (D
 In the code, a thing is described once and then reused by every evaluation that touches it:
 
 - a dataset is registered once in `web/datasets.json` (schema `panatlas.datasets/1`), keyed by URN, and every graph
-  node, manager report and public API record refers to that entry ([Dataset registry](../metadata/dataset-registry.md));
+  node and public API record refers to that entry ([Dataset registry](../metadata/dataset-registry.md));
 - a benchmark is a node with its metric, what it measures and how to read it, and every model's score attaches to
   that node ([Benchmarks](../metadata/benchmarks.md));
 - every measured score, for every model type, sits in one index (`data/evals_index.json`, built by
@@ -125,8 +124,7 @@ pull request ([Architecture](architecture.md#the-architecture-pivot)).
 ### Structure travels; data stays
 
 A dataset joins the atlas where it sits, under its owner's control. Only structure (identifiers, counts, edges,
-hashes) crosses the federation; documents, pixels, embeddings and anything carrying protected health information
-never do. See [Distributed](../distributed/index.md).
+hashes) leaves the site. Documents, pixels, embeddings and anything carrying protected health information never do.
 
 ### Exact or not at all
 
@@ -151,7 +149,6 @@ documents are shared or put into a training set (`web/acquisition/arxiv/arxiv_do
 | A Wikipedia mirror | Wikipedia seeds drafts and measures coverage; MeSH is canonical. |
 | An open wiki | Viewing the explorer is gated to an allowlist today, and edits go through proposals (see [Web site](../system/web-site.md#sign-in-and-the-access-gate)). |
 | The assessment platform, yet | "Test yourself" quizzes, per-person mastery, gates, disputes and adaptive testing are designed in `PLAN.md` and not deployed (`docs/panatlas-system-and-interface.md`, Part A). |
-| A finished federation | The substrate supports federation and the mesh runs; no external site contributes yet ([Distributed](../distributed/index.md)). |
 
 !!! note "Scope statements from the plan"
     "Most extensive reference for multi-modal evaluation" is the long-term aim, not a current claim. The plan

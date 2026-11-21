@@ -456,7 +456,7 @@ verb phrases; node ids are lower case, prefixed by kind (`concept-`, `bench-`, `
     fields. The closest implementation of the contract is in the attach process (`embed_attach.py`
     and the local agent report, see [Knowledge layers](../concepts/layers.md)), which writes one
     nested attribute, `claims: {origin: "embedding", model, version, cosine, canonical_id}`, on its
-    `classified_as` edges. Those edges are federation reports and are not in the served graph.
+    `classified_as` edges. Those edges go into the local agent's report and are not in the served graph.
 
 ## Other graph files in the repository
 
