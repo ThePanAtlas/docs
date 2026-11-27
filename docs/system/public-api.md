@@ -8,7 +8,7 @@ explorer uses ([Web site](web-site.md#rest-routes-panatlasv1-gated)).
 | Property | Value |
 |---|---|
 | Base URL | `https://panatlas.net/wp-json/panatlas/public/v1` |
-| Version | 1.2.4 (2026-11-20) |
+| Version | 1.4.0 (2026-11-24) |
 | Methods | `GET` only |
 | Auth | None |
 | Rate limit | 240 requests per client address per minute; requests from the web host itself are exempt. Over the limit: HTTP 429, code `rate_limited` |
@@ -77,6 +77,10 @@ Links into the explorer are returned as `https://panatlas.net/#node=<id>`.
 | `GET /compare` | `compare_models` | One benchmark's ranking, or a head-to-head between named models |
 | `GET /literature/{node}` | `get_literature` | Recent PubMed articles for a MeSH-grounded node |
 | `GET /kg/graphs` | `list_knowledge_graphs` | Named graphs in the SPARQL store with triple counts |
+| `GET /ontologies` | `search_ontologies` | The ontology register: every id space panAtlas grounds into, with release, licence and serve policy |
+| `GET /ontologies/{slug}` | `get_ontology` | One registered ontology in full |
+| `GET /skills` | `search_skills` | The skill register: tasks that produce a named artifact for a recipient, not a score |
+| `GET /skills/{slug}` | `get_skill` | One registered skill in full |
 | `GET /teaser/{part}` | (none) | Public binary geometry of the document universe |
 | `GET /openapi.json` | (none) | The OpenAPI description |
 | `GET /tools.json` | (none) | `{instructions, tools[]}` for LLM clients |
@@ -233,6 +237,27 @@ No parameters. Returns the store manifest `kg_graphs.json`: `store`, `built`, `t
 copy at the repository's HEAD describes 44 graphs and 6,994,341,217 triples, built 2026-10-03. See
 [Knowledge store](knowledge-store.md).
 
+#### `GET /ontologies` and `GET /ontologies/{slug}`
+
+`/ontologies` lists every registered id space panAtlas grounds into (MeSH, MONDO, Wikidata, the code systems and the
+rule packs skills judge against), each with its authority, pinned release where one exists, licence, what panAtlas
+holds of it, and whether it may be served. Use it before trusting a code in a response, and to see which id spaces have
+no pinned release. `/ontologies/{slug}` (for example `mesh`, `mondo`, `wikidata`) returns the full record: identifier
+form and pattern, the pinned release with its source (sha256 and bytes are served, so a consumer can check the pin),
+licence and its verified flag, scale, holdings, access and serve policy, the id spaces it is crosswalked to, freshness
+against its own refresh window, and its recorded gaps. An ontology whose terms restrict reuse is listed but reduced to
+identity and policy with a `serve_note`. Built from the register (`web/ontologies.json`) by `sync_ontology_catalog.py`.
+
+#### `GET /skills` and `GET /skills/{slug}`
+
+A skill is a task panAtlas carries out that produces a named artifact for a real recipient. `/skills` lists each one
+with who it is for, what it produces, its verdict values, what it proves and what it does not, and whether its
+judgement has been scored against gold cases. `/skills/{slug}` (for example `grounding-audit`) returns the recipient,
+the artifact and its row shape, the verdict enum with exit codes, the deterministic checks, the checks only a person can
+make, when it refuses, its rule packs with each one's release and freshness, and its gold-case count. A skill with no
+gold cases serves accuracy `null` and says no accuracy is claimed. A skill score measures a procedure: it never enters
+the benchmark files and is not comparable with a model's benchmark score.
+
 #### `GET /teaser/{part}`
 
 `part` is one of `xy`, `color`, `nodes`, `edges`. Returns the public low-resolution universe geometry as
@@ -270,6 +295,8 @@ The API reads the snapshot files in the plugin's `data/` directory, rebuilt by t
 | `datasets.json` | `sync_catalog.py` | `/datasets`, `/stats` |
 | `benchmarks_llm.json`, `mm_evals.json` | Benchmark builders, `build_patho_evals.py`, cluster ingest | `/benchmarks/{id}` catalog fields, `/stats` |
 | `kg_graphs.json` | The SPARQL store build | `/kg/graphs`, `/stats` |
+| `ontologies.json` | `register_ontology.py`, `sync_ontology_catalog.py` | `/ontologies` |
+| `skills.json` | `register_skill.py`, `sync_skill_catalog.py` | `/skills` |
 | Literature files | Nightly feed on the web host | `/literature`, `/stats` |
 
 The evaluation records themselves are described in [Evaluation records](../metadata/evaluation-records.md) and
@@ -277,6 +304,36 @@ The evaluation records themselves are described in [Evaluation records](../metad
 
 ## Changelog
 
+- **Data, 2026-11-26 (no API change).** Graph nodes for the single-cell program (MeSH Single-Cell Analysis and
+  Single-Cell Gene Expression Analysis; models `model-scmlp`, `model-foundsc`, `model-lefoundsc`, `model-scgfm`; the
+  841-file human CELLxGENE Census pull, the training sets built from it, and the single-cell benchmarks), for the Murmur
+  long-form speech recognition system and its four meeting test sets, and for Fisher-R1 and P-Bench. Caveats and
+  verification on three predictor-suite dataset records. 6,335 nodes and 17,405 edges.
+- **1.4.0 (2026-11-24).** The skill layer. New tools `search_skills` (`/skills`) and `get_skill` (`/skills/{slug}`).
+  The first skill, `grounding-audit`, takes a term list and returns a grounding table and a statement: per row the
+  matched identifier, the release it came from and the crosswalk status. Matching is exact on a normalised string, with
+  no fuzzy matching. It is scored against 16 gold cases covering its four verdicts. The ontology register covers 17 id
+  spaces (ChEBI, FoodOn, FoodData Central, HL7 FHIR R4 and the NACC neuropathology standard added). A pinned release must
+  now be checkable or say what the pin rests on.
+- **1.3.0 (2026-11-24).** The ontology register. New tools `search_ontologies` (`/ontologies`) and `get_ontology`
+  (`/ontologies/{slug}`). Each entry carries role, identifier form and pattern, release and release status, licence with
+  a verified flag, scale, holdings, access and serve policy, crosswalk, refresh cadence and gaps. On first build 8 of 12
+  ontologies had no pinned release (MeSH among them) and 5 were not freely servable.
+- **1.2.7 (2026-11-24).** MONDO, MeSH and Wikidata crosswalked. Each leg comes from the authority that holds it: the
+  Mondo release's own SKOS assertions (8,091 MONDO to MeSH pairs), Wikidata P5270 (19,521) and P486 (39,571), and Mondo's
+  UMLS cross-references (21,650) as a second bridge. For each MeSH-grounded node, MeSH to MONDO is computed three
+  independent ways and never merged; a conflict claims nothing and is reported. New node fields `mondo`, `mondo_status`,
+  `wikidata` and `wikipedia_title`; new relation `crosswalked_to`; code systems serve `iri_stem`, `canonical`,
+  `authority_org`, `code_example` and `fhir_system`.
+- **1.2.6 (2026-11-23).** PocketVina: method `concept-multi-pocket-docking` (MeSH parent Molecular Docking Simulation),
+  tool `codebase-pocketvina`, datasets `pocketvina-atlas` (48,406,051 docked pairs over the human proteome) and
+  `targetdock-ai` (563,251 labelled pairs). New node fields `pocket_finder`, `engine`, `reported_results` and
+  `results_caveat`.
+- **1.2.5 (2026-11-23).** NVIDIA Nemotron for Science: dataset `litmus-bench-v0-2`, method `concept-rlvr`
+  (reinforcement learning with verifiable rewards) with a sourced `process`, `codebase-nemo-gym`, and
+  `model-nemotron-3-5-super-vl`. New node fields `process`, `sources`, `mesh_broader`, `training_note`, `params_h`,
+  `context`, `released`, `weights_note`, `framework`, `repo`, `commit` and `verifier`; new relations `implements` and
+  `uses_method`.
 - **1.2.4 (2026-11-20).** First remote-sensing data; panAtlas covers every domain. Datasets `bigearthnet-v2`
   (BigEarthNet v2: 549,488 Sentinel-1 radar / Sentinel-2 optical pairs, 19 land-cover classes, CDLA-Permissive-1.0) and
   `ssl4eo-s12` (pre-training corpus). The DuoJEPA Sentinel model (arXiv:2611.15968; unreleased, results only) is
