@@ -2507,7 +2507,8 @@ curl<span class="w"> </span>-s<span class="w"> </span><span class="s1">'https://
   Single-Cell Gene Expression Analysis; models <code>model-scmlp</code>, <code>model-foundsc</code>, <code>model-lefoundsc</code>, <code>model-scgfm</code>; the
   841-file human CELLxGENE Census pull, the training sets built from it, and the single-cell benchmarks), for the Murmur
   long-form speech recognition system and its four meeting test sets, and for Fisher-R1 and P-Bench. Caveats and
-  verification on three predictor-suite dataset records. 6,335 nodes and 17,405 edges.</li>
+  verification on three predictor-suite dataset records, from eleven known-answer checks of the predictor suite's data
+  and stored results (sources in <code>web/fm_suite/checks</code>). 6,335 nodes and 17,405 edges.</li>
 <li><strong>1.4.0 (2026-11-24).</strong> The skill layer. New tools <code>search_skills</code> (<code>/skills</code>) and <code>get_skill</code> (<code>/skills/{slug}</code>).
   The first skill, <code>grounding-audit</code>, takes a term list and returns a grounding table and a statement: per row the
   matched identifier, the release it came from and the crosswalk status. Matching is exact on a normalised string, with
