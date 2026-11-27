@@ -308,7 +308,8 @@ The evaluation records themselves are described in [Evaluation records](../metad
   Single-Cell Gene Expression Analysis; models `model-scmlp`, `model-foundsc`, `model-lefoundsc`, `model-scgfm`; the
   841-file human CELLxGENE Census pull, the training sets built from it, and the single-cell benchmarks), for the Murmur
   long-form speech recognition system and its four meeting test sets, and for Fisher-R1 and P-Bench. Caveats and
-  verification on three predictor-suite dataset records. 6,335 nodes and 17,405 edges.
+  verification on three predictor-suite dataset records, from eleven known-answer checks of the predictor suite's data
+  and stored results (sources in `web/fm_suite/checks`). 6,335 nodes and 17,405 edges.
 - **1.4.0 (2026-11-24).** The skill layer. New tools `search_skills` (`/skills`) and `get_skill` (`/skills/{slug}`).
   The first skill, `grounding-audit`, takes a term list and returns a grounding table and a statement: per row the
   matched identifier, the release it came from and the crosswalk status. Matching is exact on a normalised string, with
