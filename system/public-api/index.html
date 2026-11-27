@@ -1402,6 +1402,28 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#get-ontologies-and-get-ontologiesslug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /ontologies and GET /ontologies/{slug}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-skills-and-get-skillsslug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /skills and GET /skills/{slug}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#get-teaserpart" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1842,6 +1864,28 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#get-ontologies-and-get-ontologiesslug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /ontologies and GET /ontologies/{slug}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-skills-and-get-skillsslug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /skills and GET /skills/{slug}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#get-teaserpart" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1931,7 +1975,7 @@ explorer uses (<a href="../web-site/#rest-routes-panatlasv1-gated">Web site</a>)
 </tr>
 <tr>
 <td>Version</td>
-<td>1.2.4 (2026-11-20)</td>
+<td>1.4.0 (2026-11-24)</td>
 </tr>
 <tr>
 <td>Methods</td>
@@ -2098,6 +2142,26 @@ explorer uses (<a href="../web-site/#rest-routes-panatlasv1-gated">Web site</a>)
 <td><code>GET /kg/graphs</code></td>
 <td><code>list_knowledge_graphs</code></td>
 <td>Named graphs in the SPARQL store with triple counts</td>
+</tr>
+<tr>
+<td><code>GET /ontologies</code></td>
+<td><code>search_ontologies</code></td>
+<td>The ontology register: every id space panAtlas grounds into, with release, licence and serve policy</td>
+</tr>
+<tr>
+<td><code>GET /ontologies/{slug}</code></td>
+<td><code>get_ontology</code></td>
+<td>One registered ontology in full</td>
+</tr>
+<tr>
+<td><code>GET /skills</code></td>
+<td><code>search_skills</code></td>
+<td>The skill register: tasks that produce a named artifact for a recipient, not a score</td>
+</tr>
+<tr>
+<td><code>GET /skills/{slug}</code></td>
+<td><code>get_skill</code></td>
+<td>One registered skill in full</td>
 </tr>
 <tr>
 <td><code>GET /teaser/{part}</code></td>
@@ -2345,6 +2409,23 @@ fields, licence fields, <code>access</code>, <code>status</code>, <code>citation
 <code>objects</code>, <code>predicates</code>), <code>note</code>, and <code>graphs[]</code> (<code>name</code>, <code>graph</code> IRI, <code>triples</code>, <code>version</code>, <code>family</code>). The served
 copy at the repository's HEAD describes 44 graphs and 6,994,341,217 triples, built 2026-10-03. See
 <a href="../knowledge-store/">Knowledge store</a>.</p>
+<h4 id="get-ontologies-and-get-ontologiesslug"><code>GET /ontologies</code> and <code>GET /ontologies/{slug}</code><a class="headerlink" href="#get-ontologies-and-get-ontologiesslug" title="Permanent link">&para;</a></h4>
+<p><code>/ontologies</code> lists every registered id space panAtlas grounds into (MeSH, MONDO, Wikidata, the code systems and the
+rule packs skills judge against), each with its authority, pinned release where one exists, licence, what panAtlas
+holds of it, and whether it may be served. Use it before trusting a code in a response, and to see which id spaces have
+no pinned release. <code>/ontologies/{slug}</code> (for example <code>mesh</code>, <code>mondo</code>, <code>wikidata</code>) returns the full record: identifier
+form and pattern, the pinned release with its source (sha256 and bytes are served, so a consumer can check the pin),
+licence and its verified flag, scale, holdings, access and serve policy, the id spaces it is crosswalked to, freshness
+against its own refresh window, and its recorded gaps. An ontology whose terms restrict reuse is listed but reduced to
+identity and policy with a <code>serve_note</code>. Built from the register (<code>web/ontologies.json</code>) by <code>sync_ontology_catalog.py</code>.</p>
+<h4 id="get-skills-and-get-skillsslug"><code>GET /skills</code> and <code>GET /skills/{slug}</code><a class="headerlink" href="#get-skills-and-get-skillsslug" title="Permanent link">&para;</a></h4>
+<p>A skill is a task panAtlas carries out that produces a named artifact for a real recipient. <code>/skills</code> lists each one
+with who it is for, what it produces, its verdict values, what it proves and what it does not, and whether its
+judgement has been scored against gold cases. <code>/skills/{slug}</code> (for example <code>grounding-audit</code>) returns the recipient,
+the artifact and its row shape, the verdict enum with exit codes, the deterministic checks, the checks only a person can
+make, when it refuses, its rule packs with each one's release and freshness, and its gold-case count. A skill with no
+gold cases serves accuracy <code>null</code> and says no accuracy is claimed. A skill score measures a procedure: it never enters
+the benchmark files and is not comparable with a model's benchmark score.</p>
 <h4 id="get-teaserpart"><code>GET /teaser/{part}</code><a class="headerlink" href="#get-teaserpart" title="Permanent link">&para;</a></h4>
 <p><code>part</code> is one of <code>xy</code>, <code>color</code>, <code>nodes</code>, <code>edges</code>. Returns the public low-resolution universe geometry as
 <code>application/octet-stream</code>. This route is registered but not listed in <code>openapi.json</code> or <code>tools.json</code>.</p>
@@ -2402,6 +2483,16 @@ curl<span class="w"> </span>-s<span class="w"> </span><span class="s1">'https://
 <td><code>/kg/graphs</code>, <code>/stats</code></td>
 </tr>
 <tr>
+<td><code>ontologies.json</code></td>
+<td><code>register_ontology.py</code>, <code>sync_ontology_catalog.py</code></td>
+<td><code>/ontologies</code></td>
+</tr>
+<tr>
+<td><code>skills.json</code></td>
+<td><code>register_skill.py</code>, <code>sync_skill_catalog.py</code></td>
+<td><code>/skills</code></td>
+</tr>
+<tr>
 <td>Literature files</td>
 <td>Nightly feed on the web host</td>
 <td><code>/literature</code>, <code>/stats</code></td>
@@ -2412,6 +2503,36 @@ curl<span class="w"> </span>-s<span class="w"> </span><span class="s1">'https://
 <a href="../../metadata/benchmarks/">Benchmarks</a>.</p>
 <h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h2>
 <ul>
+<li><strong>Data, 2026-11-26 (no API change).</strong> Graph nodes for the single-cell program (MeSH Single-Cell Analysis and
+  Single-Cell Gene Expression Analysis; models <code>model-scmlp</code>, <code>model-foundsc</code>, <code>model-lefoundsc</code>, <code>model-scgfm</code>; the
+  841-file human CELLxGENE Census pull, the training sets built from it, and the single-cell benchmarks), for the Murmur
+  long-form speech recognition system and its four meeting test sets, and for Fisher-R1 and P-Bench. Caveats and
+  verification on three predictor-suite dataset records. 6,335 nodes and 17,405 edges.</li>
+<li><strong>1.4.0 (2026-11-24).</strong> The skill layer. New tools <code>search_skills</code> (<code>/skills</code>) and <code>get_skill</code> (<code>/skills/{slug}</code>).
+  The first skill, <code>grounding-audit</code>, takes a term list and returns a grounding table and a statement: per row the
+  matched identifier, the release it came from and the crosswalk status. Matching is exact on a normalised string, with
+  no fuzzy matching. It is scored against 16 gold cases covering its four verdicts. The ontology register covers 17 id
+  spaces (ChEBI, FoodOn, FoodData Central, HL7 FHIR R4 and the NACC neuropathology standard added). A pinned release must
+  now be checkable or say what the pin rests on.</li>
+<li><strong>1.3.0 (2026-11-24).</strong> The ontology register. New tools <code>search_ontologies</code> (<code>/ontologies</code>) and <code>get_ontology</code>
+  (<code>/ontologies/{slug}</code>). Each entry carries role, identifier form and pattern, release and release status, licence with
+  a verified flag, scale, holdings, access and serve policy, crosswalk, refresh cadence and gaps. On first build 8 of 12
+  ontologies had no pinned release (MeSH among them) and 5 were not freely servable.</li>
+<li><strong>1.2.7 (2026-11-24).</strong> MONDO, MeSH and Wikidata crosswalked. Each leg comes from the authority that holds it: the
+  Mondo release's own SKOS assertions (8,091 MONDO to MeSH pairs), Wikidata P5270 (19,521) and P486 (39,571), and Mondo's
+  UMLS cross-references (21,650) as a second bridge. For each MeSH-grounded node, MeSH to MONDO is computed three
+  independent ways and never merged; a conflict claims nothing and is reported. New node fields <code>mondo</code>, <code>mondo_status</code>,
+  <code>wikidata</code> and <code>wikipedia_title</code>; new relation <code>crosswalked_to</code>; code systems serve <code>iri_stem</code>, <code>canonical</code>,
+  <code>authority_org</code>, <code>code_example</code> and <code>fhir_system</code>.</li>
+<li><strong>1.2.6 (2026-11-23).</strong> PocketVina: method <code>concept-multi-pocket-docking</code> (MeSH parent Molecular Docking Simulation),
+  tool <code>codebase-pocketvina</code>, datasets <code>pocketvina-atlas</code> (48,406,051 docked pairs over the human proteome) and
+  <code>targetdock-ai</code> (563,251 labelled pairs). New node fields <code>pocket_finder</code>, <code>engine</code>, <code>reported_results</code> and
+  <code>results_caveat</code>.</li>
+<li><strong>1.2.5 (2026-11-23).</strong> NVIDIA Nemotron for Science: dataset <code>litmus-bench-v0-2</code>, method <code>concept-rlvr</code>
+  (reinforcement learning with verifiable rewards) with a sourced <code>process</code>, <code>codebase-nemo-gym</code>, and
+  <code>model-nemotron-3-5-super-vl</code>. New node fields <code>process</code>, <code>sources</code>, <code>mesh_broader</code>, <code>training_note</code>, <code>params_h</code>,
+  <code>context</code>, <code>released</code>, <code>weights_note</code>, <code>framework</code>, <code>repo</code>, <code>commit</code> and <code>verifier</code>; new relations <code>implements</code> and
+  <code>uses_method</code>.</li>
 <li><strong>1.2.4 (2026-11-20).</strong> First remote-sensing data; panAtlas covers every domain. Datasets <code>bigearthnet-v2</code>
   (BigEarthNet v2: 549,488 Sentinel-1 radar / Sentinel-2 optical pairs, 19 land-cover classes, CDLA-Permissive-1.0) and
   <code>ssl4eo-s12</code> (pre-training corpus). The DuoJEPA Sentinel model (arXiv:2611.15968; unreleased, results only) is
